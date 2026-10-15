@@ -61,7 +61,7 @@ SCRIPT_RE = re.compile(r"<(script|style|noscript|svg|iframe)[^>]*>.*?</\1>", re.
 # vocabulary deliberately small and conservative; an unknown basis is safer
 # than silently comparing unlike units such as seat/year and server/month.
 PERIODS = r"month|months|mo|year|years|yr|week|weeks|day|days"
-SCOPES = r"server|servers|seat|seats|user|users|account|accounts|device|devices|tb|gb"
+SCOPES = r"server|servers|seat|seats|user|users|account|accounts|device|devices|license|licenses|tb|gb"
 TAG_RE = re.compile(r"<[^>]+>")
 HEADING_RE = re.compile(r"<h([1-4])[^>]*>(.*?)</h\1>", re.S | re.I)
 # Only title/name-like containers are treated as plan names. Generic
@@ -91,6 +91,17 @@ IDRIVE_ADDONS = (
     ("Microsoft Office 365 Backup", "microsoft-office-365-backup"),
     ("Google Workspace Backup", "google-workspace-backup"),
 )
+SPECIAL_PRICING_UNITS = {
+    "sync-com": "user/month",
+    "jottacloud": "month",
+    "proton-drive": "month",
+}
+SPECIAL_PLAN_UNITS = {
+    ("storj", "standard"): "month/tb",
+    ("storj", "advanced"): "license/tb",
+    ("storj", "teams"): "license/month",
+    ("storj", "bring-your-own-cloud"): "license/month",
+}
 
 
 # ---------------------------------------------------------------- http
@@ -188,6 +199,11 @@ def parse_money(token: str, default_currency: str) -> tuple[float, str] | None:
 def normalize_pricing_unit(value: str) -> str:
     value = re.sub(r"\s+", " ", str(value or "").strip().lower())
     value = re.sub(r"^per\s+", "", value)
+    value = value.replace("per user,", "per user/").replace("per license,", "per license/")
+    value = re.sub(r"^monthly\s+", "month/", value)
+    value = re.sub(r"^license pricing\s*", "license/", value)
+    value = value.replace("/mo", "/month").replace("/yr", "/year")
+    value = value.replace("mo/", "month/").replace("yr/", "year/")
     value = {"mo": "month", "months": "month", "monthly": "month",
              "yr": "year", "years": "year", "annual": "year", "annually": "year"}.get(value, value)
     return value or "unknown"
@@ -207,6 +223,10 @@ def pricing_unit(flat: str, start: int, end: int) -> str:
         (rf"/(?:\s*)({scope})(?:\s*)/(?:\s*)({period})", lambda m: f"{m.group(2)}/{m.group(1)}"),
         (rf"\bper\s+({period})\s*(?:per|/)\s*({scope})", lambda m: f"{m.group(1)}/{m.group(2)}"),
         (rf"\bper\s+({scope})\s*(?:per|/)\s*({period})", lambda m: f"{m.group(2)}/{m.group(1)}"),
+        (rf"\bmonthly\s+({scope})\b", lambda m: f"month/{m.group(1)}"),
+        (rf"\bmonthly\s+({scope})\s*\$", lambda m: f"month/{m.group(1)}"),
+        (rf"\bmonthly\s+storage\b", lambda m: "month/tb"),
+        (rf"\blicense\s+pricing\b", lambda m: "license/tb"),
         (rf"/(?:\s*)({period})\b", lambda m: m.group(1)),
         (rf"\bper\s+({period})\b", lambda m: m.group(1)),
     )
@@ -529,7 +549,11 @@ def scrape_provider(provider: dict, default_currency: str) -> dict:
                 "valid_until": row["valid_until"],
                 "source_url": provider["source"],
                 "fetched_at": fetched_at,
-                "pricing_unit": row.get("pricing_unit", "unknown"),
+                "pricing_unit": SPECIAL_PLAN_UNITS.get(
+                              (provider["slug"], siteilang._slug(row["plan"])),
+                              (row.get("pricing_unit", "unknown")
+                               if row.get("pricing_unit", "unknown") != "unknown"
+                               else SPECIAL_PRICING_UNITS.get(provider["slug"], "unknown"))),
                 "extraction": row["method"],
             }
         )
