@@ -1,12 +1,12 @@
 ILANG
 [TYPE:config][PROJECT:cloud-storage-deals][LANG:zh]
 
-::STATE{@SITE, brand:Cloud Storage Deals, niche:cloud-storage, domain:53213a96be244b908bd518f9961dc360.sg.agentos-app.run, locale:en-US, currency:USD, base_url:https://53213a96be244b908bd518f9961dc360.sg.agentos-app.run}
+::STATE{@SITE, brand:Cloud Storage Deals, niche:cloud-storage, domain:53213a96be244b908bd518f9961dc360.sg.agentos-app.run, locale:en-US, currency:USD, base_url:https://cloud-storage-deals.frankfraaa.workers.dev}
 
 ::MODULE{SITE|title:站点级设置 改这里整站跟着变}
   locale: en-US
   currency: USD
-  base_url: https://53213a96be244b908bd518f9961dc360.sg.agentos-app.run
+  base_url: https://cloud-storage-deals.frankfraaa.workers.dev
   canonical_relative: true
   title_template: "{brand} — {niche} offers, {month}"
   tagline: Verified cloud storage pricing, refreshed every 6 hours from official pages.
