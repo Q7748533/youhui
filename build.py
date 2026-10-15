@@ -36,6 +36,31 @@ def money(amount, currency: str) -> str:
     return f"{symbol}{amount:,.2f}"
 
 
+def display_time(value) -> str:
+    """Render stored ISO-8601 UTC timestamps in a human-readable form."""
+    raw = str(value or "")
+    try:
+        parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        return raw
+    if parsed.tzinfo is not None:
+        parsed = parsed.astimezone(timezone.utc)
+        suffix = " UTC"
+    else:
+        suffix = ""
+    return f"{parsed.strftime('%b')} {parsed.day}, {parsed.year}, {parsed.strftime('%H:%M')}{suffix}"
+
+
+def display_date(value) -> str:
+    """Render a stored timestamp as a concise date for cards and summaries."""
+    raw = str(value or "")
+    try:
+        parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        return raw[:10]
+    return f"{parsed.strftime('%b')} {parsed.day}, {parsed.year}"
+
+
 def jsonld_block(obj) -> str:
     payload = json.dumps(obj, ensure_ascii=False, indent=None, separators=(",", ":"))
     payload = payload.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
@@ -146,6 +171,7 @@ def main(argv: list[str]) -> int:
     now = datetime.now(timezone.utc)
     month = now.strftime("%B %Y")
     updated_at = data["meta"].get("generated_at", now.replace(microsecond=0).isoformat())
+    updated_at_display = display_time(updated_at)
 
     base_tpl = read_template("base.html")
     providers = data["providers"]
@@ -185,7 +211,7 @@ def main(argv: list[str]) -> int:
             tagline=esc(conf.get("tagline", "")),
             root=root,
             body=body,
-            updated_at=esc(updated_at),
+            updated_at=esc(updated_at_display),
             jsonld=jsonld_block(ld),
         )
 
@@ -194,37 +220,51 @@ def main(argv: list[str]) -> int:
     # ------------------------------------------------------------ index
     cards = []
     for p in providers:
-        badge = {"ok": "ok", "no_price": "warn", "unreachable": "warn", "robots_disallow": "warn"}.get(p["status"], "warn")
+        badge = {"ok": "ok", "no_price": "warn", "unreachable": "bad", "robots_disallow": "warn"}.get(p["status"], "warn")
         label = {"ok": f'{len(p["offers"])} plans', "no_price": "no verified price",
-                 "unreachable": "unreachable", "robots_disallow": "robots disallow"}.get(p["status"], p["status"])
+                 "unreachable": "source unavailable", "robots_disallow": "robots disallow"}.get(p["status"], p["status"])
         cards.append(
-            f'<div class="card"><h3><a href="{root}providers/{esc(p["slug"])}/">{esc(p["name"])}</a></h3>'
-            f'<div class="sub"><span class="tag {badge}">{esc(label)}</span></div>'
-            f'<div class="sub">{esc(p["site"])}</div></div>'
+            f'<article class="card"><div class="card-top"><span class="provider">{esc(p["name"])}</span>'
+            f'<span class="tag {badge}">{esc(label)}</span></div>'
+            f'<div class="plan">Official pricing source</div>'
+            f'<div class="meta">{esc(p["site"])}</div>'
+            f'<div class="card-actions"><a href="{root}providers/{esc(p["slug"])}/">View provider</a>'
+            f'<a href="{esc(p["site"])}" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>'
         )
-    rows = []
-    for o in live_offers[:60]:
-        price_cell = money(o["price"], o["currency"]) if o.get("price") is not None else "—"
-        rows.append(
-            f'<tr><td><a href="{root}deals/{esc(o["id"])}/">{esc(o["title"])}</a></td>'
-            f'<td>{esc(price_cell)}</td>'
-            f'<td><a href="{esc(o["source_url"])}" rel="nofollow noopener" target="_blank">official page</a></td></tr>'
+
+    offer_cards = []
+    for o in sorted(live_offers, key=lambda item: (item.get("price") is None, item.get("price") or 0, item["provider"]))[:12]:
+        if o.get("price") is not None:
+            price_display = money(o["price"], o["currency"])
+            price_class = "price"
+            status = '<span class="tag ok">Verified</span>'
+        else:
+            price_display = "Price unavailable"
+            price_class = "price muted"
+            status = '<span class="tag warn">No verified price</span>'
+        currency_label = f' <span class="cur">{esc(o["currency"])}</span>' if o.get("price") is not None else ""
+        offer_cards.append(
+            f'<article class="card"><div class="card-top"><span class="provider">{esc(o["provider"])}</span>{status}</div>'
+            f'<div class="plan">{esc(o["plan"])}</div>'
+            f'<div class="{price_class}">{esc(price_display)}{currency_label}</div>'
+            f'<div class="meta">Checked {esc(display_date(o["fetched_at"]))} · official source</div>'
+            f'<div class="card-actions"><a href="{root}deals/{esc(o["id"])}/">View details</a>'
+            f'<a href="{esc(o["offer_url"])}" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>'
         )
-    if not rows:
-        rows.append('<tr><td colspan="3" class="note">No verified price on the last run. '
-                    'The pipeline leaves the table empty rather than filling it with estimates.</td></tr>')
+    if not offer_cards:
+        offer_cards.append('<div class="card"><div class="plan">No verified price was available on the last run. Missing data stays missing.</div></div>')
 
     index_body = read_template("index.html").safe_substitute(
-        headline=esc(f"{brand} — {niche} offers, {month}"),
-        lede=esc(f"Official {niche} pricing, read straight from each provider's own public page. "
-                 f"{len(priced)} of {len(providers)} providers currently expose a verifiable price."),
+        headline=esc(f"Compare {niche} prices from official pages."),
+        lede=esc(f"Verified plans, clear sources and conservative data. {len(priced)} of {len(providers)} providers currently expose a verifiable price."),
         providers_total=len(providers),
         offers_total=len(live_offers),
         providers_priced=len(priced),
-        updated_at=esc(updated_at),
+        updated_at=esc(updated_at_display),
         cron_note=esc(conf.get("refresh_human", "6 hours")),
         provider_cards="\n".join(cards),
-        deal_rows="\n".join(rows),
+        offer_cards="\n".join(offer_cards),
+        root=root,
     )
     items = [{"@type": "ListItem", "position": i + 1, "name": o["title"], "url": page_url(f'/deals/{o["id"]}/')}
              for i, o in enumerate(live_offers[:60])]
@@ -331,7 +371,7 @@ def main(argv: list[str]) -> int:
             deal_lede=esc(f'{o["provider"]} — {o["plan"]}. Price read from the official public pricing page, not estimated.'),
             price_display=esc(price_display),
             status_line=esc("Marked expired: the official validity date has passed." if expired
-                            else f'Verified on {o["fetched_at"][:10]} from the official page.'),
+                            else f'Verified on {display_date(o["fetched_at"])} from the official page.'),
             offer_url=esc(o["offer_url"]),
             provider_url=f'{root}providers/{esc(o["provider_slug"])}/',
             provider_name=esc(o["provider"]),
@@ -339,7 +379,7 @@ def main(argv: list[str]) -> int:
             price_line=esc(price_display),
             valid_until=esc(o.get("valid_until") or "not published on the source page"),
             source_url=esc(o["source_url"]),
-            fetched_at=esc(o["fetched_at"]),
+            fetched_at=esc(display_time(o["fetched_at"])),
             note=esc("This page carries only what the source page published. Missing fields are missing on purpose."),
         )
         write(f'deals/{o["id"]}/index.html', page(

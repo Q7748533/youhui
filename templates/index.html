@@ -1,30 +1,45 @@
-<h1>$headline</h1>
-<p class="lede">$lede</p>
-<div class="card" style="margin-bottom:24px">
-  <div class="grid" style="gap:8px">
-    <div><div class="price">$providers_total<span class="cur"> providers tracked</span></div></div>
-    <div><div class="price">$offers_total<span class="cur"> verified offers</span></div></div>
-    <div><div class="price">$providers_priced<span class="cur"> with live price</span></div></div>
+<section class="hero">
+  <div>
+    <div class="eyebrow">Cloud storage price index</div>
+    <h1>$headline</h1>
+    <p class="lede">$lede</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#offers">Browse verified deals</a>
+      <a class="btn btn-secondary" href="${root}compare/">Compare providers</a>
+    </div>
   </div>
-  <div class="note" style="margin-top:12px">Refresh: $updated_at · every $cron_note · source: official public pricing pages only.</div>
-</div>
+  <aside class="summary" aria-label="Live data snapshot">
+    <h2>Live data snapshot</h2>
+    <div class="stats">
+      <div class="stat"><strong>$providers_total</strong><span>providers tracked</span></div>
+      <div class="stat"><strong>$offers_total</strong><span>verified offers</span></div>
+      <div class="stat"><strong>$providers_priced</strong><span>with live price</span></div>
+    </div>
+    <div class="verified">Last checked $updated_at · refreshes every $cron_note</div>
+  </aside>
+</section>
 
-<h2>Providers</h2>
-<div class="grid">
+<section id="offers">
+  <div class="section-head">
+    <div><h2>Verified offers</h2><p>Current prices shown exactly as published on official pages.</p></div>
+    <a class="btn btn-secondary" href="${root}providers/">View providers</a>
+  </div>
+  <div class="grid">
+$offer_cards
+  </div>
+</section>
+
+<section id="providers">
+  <div class="section-head">
+    <div><h2>Providers</h2><p>Every source is checked against its official public page.</p></div>
+    <a class="btn btn-secondary" href="${root}providers/">All providers</a>
+  </div>
+  <div class="grid">
 $provider_cards
-</div>
+  </div>
+</section>
 
-<h2>Latest verified offers</h2>
-<table>
-<thead><tr><th>Offer</th><th>Price</th><th>Source</th></tr></thead>
-<tbody>
-$deal_rows
-</tbody>
-</table>
-
-<h2>How this list is built</h2>
-<ul class="clean">
-<li>Every row is read from that provider's own public pricing page, on a schedule.</li>
-<li>If a price cannot be verified on the official page, the row stays empty — it is never estimated.</li>
-<li>One row = one real plan. Renewal and struck-through prices are excluded on purpose.</li>
-</ul>
+<section id="method" class="method">
+  <h2>Clear sources.<br>Conservative data.</h2>
+  <p>Every price is read from a provider's public official page. Renewal prices, struck-through originals and numbers we cannot verify are excluded. <strong>Missing data stays missing.</strong></p>
+</section>
