@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T14:40:15+00:00",
+    "generated_at": "2026-10-15T15:11:06+00:00",
     "locale": "en-US",
     "currency": "USD",
     "brand": "Cloud Storage Deals",
@@ -85,7 +85,7 @@
           "offer_url": "https://www.sync.com/pricing",
           "valid_until": null,
           "source_url": "https://www.sync.com/pricing",
-          "fetched_at": "2026-10-15T14:40:09+00:00",
+          "fetched_at": "2026-10-15T15:10:58+00:00",
           "extraction": "heuristic"
         },
         {
@@ -99,7 +99,7 @@
           "offer_url": "https://www.sync.com/pricing",
           "valid_until": null,
           "source_url": "https://www.sync.com/pricing",
-          "fetched_at": "2026-10-15T14:40:09+00:00",
+          "fetched_at": "2026-10-15T15:10:58+00:00",
           "extraction": "heuristic"
         },
         {
@@ -113,7 +113,7 @@
           "offer_url": "https://www.sync.com/pricing",
           "valid_until": null,
           "source_url": "https://www.sync.com/pricing",
-          "fetched_at": "2026-10-15T14:40:09+00:00",
+          "fetched_at": "2026-10-15T15:10:58+00:00",
           "extraction": "heuristic"
         }
       ],
@@ -150,7 +150,7 @@
           "offer_url": "https://www.idrive.com/pricing",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-15T14:40:10+00:00",
+          "fetched_at": "2026-10-15T15:10:58+00:00",
           "extraction": "heuristic"
         },
         {
@@ -164,7 +164,7 @@
           "offer_url": "https://www.idrive.com/pricing",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-15T14:40:10+00:00",
+          "fetched_at": "2026-10-15T15:10:58+00:00",
           "extraction": "heuristic"
         },
         {
@@ -178,7 +178,7 @@
           "offer_url": "https://www.idrive.com/pricing",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-15T14:40:10+00:00",
+          "fetched_at": "2026-10-15T15:10:58+00:00",
           "extraction": "heuristic"
         },
         {
@@ -192,7 +192,7 @@
           "offer_url": "https://www.idrive.com/pricing",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-15T14:40:10+00:00",
+          "fetched_at": "2026-10-15T15:10:58+00:00",
           "extraction": "heuristic"
         },
         {
@@ -206,7 +206,7 @@
           "offer_url": "https://www.idrive.com/pricing",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-15T14:40:10+00:00",
+          "fetched_at": "2026-10-15T15:10:58+00:00",
           "extraction": "heuristic"
         },
         {
@@ -220,7 +220,7 @@
           "offer_url": "https://www.idrive.com/pricing",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-15T14:40:10+00:00",
+          "fetched_at": "2026-10-15T15:10:58+00:00",
           "extraction": "heuristic"
         }
       ],
@@ -236,143 +236,143 @@
       "outbound": "https://www.jottacloud.com/en/pricing/",
       "offers": [
         {
-          "id": "jottacloud-unlimited-eur",
+          "id": "jottacloud-unlimited-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Unlimited*",
           "title": "Jottacloud Unlimited*",
-          "price": 12.9,
-          "currency": "EUR",
+          "price": 12.99,
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         },
         {
-          "id": "jottacloud-home-1-tb-eur",
+          "id": "jottacloud-home-1-tb-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Home 1 TB",
           "title": "Jottacloud Home 1 TB",
-          "price": 7.9,
-          "currency": "EUR",
+          "price": 7.99,
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         },
         {
-          "id": "jottacloud-home-5-tb-eur",
+          "id": "jottacloud-home-5-tb-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Home 5 TB",
           "title": "Jottacloud Home 5 TB",
-          "price": 15.9,
-          "currency": "EUR",
+          "price": 15.99,
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         },
         {
-          "id": "jottacloud-pro-10-tb-eur",
+          "id": "jottacloud-pro-10-tb-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Pro 10 TB",
           "title": "Jottacloud Pro 10 TB",
           "price": 29.9,
-          "currency": "EUR",
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         },
         {
-          "id": "jottacloud-pro-20-tb-eur",
+          "id": "jottacloud-pro-20-tb-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Pro 20 TB",
           "title": "Jottacloud Pro 20 TB",
           "price": 59.9,
-          "currency": "EUR",
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         },
         {
-          "id": "jottacloud-pro-30-tb-eur",
+          "id": "jottacloud-pro-30-tb-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Pro 30 TB",
           "title": "Jottacloud Pro 30 TB",
           "price": 89.9,
-          "currency": "EUR",
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         },
         {
-          "id": "jottacloud-pro-50-tb-eur",
+          "id": "jottacloud-pro-50-tb-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Pro 50 TB",
           "title": "Jottacloud Pro 50 TB",
           "price": 149.9,
-          "currency": "EUR",
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         },
         {
-          "id": "jottacloud-business-small-eur",
+          "id": "jottacloud-business-small-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Business Small",
           "title": "Jottacloud Business Small",
-          "price": 12.0,
-          "currency": "EUR",
+          "price": 12.99,
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         },
         {
-          "id": "jottacloud-business-medium-eur",
+          "id": "jottacloud-business-medium-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Business Medium",
           "title": "Jottacloud Business Medium",
-          "price": 18.0,
-          "currency": "EUR",
+          "price": 18.99,
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         },
         {
-          "id": "jottacloud-business-large-eur",
+          "id": "jottacloud-business-large-usd",
           "provider": "Jottacloud",
           "provider_slug": "jottacloud",
           "plan": "Business Large",
           "title": "Jottacloud Business Large",
-          "price": 49.0,
-          "currency": "EUR",
+          "price": 45.99,
+          "currency": "USD",
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-15T14:40:12+00:00",
+          "fetched_at": "2026-10-15T15:11:00+00:00",
           "extraction": "heuristic"
         }
       ],
@@ -409,7 +409,7 @@
           "offer_url": "https://storj.io/pricing",
           "valid_until": null,
           "source_url": "https://storj.io/pricing",
-          "fetched_at": "2026-10-15T14:40:14+00:00",
+          "fetched_at": "2026-10-15T15:11:05+00:00",
           "extraction": "heuristic"
         },
         {
@@ -423,7 +423,7 @@
           "offer_url": "https://storj.io/pricing",
           "valid_until": null,
           "source_url": "https://storj.io/pricing",
-          "fetched_at": "2026-10-15T14:40:14+00:00",
+          "fetched_at": "2026-10-15T15:11:05+00:00",
           "extraction": "heuristic"
         },
         {
@@ -437,7 +437,7 @@
           "offer_url": "https://storj.io/pricing",
           "valid_until": null,
           "source_url": "https://storj.io/pricing",
-          "fetched_at": "2026-10-15T14:40:14+00:00",
+          "fetched_at": "2026-10-15T15:11:05+00:00",
           "extraction": "heuristic"
         },
         {
@@ -451,7 +451,7 @@
           "offer_url": "https://storj.io/pricing",
           "valid_until": null,
           "source_url": "https://storj.io/pricing",
-          "fetched_at": "2026-10-15T14:40:14+00:00",
+          "fetched_at": "2026-10-15T15:11:05+00:00",
           "extraction": "heuristic"
         }
       ],
@@ -477,7 +477,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-15T14:40:15+00:00",
+          "fetched_at": "2026-10-15T15:11:06+00:00",
           "extraction": "heuristic"
         },
         {
@@ -491,7 +491,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-15T14:40:15+00:00",
+          "fetched_at": "2026-10-15T15:11:06+00:00",
           "extraction": "heuristic"
         },
         {
@@ -505,7 +505,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-15T14:40:15+00:00",
+          "fetched_at": "2026-10-15T15:11:06+00:00",
           "extraction": "heuristic"
         },
         {
@@ -519,7 +519,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-15T14:40:15+00:00",
+          "fetched_at": "2026-10-15T15:11:06+00:00",
           "extraction": "heuristic"
         },
         {
@@ -533,7 +533,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-15T14:40:15+00:00",
+          "fetched_at": "2026-10-15T15:11:06+00:00",
           "extraction": "heuristic"
         }
       ],
@@ -553,7 +553,7 @@
       "offer_url": "https://www.idrive.com/pricing",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-15T14:40:10+00:00",
+      "fetched_at": "2026-10-15T15:10:58+00:00",
       "extraction": "heuristic"
     },
     {
@@ -567,7 +567,7 @@
       "offer_url": "https://www.idrive.com/pricing",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-15T14:40:10+00:00",
+      "fetched_at": "2026-10-15T15:10:58+00:00",
       "extraction": "heuristic"
     },
     {
@@ -581,7 +581,7 @@
       "offer_url": "https://www.idrive.com/pricing",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-15T14:40:10+00:00",
+      "fetched_at": "2026-10-15T15:10:58+00:00",
       "extraction": "heuristic"
     },
     {
@@ -595,7 +595,7 @@
       "offer_url": "https://www.idrive.com/pricing",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-15T14:40:10+00:00",
+      "fetched_at": "2026-10-15T15:10:58+00:00",
       "extraction": "heuristic"
     },
     {
@@ -609,7 +609,7 @@
       "offer_url": "https://www.idrive.com/pricing",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-15T14:40:10+00:00",
+      "fetched_at": "2026-10-15T15:10:58+00:00",
       "extraction": "heuristic"
     },
     {
@@ -623,147 +623,147 @@
       "offer_url": "https://www.idrive.com/pricing",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-15T14:40:10+00:00",
+      "fetched_at": "2026-10-15T15:10:58+00:00",
       "extraction": "heuristic"
     },
     {
-      "id": "jottacloud-home-1-tb-eur",
+      "id": "jottacloud-home-1-tb-usd",
       "provider": "Jottacloud",
       "provider_slug": "jottacloud",
       "plan": "Home 1 TB",
       "title": "Jottacloud Home 1 TB",
-      "price": 7.9,
-      "currency": "EUR",
+      "price": 7.99,
+      "currency": "USD",
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
       "extraction": "heuristic"
     },
     {
-      "id": "jottacloud-business-small-eur",
-      "provider": "Jottacloud",
-      "provider_slug": "jottacloud",
-      "plan": "Business Small",
-      "title": "Jottacloud Business Small",
-      "price": 12.0,
-      "currency": "EUR",
-      "offer_url": "https://www.jottacloud.com/en/pricing/",
-      "valid_until": null,
-      "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
-      "extraction": "heuristic"
-    },
-    {
-      "id": "jottacloud-unlimited-eur",
+      "id": "jottacloud-unlimited-usd",
       "provider": "Jottacloud",
       "provider_slug": "jottacloud",
       "plan": "Unlimited*",
       "title": "Jottacloud Unlimited*",
-      "price": 12.9,
-      "currency": "EUR",
+      "price": 12.99,
+      "currency": "USD",
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
       "extraction": "heuristic"
     },
     {
-      "id": "jottacloud-home-5-tb-eur",
+      "id": "jottacloud-business-small-usd",
+      "provider": "Jottacloud",
+      "provider_slug": "jottacloud",
+      "plan": "Business Small",
+      "title": "Jottacloud Business Small",
+      "price": 12.99,
+      "currency": "USD",
+      "offer_url": "https://www.jottacloud.com/en/pricing/",
+      "valid_until": null,
+      "source_url": "https://www.jottacloud.com/en/pricing/",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
+      "extraction": "heuristic"
+    },
+    {
+      "id": "jottacloud-home-5-tb-usd",
       "provider": "Jottacloud",
       "provider_slug": "jottacloud",
       "plan": "Home 5 TB",
       "title": "Jottacloud Home 5 TB",
-      "price": 15.9,
-      "currency": "EUR",
+      "price": 15.99,
+      "currency": "USD",
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
       "extraction": "heuristic"
     },
     {
-      "id": "jottacloud-business-medium-eur",
+      "id": "jottacloud-business-medium-usd",
       "provider": "Jottacloud",
       "provider_slug": "jottacloud",
       "plan": "Business Medium",
       "title": "Jottacloud Business Medium",
-      "price": 18.0,
-      "currency": "EUR",
+      "price": 18.99,
+      "currency": "USD",
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
       "extraction": "heuristic"
     },
     {
-      "id": "jottacloud-pro-10-tb-eur",
+      "id": "jottacloud-pro-10-tb-usd",
       "provider": "Jottacloud",
       "provider_slug": "jottacloud",
       "plan": "Pro 10 TB",
       "title": "Jottacloud Pro 10 TB",
       "price": 29.9,
-      "currency": "EUR",
+      "currency": "USD",
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
       "extraction": "heuristic"
     },
     {
-      "id": "jottacloud-business-large-eur",
+      "id": "jottacloud-business-large-usd",
       "provider": "Jottacloud",
       "provider_slug": "jottacloud",
       "plan": "Business Large",
       "title": "Jottacloud Business Large",
-      "price": 49.0,
-      "currency": "EUR",
+      "price": 45.99,
+      "currency": "USD",
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
       "extraction": "heuristic"
     },
     {
-      "id": "jottacloud-pro-20-tb-eur",
+      "id": "jottacloud-pro-20-tb-usd",
       "provider": "Jottacloud",
       "provider_slug": "jottacloud",
       "plan": "Pro 20 TB",
       "title": "Jottacloud Pro 20 TB",
       "price": 59.9,
-      "currency": "EUR",
+      "currency": "USD",
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
       "extraction": "heuristic"
     },
     {
-      "id": "jottacloud-pro-30-tb-eur",
+      "id": "jottacloud-pro-30-tb-usd",
       "provider": "Jottacloud",
       "provider_slug": "jottacloud",
       "plan": "Pro 30 TB",
       "title": "Jottacloud Pro 30 TB",
       "price": 89.9,
-      "currency": "EUR",
+      "currency": "USD",
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
       "extraction": "heuristic"
     },
     {
-      "id": "jottacloud-pro-50-tb-eur",
+      "id": "jottacloud-pro-50-tb-usd",
       "provider": "Jottacloud",
       "provider_slug": "jottacloud",
       "plan": "Pro 50 TB",
       "title": "Jottacloud Pro 50 TB",
       "price": 149.9,
-      "currency": "EUR",
+      "currency": "USD",
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-15T14:40:12+00:00",
+      "fetched_at": "2026-10-15T15:11:00+00:00",
       "extraction": "heuristic"
     },
     {
@@ -777,7 +777,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-15T14:40:15+00:00",
+      "fetched_at": "2026-10-15T15:11:06+00:00",
       "extraction": "heuristic"
     },
     {
@@ -791,7 +791,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-15T14:40:15+00:00",
+      "fetched_at": "2026-10-15T15:11:06+00:00",
       "extraction": "heuristic"
     },
     {
@@ -805,7 +805,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-15T14:40:15+00:00",
+      "fetched_at": "2026-10-15T15:11:06+00:00",
       "extraction": "heuristic"
     },
     {
@@ -819,7 +819,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-15T14:40:15+00:00",
+      "fetched_at": "2026-10-15T15:11:06+00:00",
       "extraction": "heuristic"
     },
     {
@@ -833,7 +833,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-15T14:40:15+00:00",
+      "fetched_at": "2026-10-15T15:11:06+00:00",
       "extraction": "heuristic"
     },
     {
@@ -847,7 +847,7 @@
       "offer_url": "https://storj.io/pricing",
       "valid_until": null,
       "source_url": "https://storj.io/pricing",
-      "fetched_at": "2026-10-15T14:40:14+00:00",
+      "fetched_at": "2026-10-15T15:11:05+00:00",
       "extraction": "heuristic"
     },
     {
@@ -861,7 +861,7 @@
       "offer_url": "https://storj.io/pricing",
       "valid_until": null,
       "source_url": "https://storj.io/pricing",
-      "fetched_at": "2026-10-15T14:40:14+00:00",
+      "fetched_at": "2026-10-15T15:11:05+00:00",
       "extraction": "heuristic"
     },
     {
@@ -875,7 +875,7 @@
       "offer_url": "https://storj.io/pricing",
       "valid_until": null,
       "source_url": "https://storj.io/pricing",
-      "fetched_at": "2026-10-15T14:40:14+00:00",
+      "fetched_at": "2026-10-15T15:11:05+00:00",
       "extraction": "heuristic"
     },
     {
@@ -889,7 +889,7 @@
       "offer_url": "https://storj.io/pricing",
       "valid_until": null,
       "source_url": "https://storj.io/pricing",
-      "fetched_at": "2026-10-15T14:40:14+00:00",
+      "fetched_at": "2026-10-15T15:11:05+00:00",
       "extraction": "heuristic"
     },
     {
@@ -903,7 +903,7 @@
       "offer_url": "https://www.sync.com/pricing",
       "valid_until": null,
       "source_url": "https://www.sync.com/pricing",
-      "fetched_at": "2026-10-15T14:40:09+00:00",
+      "fetched_at": "2026-10-15T15:10:58+00:00",
       "extraction": "heuristic"
     },
     {
@@ -917,7 +917,7 @@
       "offer_url": "https://www.sync.com/pricing",
       "valid_until": null,
       "source_url": "https://www.sync.com/pricing",
-      "fetched_at": "2026-10-15T14:40:09+00:00",
+      "fetched_at": "2026-10-15T15:10:58+00:00",
       "extraction": "heuristic"
     },
     {
@@ -931,7 +931,7 @@
       "offer_url": "https://www.sync.com/pricing",
       "valid_until": null,
       "source_url": "https://www.sync.com/pricing",
-      "fetched_at": "2026-10-15T14:40:09+00:00",
+      "fetched_at": "2026-10-15T15:10:58+00:00",
       "extraction": "heuristic"
     }
   ]
