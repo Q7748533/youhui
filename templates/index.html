@@ -1,0 +1,30 @@
+<h1>$headline</h1>
+<p class="lede">$lede</p>
+<div class="card" style="margin-bottom:24px">
+  <div class="grid" style="gap:8px">
+    <div><div class="price">$providers_total<span class="cur"> providers tracked</span></div></div>
+    <div><div class="price">$offers_total<span class="cur"> verified offers</span></div></div>
+    <div><div class="price">$providers_priced<span class="cur"> with live price</span></div></div>
+  </div>
+  <div class="note" style="margin-top:12px">Refresh: $updated_at · every $cron_note · source: official public pricing pages only.</div>
+</div>
+
+<h2>Providers</h2>
+<div class="grid">
+$provider_cards
+</div>
+
+<h2>Latest verified offers</h2>
+<table>
+<thead><tr><th>Offer</th><th>Price</th><th>Source</th></tr></thead>
+<tbody>
+$deal_rows
+</tbody>
+</table>
+
+<h2>How this list is built</h2>
+<ul class="clean">
+<li>Every row is read from that provider's own public pricing page, on a schedule.</li>
+<li>If a price cannot be verified on the official page, the row stays empty — it is never estimated.</li>
+<li>One row = one real plan. Renewal and struck-through prices are excluded on purpose.</li>
+</ul>

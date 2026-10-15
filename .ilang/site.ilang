@@ -1,0 +1,38 @@
+ILANG
+[TYPE:config][PROJECT:cloud-storage-deals][LANG:zh]
+
+::STATE{@SITE, brand:Cloud Storage Deals, niche:cloud-storage, domain:PENDING-DEPLOY, locale:en-US, currency:USD, base_url:PENDING-DEPLOY}
+
+::MODULE{SITE|title:站点级设置 改这里整站跟着变}
+  locale: en-US
+  currency: USD
+  base_url: PENDING-DEPLOY
+  title_template: "{brand} — {niche} offers, {month}"
+  tagline: Verified cloud storage pricing, refreshed every 6 hours from official pages.
+  update_cron: "17 */6 * * *"
+  refresh_human: 6 hours
+  stale_after_days: 3
+
+::MODULE{PROVIDERS|title:抓哪几家 这里改了站就变}
+  pCloud | https://www.pcloud.com | https://www.pcloud.com/pricing.html |
+  Icedrive | https://icedrive.net | https://icedrive.net/ |
+  Internxt | https://internxt.com | https://internxt.com/pricing |
+  Filen | https://filen.io | https://filen.io/pricing |
+  Koofr | https://koofr.eu | https://koofr.eu/pricing |
+  Sync.com | https://www.sync.com | https://www.sync.com/pricing |
+  Tresorit | https://tresorit.com | https://tresorit.com/pricing |
+  IDrive | https://www.idrive.com | https://www.idrive.com/pricing |
+  Jottacloud | https://www.jottacloud.com | https://www.jottacloud.com/en/pricing/ |
+  Zoolz | https://www.zoolz.com | https://www.zoolz.com/pricing/ |
+  Storj | https://storj.io | https://storj.io/pricing |
+  Proton Drive | https://proton.me | https://proton.me/drive/pricing |
+
+::MODULE{FIELDS|title:每条优惠提取什么}
+  title price currency offer_url valid_until source_url fetched_at
+
+::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
+::RULE{取不到方案名⇒这条整条丢弃 不许拿整段网页原文当标题}
+::RULE{valid_until 已过⇒标记过期或下架 不许留着冒充有效}
+::RULE{价格只取当期售价⇒续费 原价 划线价 两年后 小字 一律不算当期售价 拿不准就丢这条}
+::RULE{去重键⇒厂商 加 方案名 加 币种 一个方案一条}
+::BOUNDARY{never:编优惠 编价格 编佣金|scope:permanent}
