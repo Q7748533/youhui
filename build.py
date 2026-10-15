@@ -154,7 +154,15 @@ def main(argv: list[str]) -> int:
     priced = [p for p in providers if p["status"] == "ok"]
 
     def url_for(path: str) -> str:
+        """Absolute URL — used by sitemap.xml and robots.txt, which require it."""
         return (base + path) if has_base else path
+
+    # Some hosts rotate their public hostname on every publish. With
+    # canonical_relative the per-page canonical/OG/JSON-LD stay correct because
+    # they resolve against whatever host is actually serving; only the sitemap
+    # needs the absolute one, and that is what a fixed domain is for.
+    def page_url(path: str) -> str:
+        return path if conf.get("canonical_relative", "false").lower() == "true" else url_for(path)
 
     def page(title: str, description: str, path: str, body: str, extra_ld=None) -> str:
         graph = []
@@ -163,9 +171,8 @@ def main(argv: list[str]) -> int:
         graph.append({
             "@type": "BreadcrumbList",
             "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": brand,
-                 "item": url_for("/") if has_base else None},
-                {"@type": "ListItem", "position": 2, "name": title, "item": url_for(path)},
+                {"@type": "ListItem", "position": 1, "name": brand, "item": page_url("/")},
+                {"@type": "ListItem", "position": 2, "name": title, "item": page_url(path)},
             ],
         })
         ld = {"@context": "https://schema.org", "@graph": [g for g in graph if g]}
@@ -173,7 +180,7 @@ def main(argv: list[str]) -> int:
             lang=lang,
             title=esc(title),
             description=esc(description),
-            canonical=esc(url_for(path)),
+            canonical=esc(page_url(path)),
             brand=esc(brand),
             tagline=esc(conf.get("tagline", "")),
             root=root,
@@ -219,7 +226,7 @@ def main(argv: list[str]) -> int:
         provider_cards="\n".join(cards),
         deal_rows="\n".join(rows),
     )
-    items = [{"@type": "ListItem", "position": i + 1, "name": o["title"], "url": url_for(f'/deals/{o["id"]}/')}
+    items = [{"@type": "ListItem", "position": i + 1, "name": o["title"], "url": page_url(f'/deals/{o["id"]}/')}
              for i, o in enumerate(live_offers[:60])]
     write("index.html", page(
         f"{brand} — {niche} offers, {month}",
@@ -253,10 +260,10 @@ def main(argv: list[str]) -> int:
                 "lowPrice": min(o["price"] for o in same),
                 "highPrice": max(o["price"] for o in same),
                 "offerCount": len(same),
-                "offers": [offer_node(o, url_for(f'/deals/{o["id"]}/')) for o in same],
+                "offers": [offer_node(o, page_url(f'/deals/{o["id"]}/')) for o in same],
             }
         elif same:
-            offers_node = offer_node(same[0], url_for(f'/deals/{same[0]["id"]}/'))
+            offers_node = offer_node(same[0], page_url(f'/deals/{same[0]["id"]}/'))
         else:
             offers_node = None
 
@@ -310,7 +317,7 @@ def main(argv: list[str]) -> int:
         write(f'deals/{o["id"]}/index.html', page(
             f'{o["title"]} — {price_display} ({month})',
             f'{o["title"]} at {price_display} {o["currency"]}. Read from the official {o["provider"]} pricing page.',
-            f'/deals/{o["id"]}/', body, offer_node(o, url_for(f'/deals/{o["id"]}/')),
+            f'/deals/{o["id"]}/', body, offer_node(o, page_url(f'/deals/{o["id"]}/')),
         ))
         urls.append(f'/deals/{o["id"]}/')
 
@@ -342,7 +349,7 @@ def main(argv: list[str]) -> int:
         "/compare/", cbody,
         {"@type": "ItemList", "name": f"{niche} providers",
          "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": p["name"],
-                              "url": url_for(f'/providers/{p["slug"]}/')} for i, p in enumerate(providers)]},
+                              "url": page_url(f'/providers/{p["slug"]}/')} for i, p in enumerate(providers)]},
     ))
     urls.append("/compare/")
 

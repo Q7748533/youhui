@@ -1,0 +1,5 @@
+appId: wbapp_BGskSy3hsryLd0qn4ZtZ6a
+name: Cloud Storage Deals
+localDir: D:\优惠\site
+appType: web
+entryHtml: index.html

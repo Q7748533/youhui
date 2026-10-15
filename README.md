@@ -55,6 +55,31 @@ become decoration and that is a bug.
    project name is taken) into `base_url` in `.ilang/site.ilang`, then rebuild
    and push. Skipping this points every canonical and the whole sitemap at
    somebody else's site.
+
+### About `canonical_relative`
+
+Some preview hosts (including the WorkBuddy share link this repo was first
+published on) hand out a **new hostname on every publish**. Pinning 42 canonical
+tags to such a host means every redeploy silently points them at a dead name.
+
+`canonical_relative: true` in `.ilang/site.ilang` makes per-page canonical,
+`og:url` and JSON-LD URLs root-relative, so they resolve against whatever host is
+actually serving. `sitemap.xml` and the `Sitemap:` line still need an absolute
+host and therefore still follow `base_url`.
+
+Once you have a fixed domain, set `canonical_relative: false` — absolute
+canonicals are the better form when the host does not move.
+
+Rebase command:
+
+```bash
+python - <<'EOF'
+p = ".ilang/site.ilang"
+s = open(p, encoding="utf-8").read().replace("OLD-HOST", "NEW-HOST")
+open(p, "w", encoding="utf-8", newline="\n").write(s)
+EOF
+python build.py
+```
 4. Register your own domain and bind it — the `pages.dev` subdomain ages under
    Cloudflare's name, not yours, and in this category age is the asset.
 
