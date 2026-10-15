@@ -21,132 +21,146 @@
 <meta name="twitter:title" content="Cloud Storage Deals — cloud storage offers, October 2026">
 <meta name="twitter:description" content="Verified cloud storage prices from 12 official provider pages, refreshed 6 hours. 28 offers.">
 <style>
-:root{--bg:#f7f8fa;--card:#fff;--ink:#12161c;--muted:#5b6472;--line:#e4e7ec;--accent:#1f6feb;--accent-soft:#eaf1fe;--good:#0f7a45;--warn:#8a5a00}
+:root{--bg:#f7f7f4;--panel:#fff;--ink:#172033;--muted:#566174;--line:#e4e7ec;--purple:#6752d6;--purple-soft:#eeeafe;--green:#13795b;--green-soft:#e5f5ee;--amber:#a66008;--amber-soft:#fff3d6;--red:#b43d42;--red-soft:#fcebec;--max:1120px}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
-a{color:var(--accent);text-decoration:none}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+a{color:var(--purple);text-decoration:none}
 a:hover{text-decoration:underline}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-header.site{background:#fff;border-bottom:1px solid var(--line)}
-header.site .wrap{display:flex;align-items:center;gap:20px;height:64px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:18px;color:var(--ink);letter-spacing:-.2px}
-nav{display:flex;gap:18px;margin-left:auto;font-size:14px}
-nav a{color:var(--muted)}
-nav a:hover{color:var(--accent)}
-main{padding:32px 0 56px}
-h1{font-size:30px;line-height:1.25;margin:0 0 10px;letter-spacing:-.5px}
-h2{font-size:21px;margin:32px 0 12px;letter-spacing:-.3px}
-h3{font-size:16px;margin:0 0 6px}
-p.lede{color:var(--muted);margin:0 0 24px;max-width:70ch}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid #cfc7ff;outline-offset:2px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+header.site{background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header.site .wrap{display:flex;align-items:center;gap:28px;min-height:72px;flex-wrap:wrap}
+.brand{font-weight:750;font-size:17px;color:var(--ink);letter-spacing:-.3px;line-height:1.2}
+.brand small{display:block;color:var(--muted);font-size:10px;font-weight:550;letter-spacing:.04em;margin-top:3px}
+nav{display:flex;gap:24px;margin-left:auto;font-size:14px}
+nav a{color:var(--muted);transition:color .2s ease}
+nav a:hover{color:var(--purple);text-decoration:none}
+main{padding:44px 0 68px}
+h1,h2{font-family:Georgia,"Times New Roman",serif;letter-spacing:-.045em}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:0 0 14px}
+h2{font-size:28px;line-height:1.15;margin:38px 0 14px}
+h3{font-size:16px;line-height:1.25;margin:0 0 6px}
+p.lede{color:var(--muted);font-size:17px;margin:0 0 24px;max-width:68ch}
+.eyebrow{color:var(--purple);font-size:12px;font-weight:750;letter-spacing:.1em;text-transform:uppercase}
+.hero{padding:20px 0 38px;display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:end}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn,.cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:8px;font-weight:700;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.btn-primary,.cta{background:var(--purple);color:#fff;border:1px solid var(--purple)}
+.btn-primary:hover,.cta:hover{background:#5540bf;text-decoration:none}
+.btn-secondary{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.btn-secondary:hover{border-color:#b9b0f5;color:var(--purple);text-decoration:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
-.card .sub{color:var(--muted);font-size:13px;margin-top:6px}
-.price{font-size:22px;font-weight:700;letter-spacing:-.4px}
-.price .cur{font-size:13px;color:var(--muted);font-weight:600;margin-left:4px}
-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
-th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
-th{background:#f1f3f7;font-size:13px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
-tr:last-child td{border-bottom:none}
-.tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600}
-.tag.warn{background:#fdf3e2;color:var(--warn)}
-.tag.ok{background:#e7f6ee;color:var(--good)}
-.note{color:var(--muted);font-size:13px}
-ul.clean{list-style:none;padding:0;margin:0}
-ul.clean li{padding:10px 0;border-bottom:1px solid var(--line)}
-ul.clean li:last-child{border-bottom:none}
-footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0;color:var(--muted);font-size:13px}
-.crumbs{font-size:13px;color:var(--muted);margin-bottom:14px}
-.crumbs a{color:var(--muted)}
-.cta{display:inline-block;margin-top:14px;background:var(--accent);color:#fff;padding:10px 18px;border-radius:8px;font-weight:600}
-.cta:hover{background:#1757c4;text-decoration:none}
-@media(max-width:600px){h1{font-size:24px}.wrap{padding:0 14px}}
+.card,.summary,.toolbar{background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.card{padding:20px;transition:box-shadow .2s ease,border-color .2s ease}
+.card:hover{border-color:#b9b0f5;box-shadow:0 10px 22px rgba(25,31,52,.08)}
+.card .sub{color:var(--muted);font-size:13px;margin-top:7px}
+.summary{padding:22px}
+.summary h2{font-family:inherit;font-size:14px;letter-spacing:0;margin:0 0 16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat strong{display:block;font-size:25px;letter-spacing:-.05em}.stat span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.verified{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);color:var(--green);font-size:13px;font-weight:650}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px;margin-bottom:34px}.toolbar label{font-size:12px;color:var(--muted)}
+.filter{appearance:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-height:42px;padding:0 32px 0 12px;color:var(--ink);font:inherit}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:38px 0 14px}.section-head h2{margin:0}.section-head p{color:var(--muted);font-size:13px;margin:4px 0 0}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.provider{font-weight:750}.plan{margin-top:17px;color:var(--muted);font-size:13px}.price{font-size:34px;font-weight:800;letter-spacing:-.06em;margin-top:2px}.price .cur{font-size:13px;color:var(--muted);font-weight:550;letter-spacing:0;margin-left:3px}
+.price.muted{font-size:22px;letter-spacing:-.03em}.meta{border-top:1px solid var(--line);margin-top:17px;padding-top:13px;color:var(--muted);font-size:12px}.card-actions{display:flex;gap:14px;margin-top:16px}.card-actions a{font-size:13px;font-weight:700}
+.tag{display:inline-block;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:750}.tag.ok{background:var(--green-soft);color:var(--green)}.tag.warn{background:var(--amber-soft);color:var(--amber)}.tag.bad{background:var(--red-soft);color:var(--red)}
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px}th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}th{background:#f1f2f5;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}tr:last-child td{border-bottom:none}tbody tr:hover{background:#fbfbfd}
+.note{color:var(--muted);font-size:13px}.crumbs{font-size:13px;color:var(--muted);margin-bottom:16px}.crumbs a{color:var(--muted)}
+ul.clean{list-style:none;padding:0;margin:0}ul.clean li{padding:11px 0;border-bottom:1px solid var(--line)}ul.clean li:last-child{border-bottom:none}
+.method{margin:42px 0 0;background:var(--ink);color:#fff;border-radius:16px;padding:24px;display:grid;grid-template-columns:1fr 2fr;gap:30px}.method h2{font-size:25px;margin:0}.method p{color:#c8ced9;margin:0}.method strong{color:#fff}
+footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px;color:var(--muted);font-size:13px}
+@media(max-width:800px){.hero{grid-template-columns:1fr;gap:24px}.method{grid-template-columns:1fr}}
+@media(max-width:600px){.wrap{padding:0 16px}header.site .wrap{min-height:64px;gap:14px}.brand{font-size:15px}nav{gap:13px;font-size:12px}nav a:last-child{display:none}main{padding-top:30px}h1{font-size:40px}h2{font-size:25px}.hero p.lede{font-size:16px}.stats{gap:8px}.stat strong{font-size:21px}.toolbar{display:grid;grid-template-columns:1fr;align-items:stretch}.filter{width:100%}.section-head{display:block}.section-head .btn-secondary{margin-top:12px}table{display:block;overflow-x:auto;white-space:nowrap}.method{margin-top:34px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ItemList","name":"cloud storage offers October 2026","itemListElement":[{"@type":"ListItem","position":1,"name":"IDrive Server Backup","url":"/deals/idrive-server-backup-usd/"},{"@type":"ListItem","position":2,"name":"IDrive IDrive","url":"/deals/idrive-idrive-usd/"},{"@type":"ListItem","position":3,"name":"IDrive IDrive ® Team","url":"/deals/idrive-idrive-team-usd/"},{"@type":"ListItem","position":4,"name":"IDrive Microsoft Office 365 Backup","url":"/deals/idrive-microsoft-office-365-backup-usd/"},{"@type":"ListItem","position":5,"name":"IDrive Google Workspace Backup","url":"/deals/idrive-google-workspace-backup-usd/"},{"@type":"ListItem","position":6,"name":"IDrive IDrive ® Business","url":"/deals/idrive-idrive-business-usd/"},{"@type":"ListItem","position":7,"name":"Jottacloud Home 1 TB","url":"/deals/jottacloud-home-1-tb-usd/"},{"@type":"ListItem","position":8,"name":"Jottacloud Unlimited*","url":"/deals/jottacloud-unlimited-usd/"},{"@type":"ListItem","position":9,"name":"Jottacloud Business Small","url":"/deals/jottacloud-business-small-usd/"},{"@type":"ListItem","position":10,"name":"Jottacloud Home 5 TB","url":"/deals/jottacloud-home-5-tb-usd/"},{"@type":"ListItem","position":11,"name":"Jottacloud Business Medium","url":"/deals/jottacloud-business-medium-usd/"},{"@type":"ListItem","position":12,"name":"Jottacloud Pro 10 TB","url":"/deals/jottacloud-pro-10-tb-usd/"},{"@type":"ListItem","position":13,"name":"Jottacloud Business Large","url":"/deals/jottacloud-business-large-usd/"},{"@type":"ListItem","position":14,"name":"Jottacloud Pro 20 TB","url":"/deals/jottacloud-pro-20-tb-usd/"},{"@type":"ListItem","position":15,"name":"Jottacloud Pro 30 TB","url":"/deals/jottacloud-pro-30-tb-usd/"},{"@type":"ListItem","position":16,"name":"Jottacloud Pro 50 TB","url":"/deals/jottacloud-pro-50-tb-usd/"},{"@type":"ListItem","position":17,"name":"Proton Drive 200 GB","url":"/deals/proton-drive-200-gb-usd/"},{"@type":"ListItem","position":18,"name":"Proton Drive 1 TB per user","url":"/deals/proton-drive-1-tb-per-user-usd/"},{"@type":"ListItem","position":19,"name":"Proton Drive 500 GB + VPN","url":"/deals/proton-drive-500-gb-vpn-usd/"},{"@type":"ListItem","position":20,"name":"Proton Drive 2 TB + VPN","url":"/deals/proton-drive-2-tb-vpn-usd/"},{"@type":"ListItem","position":21,"name":"Proton Drive 3 TB","url":"/deals/proton-drive-3-tb-usd/"},{"@type":"ListItem","position":22,"name":"Storj Standard","url":"/deals/storj-standard-usd/"},{"@type":"ListItem","position":23,"name":"Storj Advanced","url":"/deals/storj-advanced-usd/"},{"@type":"ListItem","position":24,"name":"Storj Teams","url":"/deals/storj-teams-usd/"},{"@type":"ListItem","position":25,"name":"Storj Bring your own cloud","url":"/deals/storj-bring-your-own-cloud-usd/"},{"@type":"ListItem","position":26,"name":"Sync.com Teams 1TB","url":"/deals/sync-com-teams-1tb-usd/"},{"@type":"ListItem","position":27,"name":"Sync.com Teams 2TB","url":"/deals/sync-com-teams-2tb-usd/"},{"@type":"ListItem","position":28,"name":"Sync.com Teams 10TB","url":"/deals/sync-com-teams-10tb-usd/"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Cloud Storage Deals","item":"/"},{"@type":"ListItem","position":2,"name":"Cloud Storage Deals — cloud storage offers, October 2026","item":"/"}]}]}</script>
 </head>
 <body>
 <header class="site"><div class="wrap">
-  <a class="brand" href="https://cloud-storage-deals.frankfraaa.workers.dev/">Cloud Storage Deals</a>
-  <nav>
+  <a class="brand" href="https://cloud-storage-deals.frankfraaa.workers.dev/">Cloud Storage Deals<small>Verified pricing from official pages</small></a>
+  <nav aria-label="Primary navigation">
     <a href="https://cloud-storage-deals.frankfraaa.workers.dev/">Deals</a>
     <a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/">Providers</a>
     <a href="https://cloud-storage-deals.frankfraaa.workers.dev/compare/">Compare</a>
+    <a href="https://cloud-storage-deals.frankfraaa.workers.dev/#method">How it works</a>
   </nav>
 </div></header>
 <main><div class="wrap">
-<h1>Cloud Storage Deals — cloud storage offers, October 2026</h1>
-<p class="lede">Official cloud storage pricing, read straight from each provider&#x27;s own public page. 5 of 12 providers currently expose a verifiable price.</p>
-<div class="card" style="margin-bottom:24px">
-  <div class="grid" style="gap:8px">
-    <div><div class="price">12<span class="cur"> providers tracked</span></div></div>
-    <div><div class="price">28<span class="cur"> verified offers</span></div></div>
-    <div><div class="price">5<span class="cur"> with live price</span></div></div>
+<section class="hero">
+  <div>
+    <div class="eyebrow">Cloud storage price index</div>
+    <h1>Compare cloud storage prices from official pages.</h1>
+    <p class="lede">Verified plans, clear sources and conservative data. 5 of 12 providers currently expose a verifiable price.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#offers">Browse verified deals</a>
+      <a class="btn btn-secondary" href="https://cloud-storage-deals.frankfraaa.workers.dev/compare/">Compare providers</a>
+    </div>
   </div>
-  <div class="note" style="margin-top:12px">Refresh: 2026-10-15T14:24:01+00:00 · every 6 hours · source: official public pricing pages only.</div>
-</div>
+  <aside class="summary" aria-label="Live data snapshot">
+    <h2>Live data snapshot</h2>
+    <div class="stats">
+      <div class="stat"><strong>12</strong><span>providers tracked</span></div>
+      <div class="stat"><strong>28</strong><span>verified offers</span></div>
+      <div class="stat"><strong>5</strong><span>with live price</span></div>
+    </div>
+    <div class="verified">Last checked Oct 15, 2026, 14:24 UTC · refreshes every 6 hours</div>
+  </aside>
+</section>
 
-<h2>Providers</h2>
-<div class="grid">
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/pcloud/">pCloud</a></h3><div class="sub"><span class="tag warn">no verified price</span></div><div class="sub">https://www.pcloud.com</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/icedrive/">Icedrive</a></h3><div class="sub"><span class="tag warn">no verified price</span></div><div class="sub">https://icedrive.net</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/internxt/">Internxt</a></h3><div class="sub"><span class="tag warn">no verified price</span></div><div class="sub">https://internxt.com</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/filen/">Filen</a></h3><div class="sub"><span class="tag warn">no verified price</span></div><div class="sub">https://filen.io</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/koofr/">Koofr</a></h3><div class="sub"><span class="tag warn">no verified price</span></div><div class="sub">https://koofr.eu</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/sync-com/">Sync.com</a></h3><div class="sub"><span class="tag ok">3 plans</span></div><div class="sub">https://www.sync.com</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/tresorit/">Tresorit</a></h3><div class="sub"><span class="tag warn">no verified price</span></div><div class="sub">https://tresorit.com</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/idrive/">IDrive</a></h3><div class="sub"><span class="tag ok">6 plans</span></div><div class="sub">https://www.idrive.com</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/jottacloud/">Jottacloud</a></h3><div class="sub"><span class="tag ok">10 plans</span></div><div class="sub">https://www.jottacloud.com</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/zoolz/">Zoolz</a></h3><div class="sub"><span class="tag warn">no verified price</span></div><div class="sub">https://www.zoolz.com</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/storj/">Storj</a></h3><div class="sub"><span class="tag ok">4 plans</span></div><div class="sub">https://storj.io</div></div>
-<div class="card"><h3><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/proton-drive/">Proton Drive</a></h3><div class="sub"><span class="tag ok">5 plans</span></div><div class="sub">https://proton.me</div></div>
-</div>
+<section id="offers">
+  <div class="section-head">
+    <div><h2>Verified offers</h2><p>Current prices shown exactly as published on official pages.</p></div>
+    <a class="btn btn-secondary" href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/">View providers</a>
+  </div>
+  <div class="grid">
+<article class="card"><div class="card-top"><span class="provider">Proton Drive</span><span class="tag ok">Verified</span></div><div class="plan">200 GB</div><div class="price">$4.99 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/proton-drive-200-gb-usd/">View details</a><a href="https://proton.me/drive/pricing" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">IDrive</span><span class="tag ok">Verified</span></div><div class="plan">Server Backup</div><div class="price">$5.00 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/idrive-server-backup-usd/">View details</a><a href="https://www.idrive.com/pricing" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Sync.com</span><span class="tag ok">Verified</span></div><div class="plan">Teams 1TB</div><div class="price">$6.00 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/sync-com-teams-1tb-usd/">View details</a><a href="https://www.sync.com/pricing" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Storj</span><span class="tag ok">Verified</span></div><div class="plan">Standard</div><div class="price">$7.00 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/storj-standard-usd/">View details</a><a href="https://storj.io/pricing" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Jottacloud</span><span class="tag ok">Verified</span></div><div class="plan">Home 1 TB</div><div class="price">$7.99 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-home-1-tb-usd/">View details</a><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Sync.com</span><span class="tag ok">Verified</span></div><div class="plan">Teams 2TB</div><div class="price">$9.00 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/sync-com-teams-2tb-usd/">View details</a><a href="https://www.sync.com/pricing" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Proton Drive</span><span class="tag ok">Verified</span></div><div class="plan">1 TB per user</div><div class="price">$9.99 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/proton-drive-1-tb-per-user-usd/">View details</a><a href="https://proton.me/drive/pricing" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Storj</span><span class="tag ok">Verified</span></div><div class="plan">Advanced</div><div class="price">$10.00 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/storj-advanced-usd/">View details</a><a href="https://storj.io/pricing" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">IDrive</span><span class="tag ok">Verified</span></div><div class="plan">IDrive</div><div class="price">$11.99 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/idrive-idrive-usd/">View details</a><a href="https://www.idrive.com/pricing" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">IDrive</span><span class="tag ok">Verified</span></div><div class="plan">IDrive ® Team</div><div class="price">$11.99 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/idrive-idrive-team-usd/">View details</a><a href="https://www.idrive.com/pricing" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Jottacloud</span><span class="tag ok">Verified</span></div><div class="plan">Unlimited*</div><div class="price">$12.99 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-unlimited-usd/">View details</a><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Jottacloud</span><span class="tag ok">Verified</span></div><div class="plan">Business Small</div><div class="price">$12.99 <span class="cur">USD</span></div><div class="meta">Checked Oct 15, 2026 · official source</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-business-small-usd/">View details</a><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+  </div>
+</section>
 
-<h2>Latest verified offers</h2>
-<table>
-<thead><tr><th>Offer</th><th>Price</th><th>Source</th></tr></thead>
-<tbody>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/idrive-server-backup-usd/">IDrive Server Backup</a></td><td>$5.00</td><td><a href="https://www.idrive.com/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/idrive-idrive-usd/">IDrive IDrive</a></td><td>$11.99</td><td><a href="https://www.idrive.com/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/idrive-idrive-team-usd/">IDrive IDrive ® Team</a></td><td>$11.99</td><td><a href="https://www.idrive.com/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/idrive-microsoft-office-365-backup-usd/">IDrive Microsoft Office 365 Backup</a></td><td>$20.00</td><td><a href="https://www.idrive.com/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/idrive-google-workspace-backup-usd/">IDrive Google Workspace Backup</a></td><td>$20.00</td><td><a href="https://www.idrive.com/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/idrive-idrive-business-usd/">IDrive IDrive ® Business</a></td><td>$59.99</td><td><a href="https://www.idrive.com/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-home-1-tb-usd/">Jottacloud Home 1 TB</a></td><td>$7.99</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-unlimited-usd/">Jottacloud Unlimited*</a></td><td>$12.99</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-business-small-usd/">Jottacloud Business Small</a></td><td>$12.99</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-home-5-tb-usd/">Jottacloud Home 5 TB</a></td><td>$15.99</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-business-medium-usd/">Jottacloud Business Medium</a></td><td>$18.99</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-pro-10-tb-usd/">Jottacloud Pro 10 TB</a></td><td>$29.90</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-business-large-usd/">Jottacloud Business Large</a></td><td>$45.99</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-pro-20-tb-usd/">Jottacloud Pro 20 TB</a></td><td>$59.90</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-pro-30-tb-usd/">Jottacloud Pro 30 TB</a></td><td>$89.90</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/jottacloud-pro-50-tb-usd/">Jottacloud Pro 50 TB</a></td><td>$149.90</td><td><a href="https://www.jottacloud.com/en/pricing/" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/proton-drive-200-gb-usd/">Proton Drive 200 GB</a></td><td>$4.99</td><td><a href="https://proton.me/drive/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/proton-drive-1-tb-per-user-usd/">Proton Drive 1 TB per user</a></td><td>$9.99</td><td><a href="https://proton.me/drive/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/proton-drive-500-gb-vpn-usd/">Proton Drive 500 GB + VPN</a></td><td>$12.99</td><td><a href="https://proton.me/drive/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/proton-drive-2-tb-vpn-usd/">Proton Drive 2 TB + VPN</a></td><td>$19.99</td><td><a href="https://proton.me/drive/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/proton-drive-3-tb-usd/">Proton Drive 3 TB</a></td><td>$29.99</td><td><a href="https://proton.me/drive/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/storj-standard-usd/">Storj Standard</a></td><td>$7.00</td><td><a href="https://storj.io/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/storj-advanced-usd/">Storj Advanced</a></td><td>$10.00</td><td><a href="https://storj.io/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/storj-teams-usd/">Storj Teams</a></td><td>$29.00</td><td><a href="https://storj.io/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/storj-bring-your-own-cloud-usd/">Storj Bring your own cloud</a></td><td>$39.00</td><td><a href="https://storj.io/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/sync-com-teams-1tb-usd/">Sync.com Teams 1TB</a></td><td>$6.00</td><td><a href="https://www.sync.com/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/sync-com-teams-2tb-usd/">Sync.com Teams 2TB</a></td><td>$9.00</td><td><a href="https://www.sync.com/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-<tr><td><a href="https://cloud-storage-deals.frankfraaa.workers.dev/deals/sync-com-teams-10tb-usd/">Sync.com Teams 10TB</a></td><td>$13.50</td><td><a href="https://www.sync.com/pricing" rel="nofollow noopener" target="_blank">official page</a></td></tr>
-</tbody>
-</table>
+<section id="providers">
+  <div class="section-head">
+    <div><h2>Providers</h2><p>Every source is checked against its official public page.</p></div>
+    <a class="btn btn-secondary" href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/">All providers</a>
+  </div>
+  <div class="grid">
+<article class="card"><div class="card-top"><span class="provider">pCloud</span><span class="tag warn">no verified price</span></div><div class="plan">Official pricing source</div><div class="meta">https://www.pcloud.com</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/pcloud/">View provider</a><a href="https://www.pcloud.com" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Icedrive</span><span class="tag warn">no verified price</span></div><div class="plan">Official pricing source</div><div class="meta">https://icedrive.net</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/icedrive/">View provider</a><a href="https://icedrive.net" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Internxt</span><span class="tag warn">no verified price</span></div><div class="plan">Official pricing source</div><div class="meta">https://internxt.com</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/internxt/">View provider</a><a href="https://internxt.com" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Filen</span><span class="tag warn">no verified price</span></div><div class="plan">Official pricing source</div><div class="meta">https://filen.io</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/filen/">View provider</a><a href="https://filen.io" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Koofr</span><span class="tag warn">no verified price</span></div><div class="plan">Official pricing source</div><div class="meta">https://koofr.eu</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/koofr/">View provider</a><a href="https://koofr.eu" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Sync.com</span><span class="tag ok">3 plans</span></div><div class="plan">Official pricing source</div><div class="meta">https://www.sync.com</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/sync-com/">View provider</a><a href="https://www.sync.com" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Tresorit</span><span class="tag warn">no verified price</span></div><div class="plan">Official pricing source</div><div class="meta">https://tresorit.com</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/tresorit/">View provider</a><a href="https://tresorit.com" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">IDrive</span><span class="tag ok">6 plans</span></div><div class="plan">Official pricing source</div><div class="meta">https://www.idrive.com</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/idrive/">View provider</a><a href="https://www.idrive.com" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Jottacloud</span><span class="tag ok">10 plans</span></div><div class="plan">Official pricing source</div><div class="meta">https://www.jottacloud.com</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/jottacloud/">View provider</a><a href="https://www.jottacloud.com" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Zoolz</span><span class="tag warn">no verified price</span></div><div class="plan">Official pricing source</div><div class="meta">https://www.zoolz.com</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/zoolz/">View provider</a><a href="https://www.zoolz.com" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Storj</span><span class="tag ok">4 plans</span></div><div class="plan">Official pricing source</div><div class="meta">https://storj.io</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/storj/">View provider</a><a href="https://storj.io" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+<article class="card"><div class="card-top"><span class="provider">Proton Drive</span><span class="tag ok">5 plans</span></div><div class="plan">Official pricing source</div><div class="meta">https://proton.me</div><div class="card-actions"><a href="https://cloud-storage-deals.frankfraaa.workers.dev/providers/proton-drive/">View provider</a><a href="https://proton.me" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>
+  </div>
+</section>
 
-<h2>How this list is built</h2>
-<ul class="clean">
-<li>Every row is read from that provider's own public pricing page, on a schedule.</li>
-<li>If a price cannot be verified on the official page, the row stays empty — it is never estimated.</li>
-<li>One row = one real plan. Renewal and struck-through prices are excluded on purpose.</li>
-</ul>
+<section id="method" class="method">
+  <h2>Clear sources.<br>Conservative data.</h2>
+  <p>Every price is read from a provider's public official page. Renewal prices, struck-through originals and numbers we cannot verify are excluded. <strong>Missing data stays missing.</strong></p>
+</section>
 
 </div></main>
 <footer class="site"><div class="wrap">
-  <div>Cloud Storage Deals — Verified cloud storage pricing, refreshed every 6 hours from official pages.</div>
-  <div class="note" style="margin-top:6px">Prices are read from official public pages and refreshed automatically. Last refresh: 2026-10-15T14:24:01+00:00. A price that cannot be verified is left out, never estimated.</div>
-  <div class="note" style="margin-top:6px">Site rules are written in the I-Lang protocol — see <code>.ilang/site.ilang</code> (protocol: ilang.ai).</div>
+  <div><strong>Cloud Storage Deals</strong> — Verified cloud storage pricing, refreshed every 6 hours from official pages.</div>
+  <div class="note" style="margin-top:7px">Prices are read from official public pages and refreshed automatically. Last refresh: Oct 15, 2026, 14:24 UTC. A price that cannot be verified is left out, never estimated.</div>
+  <div class="note" style="margin-top:7px">Site rules are written in the I-Lang protocol — see <code>.ilang/site.ilang</code>.</div>
 </div></footer>
 </body>
 </html>
