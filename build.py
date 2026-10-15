@@ -191,7 +191,24 @@ def main(argv: list[str]) -> int:
         return path if conf.get("canonical_relative", "false").lower() == "true" else url_for(path)
 
     def page(title: str, description: str, path: str, body: str, extra_ld=None) -> str:
-        graph = []
+        graph = [
+            {
+                "@type": "Organization",
+                "@id": page_url("/") + "#organization",
+                "name": brand,
+                "url": page_url("/"),
+                "logo": page_url("/og.png"),
+                "description": conf.get("tagline", ""),
+            },
+            {
+                "@type": "WebSite",
+                "@id": page_url("/") + "#website",
+                "name": brand,
+                "url": page_url("/"),
+                "publisher": {"@id": page_url("/") + "#organization"},
+                "inLanguage": lang,
+            },
+        ]
         if extra_ld:
             graph.append(extra_ld)
         graph.append({
@@ -320,7 +337,19 @@ def main(argv: list[str]) -> int:
                      'on the last run, so no price is shown. Nothing is estimated.</div></div>')
 
         currency = dominant_currency(p["offers"], conf.get("currency", "USD"))
-        same = [o for o in p["offers"] if o["currency"] == currency]
+        same = [o for o in p["offers"] if o["currency"] == currency and o.get("price") is not None]
+        priced_offers = [o for o in p["offers"] if o.get("price") is not None]
+        currencies = sorted({o["currency"] for o in priced_offers})
+        if priced_offers:
+            if len(currencies) == 1:
+                comparison_summary = (f'{len(priced_offers)} verified plan(s) are listed in {currencies[0]}. '
+                                      f'The published prices range from {money(min(o["price"] for o in priced_offers), currencies[0])} '
+                                      f'to {money(max(o["price"] for o in priced_offers), currencies[0])}.')
+            else:
+                comparison_summary = (f'{len(priced_offers)} verified plan(s) are listed across '
+                                      f'{", ".join(currencies)}. Prices are kept in their published currencies and are not converted.')
+        else:
+            comparison_summary = "No current public price could be verified on this provider page during the latest fetch."
         if len(same) >= 2:
             offers_node = {
                 "@type": "AggregateOffer",
@@ -350,6 +379,7 @@ def main(argv: list[str]) -> int:
             provider_lede=esc(f'{p["name"]} {niche} pricing read from the official page on {updated_at[:10]}.'),
             site_url=esc(p["site"]),
             source_url=esc(p["source"]),
+            comparison_summary=esc(comparison_summary),
             offer_block=block,
             note=esc(p.get("note", "")),
         )
@@ -364,6 +394,22 @@ def main(argv: list[str]) -> int:
     for o in offers:
         expired = is_expired(o)
         price_display = money(o["price"], o["currency"]) if o.get("price") is not None else "Price not verifiable"
+        peer_offers = sorted(
+            [peer for peer in offers
+             if peer["provider_slug"] == o["provider_slug"]
+             and peer.get("currency") == o.get("currency")
+             and peer.get("price") is not None],
+            key=lambda peer: peer["price"],
+        )
+        if o.get("price") is not None and peer_offers:
+            rank = next((i + 1 for i, peer in enumerate(peer_offers) if peer["id"] == o["id"]), None)
+            comparison_summary = (f'This plan is {money(o["price"], o["currency"])} and ranks '
+                                  f'{rank} of {len(peer_offers)} verified {o["provider"]} plan(s) in {o["currency"]} '
+                                  f'when sorted by published price. The price range in this group is '
+                                  f'{money(peer_offers[0]["price"], o["currency"])} to '
+                                  f'{money(peer_offers[-1]["price"], o["currency"])}.')
+        else:
+            comparison_summary = "A price comparison is not available because a current price could not be verified."
         body = read_template("deal.html").safe_substitute(
             breadcrumb=(f'<a href="{root}">{esc(brand)}</a> / '
                         f'<a href="{root}providers/{esc(o["provider_slug"])}/">{esc(o["provider"])}</a> / {esc(o["plan"])}'),
@@ -380,6 +426,7 @@ def main(argv: list[str]) -> int:
             valid_until=esc(o.get("valid_until") or "not published on the source page"),
             source_url=esc(o["source_url"]),
             fetched_at=esc(display_time(o["fetched_at"])),
+            comparison_summary=esc(comparison_summary),
             note=esc("This page carries only what the source page published. Missing fields are missing on purpose."),
         )
         write(f'deals/{o["id"]}/index.html', page(
@@ -420,6 +467,32 @@ def main(argv: list[str]) -> int:
                               "url": page_url(f'/providers/{p["slug"]}/')} for i, p in enumerate(providers)]},
     ))
     urls.append("/compare/")
+
+    # ------------------------------------------------------------ about / contact
+    about_body = read_template("about.html").safe_substitute(
+        brand=esc(brand),
+        niche=esc(niche),
+        providers_total=len(providers),
+        offers_total=len(live_offers),
+        refresh_human=esc(conf.get("refresh_human", "6 hours")),
+        updated_at=esc(updated_at_display),
+    )
+    write("about/index.html", page(
+        f"About and methodology — {brand}",
+        f"How {brand} collects and verifies public {niche} prices, including its update schedule and data limitations.",
+        "/about/", about_body,
+        {"@type": "AboutPage", "name": f"About {brand}", "description": f"Data sources and methodology for {brand}."},
+    ))
+    urls.append("/about/")
+
+    contact_body = read_template("contact.html").safe_substitute()
+    write("contact/index.html", page(
+        f"Contact and site maintenance — {brand}",
+        f"Site maintenance information for {brand}, an independent public {niche} pricing index.",
+        "/contact/", contact_body,
+        {"@type": "ContactPage", "name": f"Contact {brand}", "url": page_url("/contact/")},
+    ))
+    urls.append("/contact/")
 
     # ------------------------------------------------------------ index files
     lastmod = updated_at

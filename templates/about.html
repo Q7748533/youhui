@@ -1,0 +1,33 @@
+<div class="hero" style="padding-top:8px">
+  <div>
+    <div class="eyebrow">About the project</div>
+    <h1>Clear prices from official pages.</h1>
+    <p class="lede">$brand is a public price index for $niche. It helps people compare plans without treating estimates, renewal prices or old promotions as current prices.</p>
+  </div>
+  <div class="card">
+    <div class="provider">Site snapshot</div>
+    <div class="meta" style="border-top:0;padding-top:8px;margin-top:0">$providers_total providers tracked</div>
+    <div class="meta">$offers_total verified offers in the latest build</div>
+    <div class="meta">Refresh cycle: $refresh_human</div>
+  </div>
+</div>
+
+<h2>What this site does</h2>
+<div class="grid">
+  <article class="card"><div class="provider">Official sources</div><p class="note">Prices are read from each provider's own public pricing page. The source link is shown with every provider and offer.</p></article>
+  <article class="card"><div class="provider">Conservative records</div><p class="note">When a current price cannot be verified, the site leaves it empty. It does not estimate or carry over an older value.</p></article>
+  <article class="card"><div class="provider">Regular refreshes</div><p class="note">We check selected public pricing pages on a regular schedule and record when each result was last checked.</p></article>
+</div>
+
+<h2>What the labels mean</h2>
+<ul class="clean">
+  <li><strong>Verified</strong> means a current public price was readable on the official source during the latest fetch.</li>
+  <li><strong>No verified price</strong> means the page was reachable, but a current public price could not be confirmed.</li>
+  <li><strong>Source unavailable</strong> means the source could not be fetched or is not available to the public pipeline.</li>
+  <li><strong>Expired</strong> means the published validity date has passed and the record should not be treated as current.</li>
+</ul>
+
+<h2>How pricing data is collected</h2>
+<p class="lede">We track public pricing pages from selected cloud storage providers. The site checks each source on a regular schedule and records only plans and prices that can be verified on the provider's official page.</p>
+<p class="lede">Prices that are unavailable, outdated, struck through or otherwise unclear are not estimated or carried over from an earlier check. Each offer page links back to its official source and shows when the data was last checked.</p>
+<p class="note">The latest data check was completed on $updated_at. Prices can change on the provider's site; always check the official page before making a purchase.</p>
