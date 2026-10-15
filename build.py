@@ -237,6 +237,34 @@ def main(argv: list[str]) -> int:
     urls.append("/")
 
     # ------------------------------------------------------------ providers
+    provider_rows = []
+    for p in sorted(providers, key=lambda item: item["name"].lower()):
+        badge = {"ok": "ok", "no_price": "warn", "unreachable": "warn", "robots_disallow": "warn"}.get(p["status"], "warn")
+        label = {"ok": f'{len(p["offers"])} plans', "no_price": "no verified price",
+                 "unreachable": "unreachable", "robots_disallow": "robots disallow"}.get(p["status"], p["status"])
+        provider_rows.append(
+            f'<tr><td><a href="{root}providers/{esc(p["slug"])}/">{esc(p["name"])}</a></td>'
+            f'<td>{len(p["offers"])}</td>'
+            f'<td><span class="tag {badge}">{esc(label)}</span></td>'
+            f'<td><a href="{esc(p["site"])}" rel="nofollow noopener" target="_blank">official site</a></td></tr>'
+        )
+    providers_body = read_template("providers.html").safe_substitute(
+        breadcrumb=f'<a href="{root}">{esc(brand)}</a> / Providers',
+        headline=esc(f"{brand} providers — {month}"),
+        lede=esc(f"Official {niche} pricing sources tracked by this site. Provider pages show only plans and prices verifiable from public official pages."),
+        provider_rows="\n".join(provider_rows),
+        note=esc(f"{len(priced)} of {len(providers)} providers currently expose a verifiable price. Missing prices are left empty and never estimated."),
+    )
+    provider_items = [{"@type": "ListItem", "position": i + 1, "name": p["name"],
+                       "url": page_url(f'/providers/{p["slug"]}/')} for i, p in enumerate(sorted(providers, key=lambda item: item["name"].lower()))]
+    write("providers/index.html", page(
+        f"{brand} providers — {month}",
+        f"Official {niche} providers tracked by {brand}, with verified public pricing where available.",
+        "/providers/", providers_body,
+        {"@type": "ItemList", "name": f"{niche} providers", "itemListElement": provider_items},
+    ))
+    urls.append("/providers/")
+
     for p in providers:
         if p["offers"]:
             block = "<table><thead><tr><th>Plan</th><th>Price</th><th>Page</th></tr></thead><tbody>"
