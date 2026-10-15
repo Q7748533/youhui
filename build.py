@@ -105,18 +105,84 @@ def dominant_currency(offers: list[dict], fallback: str) -> str:
     return max(counts.items(), key=lambda kv: kv[1])[0]
 
 
+def pricing_basis(offer: dict) -> str:
+    value = str(offer.get("pricing_unit") or "unknown").strip().lower()
+    return value or "unknown"
+
+
+def pricing_basis_label(value: str) -> str:
+    value = pricing_basis({"pricing_unit": value})
+    if value == "unknown":
+        return "billing basis not stated"
+    return "per " + value.replace("/", " / ")
+
+
+def observed_family(plan: str) -> str:
+    """Classify only vocabulary visible in an official plan label."""
+    low = plan.lower()
+    if "microsoft" in low or "google workspace" in low or "office 365" in low:
+        return "Cloud application backup"
+    if "server" in low:
+        return "Server backup"
+    if "backup" in low:
+        return "Backup"
+    if "team" in low or "business" in low:
+        return "Team / business"
+    if "personal" in low or "home" in low:
+        return "Personal / home"
+    if "storage" in low or "drive" in low or "tb" in low or "gb" in low:
+        return "Storage plans"
+    return "Other plan labels"
+
+
+def provider_insight(provider: dict) -> str:
+    """Build a small source-derived profile instead of invented editorial copy."""
+    offers = provider.get("offers", [])
+    if not offers:
+        note = provider.get("note") or "No plan labels or prices were readable on the latest public fetch."
+        return (f'<div class="card"><strong>No public price record for {esc(provider.get("name", "this provider"))}</strong>'
+                f'<p class="note" style="margin:8px 0 0">{esc(note)}</p></div>')
+    families: dict[str, list[str]] = {}
+    for offer in offers:
+        family = observed_family(str(offer.get("plan", "")))
+        families.setdefault(family, []).append(str(offer.get("plan", "")))
+    family_items = "".join(
+        f'<li><strong>{esc(family)}</strong>: {esc(", ".join(names))}</li>'
+        for family, names in families.items()
+    )
+    bases = sorted({pricing_basis(offer) for offer in offers})
+    basis_items = "".join(f"<li>{esc(pricing_basis_label(value))}</li>" for value in bases)
+    return (
+        '<div class="grid">'
+        '<div class="card"><h3>Observed plan families</h3><ul class="clean">'
+        f"{family_items}</ul></div>"
+        '<div class="card"><h3>Billing bases found</h3><ul class="clean">'
+        f'{basis_items}</ul><p class="note" style="margin:10px 0 0">These labels are grouped from the official page; different bases are not ranked together.</p></div>'
+        "</div>"
+    )
+
+
 def offer_node(offer: dict, page_url: str) -> dict:
     node = {
         "@type": "Offer",
         "name": offer["title"],
         "url": page_url,
-        "availability": "https://schema.org/OutOfStock" if is_expired(offer) else "https://schema.org/InStock",
         "seller": {"@type": "Organization", "name": offer["provider"]},
     }
-    if offer.get("price") is not None:
+    if not offer.get("stale"):
+        node["availability"] = "https://schema.org/OutOfStock" if is_expired(offer) else "https://schema.org/InStock"
+    if offer.get("price") is not None and not offer.get("stale"):
         node["price"] = offer["price"]
         node["priceCurrency"] = offer["currency"]
-    if offer.get("valid_until"):
+        basis = pricing_basis(offer)
+        if basis != "unknown":
+            node["priceSpecification"] = {
+                "@type": "UnitPriceSpecification",
+                "price": offer["price"],
+                "priceCurrency": offer["currency"],
+                "unitText": basis,
+            }
+    if offer.get("valid_until") and not offer.get("stale"):
         node["priceValidUntil"] = offer["valid_until"]
     return node
 
@@ -175,9 +241,17 @@ def main(argv: list[str]) -> int:
 
     base_tpl = read_template("base.html")
     providers = data["providers"]
-    offers = data["offers"]
-    live_offers = [o for o in offers if not is_expired(o)]
-    priced = [p for p in providers if p["status"] == "ok"]
+    # Provider records carry the latest extracted fields; merge them into the
+    # flat list so new fields such as billing basis cannot drift between views.
+    provider_offer_index = {
+        offer["id"]: offer
+        for provider in providers
+        for offer in provider.get("offers", [])
+        if offer.get("id")
+    }
+    offers = [{**offer, **provider_offer_index.get(offer.get("id"), {})} for offer in data["offers"]]
+    live_offers = [o for o in offers if not is_expired(o) and not o.get("stale")]
+    priced = [p for p in providers if p["status"] in ("ok", "stale")]
 
     def url_for(path: str) -> str:
         """Absolute URL — used by sitemap.xml and robots.txt, which require it."""
@@ -237,8 +311,8 @@ def main(argv: list[str]) -> int:
     # ------------------------------------------------------------ index
     cards = []
     for p in providers:
-        badge = {"ok": "ok", "no_price": "warn", "unreachable": "bad", "robots_disallow": "warn"}.get(p["status"], "warn")
-        label = {"ok": f'{len(p["offers"])} plans', "no_price": "no verified price",
+        badge = {"ok": "ok", "stale": "warn", "no_price": "warn", "unreachable": "bad", "robots_disallow": "warn"}.get(p["status"], "warn")
+        label = {"ok": f'{len(p["offers"])} plans', "stale": f'{len(p["offers"])} stale plans', "no_price": "no verified price",
                  "unreachable": "source unavailable", "robots_disallow": "robots disallow"}.get(p["status"], p["status"])
         cards.append(
             f'<article class="card"><div class="card-top"><span class="provider">{esc(p["name"])}</span>'
@@ -254,7 +328,7 @@ def main(argv: list[str]) -> int:
         if o.get("price") is not None:
             price_display = money(o["price"], o["currency"])
             price_class = "price"
-            status = '<span class="tag ok">Verified</span>'
+            status = '<span class="tag warn">Previously verified</span>' if o.get("stale") else '<span class="tag ok">Verified</span>'
         else:
             price_display = "Price unavailable"
             price_class = "price muted"
@@ -264,7 +338,7 @@ def main(argv: list[str]) -> int:
             f'<article class="card"><div class="card-top"><span class="provider">{esc(o["provider"])}</span>{status}</div>'
             f'<div class="plan">{esc(o["plan"])}</div>'
             f'<div class="{price_class}">{esc(price_display)}{currency_label}</div>'
-            f'<div class="meta">Checked {esc(display_date(o["fetched_at"]))} · official source</div>'
+            f'<div class="meta">{"Last verified " if o.get("stale") else "Checked "}{esc(display_date(o["fetched_at"]))} · official source</div>'
             f'<div class="card-actions"><a href="{root}deals/{esc(o["id"])}/">View details</a>'
             f'<a href="{esc(o["offer_url"])}" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>'
         )
@@ -296,8 +370,8 @@ def main(argv: list[str]) -> int:
     # ------------------------------------------------------------ providers
     provider_rows = []
     for p in sorted(providers, key=lambda item: item["name"].lower()):
-        badge = {"ok": "ok", "no_price": "warn", "unreachable": "warn", "robots_disallow": "warn"}.get(p["status"], "warn")
-        label = {"ok": f'{len(p["offers"])} plans', "no_price": "no verified price",
+        badge = {"ok": "ok", "stale": "warn", "no_price": "warn", "unreachable": "warn", "robots_disallow": "warn"}.get(p["status"], "warn")
+        label = {"ok": f'{len(p["offers"])} plans', "stale": f'{len(p["offers"])} stale plans', "no_price": "no verified price",
                  "unreachable": "unreachable", "robots_disallow": "robots disallow"}.get(p["status"], p["status"])
         provider_rows.append(
             f'<tr><td><a href="{root}providers/{esc(p["slug"])}/">{esc(p["name"])}</a></td>'
@@ -324,45 +398,58 @@ def main(argv: list[str]) -> int:
 
     for p in providers:
         if p["offers"]:
-            block = "<table><thead><tr><th>Plan</th><th>Price</th><th>Page</th></tr></thead><tbody>"
+            block = "<table><thead><tr><th>Plan</th><th>Price</th><th>Billing basis</th><th>Page</th></tr></thead><tbody>"
             for o in p["offers"]:
                 expired = is_expired(o)
                 price_cell = money(o["price"], o["currency"]) if o.get("price") is not None else "—"
+                basis_cell = pricing_basis_label(pricing_basis(o))
+                state_tag = " <span class='tag warn'>stale</span>" if o.get("stale") else " <span class='tag warn'>expired</span>" if expired else ""
                 block += (f'<tr><td><a href="{root}deals/{esc(o["id"])}/">{esc(o["plan"])}</a></td>'
-                          f'<td>{esc(price_cell)}{" <span class=\'tag warn\'>expired</span>" if expired else ""}</td>'
+                          f'<td>{esc(price_cell)}{state_tag}</td>'
+                          f'<td>{esc(basis_cell)}</td>'
                           f'<td><a href="{esc(o["source_url"])}" rel="nofollow noopener" target="_blank">source</a></td></tr>')
             block += "</tbody></table>"
         else:
             block = ('<div class="card"><div class="sub">This provider has no publicly verifiable price '
                      'on the last run, so no price is shown. Nothing is estimated.</div></div>')
 
-        currency = dominant_currency(p["offers"], conf.get("currency", "USD"))
-        same = [o for o in p["offers"] if o["currency"] == currency and o.get("price") is not None]
-        priced_offers = [o for o in p["offers"] if o.get("price") is not None]
-        currencies = sorted({o["currency"] for o in priced_offers})
-        if priced_offers:
-            if len(currencies) == 1:
-                comparison_summary = (f'{len(priced_offers)} verified plan(s) are listed in {currencies[0]}. '
-                                      f'The published prices range from {money(min(o["price"] for o in priced_offers), currencies[0])} '
-                                      f'to {money(max(o["price"] for o in priced_offers), currencies[0])}.')
+        priced_offers = [o for o in p["offers"] if o.get("price") is not None and not o.get("stale")]
+        groups: dict[tuple[str, str], list[dict]] = {}
+        for offer in priced_offers:
+            groups.setdefault((offer["currency"], pricing_basis(offer)), []).append(offer)
+        if p.get("status") == "stale":
+            comparison_summary = (f'Latest fetch unavailable. {len(p["offers"])} previously verified plan(s) are retained '
+                                  "for reference and are not treated as current prices or ranked.")
+        elif priced_offers:
+            group_summaries = []
+            for (currency, basis), group in sorted(groups.items()):
+                low = money(min(o["price"] for o in group), currency)
+                high = money(max(o["price"] for o in group), currency)
+                range_text = low if low == high else f"{low} to {high}"
+                group_summaries.append(f"{len(group)} at {range_text} {pricing_basis_label(basis)}")
+            if len(group_summaries) == 1:
+                comparison_summary = (f'{len(priced_offers)} verified plan(s) are listed at {group_summaries[0]}. '
+                                      "Only plans with this same billing basis can be compared.")
             else:
-                comparison_summary = (f'{len(priced_offers)} verified plan(s) are listed across '
-                                      f'{", ".join(currencies)}. Prices are kept in their published currencies and are not converted.')
+                comparison_summary = (f'{len(priced_offers)} verified plan(s) use different billing bases: '
+                                      f'{"; ".join(group_summaries)}. Prices are not combined into one ranking or range.')
         else:
             comparison_summary = "No current public price could be verified on this provider page during the latest fetch."
-        if len(same) >= 2:
+        comparable_groups = [group for (currency, basis), group in groups.items() if basis != "unknown"]
+        if len(groups) == 1 and len(comparable_groups) == 1:
+            only_group = comparable_groups[0]
             offers_node = {
                 "@type": "AggregateOffer",
-                "priceCurrency": currency,
-                "lowPrice": min(o["price"] for o in same),
-                "highPrice": max(o["price"] for o in same),
-                "offerCount": len(same),
-                "offers": [offer_node(o, page_url(f'/deals/{o["id"]}/')) for o in same],
-            }
-        elif same:
-            offers_node = offer_node(same[0], page_url(f'/deals/{same[0]["id"]}/'))
+                "priceCurrency": only_group[0]["currency"],
+                "lowPrice": min(o["price"] for o in only_group),
+                "highPrice": max(o["price"] for o in only_group),
+                "offerCount": len(only_group),
+                "offers": [offer_node(o, page_url(f'/deals/{o["id"]}/')) for o in only_group],
+            } if len(only_group) >= 2 else offer_node(only_group[0], page_url(f'/deals/{only_group[0]["id"]}/'))
         else:
-            offers_node = None
+            # Keep individually verified offers in structured data, but do not
+            # claim one aggregate range when their billing bases differ/are unknown.
+            offers_node = [offer_node(o, page_url(f'/deals/{o["id"]}/')) for o in priced_offers] or None
 
         product = {
             "@type": "Product",
@@ -380,6 +467,7 @@ def main(argv: list[str]) -> int:
             site_url=esc(p["site"]),
             source_url=esc(p["source"]),
             comparison_summary=esc(comparison_summary),
+            provider_insight=provider_insight(p),
             offer_block=block,
             note=esc(p.get("note", "")),
         )
@@ -394,20 +482,29 @@ def main(argv: list[str]) -> int:
     for o in offers:
         expired = is_expired(o)
         price_display = money(o["price"], o["currency"]) if o.get("price") is not None else "Price not verifiable"
+        basis = pricing_basis(o)
         peer_offers = sorted(
             [peer for peer in offers
              if peer["provider_slug"] == o["provider_slug"]
              and peer.get("currency") == o.get("currency")
-             and peer.get("price") is not None],
+             and pricing_basis(peer) == basis
+             and basis != "unknown"
+             and peer.get("price") is not None
+             and not peer.get("stale")],
             key=lambda peer: peer["price"],
         )
-        if o.get("price") is not None and peer_offers:
+        if o.get("price") is not None and not o.get("stale") and len(peer_offers) >= 2:
             rank = next((i + 1 for i, peer in enumerate(peer_offers) if peer["id"] == o["id"]), None)
-            comparison_summary = (f'This plan is {money(o["price"], o["currency"])} and ranks '
-                                  f'{rank} of {len(peer_offers)} verified {o["provider"]} plan(s) in {o["currency"]} '
-                                  f'when sorted by published price. The price range in this group is '
-                                  f'{money(peer_offers[0]["price"], o["currency"])} to '
+            comparison_summary = (f'This plan is {money(o["price"], o["currency"])} {pricing_basis_label(basis)} and ranks '
+                                  f'{rank} of {len(peer_offers)} verified {o["provider"]} plan(s) with the same billing basis. '
+                                  f'The comparable range is {money(peer_offers[0]["price"], o["currency"])} to '
                                   f'{money(peer_offers[-1]["price"], o["currency"])}.')
+        elif o.get("price") is not None and o.get("stale"):
+            comparison_summary = (f'This plan was previously verified at {money(o["price"], o["currency"])} '
+                                  f'{pricing_basis_label(basis)}. The latest source fetch was unavailable, so no current ranking is shown.')
+        elif o.get("price") is not None:
+            comparison_summary = (f'This plan is {money(o["price"], o["currency"])} {pricing_basis_label(basis)}. '
+                                  "No same-basis peer prices were found, so no ranking is shown.")
         else:
             comparison_summary = "A price comparison is not available because a current price could not be verified."
         body = read_template("deal.html").safe_substitute(
@@ -417,12 +514,14 @@ def main(argv: list[str]) -> int:
             deal_lede=esc(f'{o["provider"]} — {o["plan"]}. Price read from the official public pricing page, not estimated.'),
             price_display=esc(price_display),
             status_line=esc("Marked expired: the official validity date has passed." if expired
-                            else f'Verified on {display_date(o["fetched_at"])} from the official page.'),
+                            else (f'Previously verified on {display_date(o["fetched_at"])}; the latest source fetch was unavailable.'
+                                  if o.get("stale") else f'Verified on {display_date(o["fetched_at"])} from the official page.')),
             offer_url=esc(o["offer_url"]),
             provider_url=f'{root}providers/{esc(o["provider_slug"])}/',
             provider_name=esc(o["provider"]),
             plan=esc(o["plan"]),
             price_line=esc(price_display),
+            pricing_basis=esc(pricing_basis_label(pricing_basis(o))),
             valid_until=esc(o.get("valid_until") or "not published on the source page"),
             source_url=esc(o["source_url"]),
             fetched_at=esc(display_time(o["fetched_at"])),
@@ -440,23 +539,26 @@ def main(argv: list[str]) -> int:
     trows = []
     for p in sorted(providers, key=lambda x: (x["status"] != "ok", x["name"].lower())):
         prices = [o["price"] for o in p["offers"] if o.get("price") is not None]
-        if prices:
-            currency = dominant_currency(p["offers"], conf.get("currency", "USD"))
-            low = money(min(prices), currency)
+        priced_provider_offers = [o for o in p["offers"] if o.get("price") is not None]
+        if priced_provider_offers:
+            lowest = min(priced_provider_offers, key=lambda offer: offer["price"])
+            low = money(lowest["price"], lowest["currency"])
+            low_basis = pricing_basis_label(pricing_basis(lowest))
         else:
             low = "—"
+            low_basis = "—"
         trows.append(
             f'<tr><td><a href="{root}providers/{esc(p["slug"])}/">{esc(p["name"])}</a></td>'
-            f'<td>{esc(low)}</td><td>{len(p["offers"])}</td>'
+            f'<td>{esc(low)}</td><td>{esc(low_basis)}</td><td>{len(p["offers"])}</td>'
             f'<td><span class="tag {"ok" if p["status"] == "ok" else "warn"}">{esc(p["status"])}</span></td>'
             f'<td><a href="{esc(p["source"])}" rel="nofollow noopener" target="_blank">source</a></td></tr>'
         )
     cbody = read_template("compare.html").safe_substitute(
         breadcrumb=f'<a href="{root}">{esc(brand)}</a> / Compare',
         headline=esc(f"Compare {niche} providers — {month}"),
-        lede=esc(f"Lowest verified price per provider, taken from each official public pricing page on {updated_at[:10]}."),
+        lede=esc(f"Lowest listed price per provider, with its billing basis shown separately. Values come from official public pricing pages on {updated_at[:10]}."),
         table_rows="\n".join(trows),
-        note=esc("Empty cells mean the price could not be verified publicly. They are never filled with estimates."),
+        note=esc("The lowest listed values use different currencies, periods, and billing scopes across providers; they are not a normalized recommendation. Empty cells mean no public price was verified."),
     )
     write("compare/index.html", page(
         f"Compare {niche} providers — {month}",

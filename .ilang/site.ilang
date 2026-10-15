@@ -29,9 +29,10 @@ ILANG
   Proton Drive | https://proton.me | https://proton.me/drive/pricing |
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
-  title price currency offer_url valid_until source_url fetched_at
+  title price currency pricing_unit offer_url valid_until source_url fetched_at
 
 ::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
+::RULE{取不到 pricing_unit⇒不做跨方案价格排名 不把不同计费周期或计费对象合并比较}
 ::RULE{取不到方案名⇒这条整条丢弃 不许拿整段网页原文当标题}
 ::RULE{valid_until 已过⇒标记过期或下架 不许留着冒充有效}
 ::RULE{价格只取当期售价⇒续费 原价 划线价 两年后 小字 一律不算当期售价 拿不准就丢这条}

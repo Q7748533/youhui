@@ -56,6 +56,12 @@ MONEY_RE = re.compile(
     r"(?:\b(?:USD|EUR|GBP|JPY)\s?\d[\d.,]{0,9})"
 )
 SCRIPT_RE = re.compile(r"<(script|style|noscript|svg|iframe)[^>]*>.*?</\1>", re.S | re.I)
+
+# A numeric price is not comparable until its billing basis is known. Keep the
+# vocabulary deliberately small and conservative; an unknown basis is safer
+# than silently comparing unlike units such as seat/year and server/month.
+PERIODS = r"month|months|mo|year|years|yr|week|weeks|day|days"
+SCOPES = r"server|servers|seat|seats|user|users|account|accounts|device|devices|tb|gb"
 TAG_RE = re.compile(r"<[^>]+>")
 HEADING_RE = re.compile(r"<h([1-4])[^>]*>(.*?)</h\1>", re.S | re.I)
 # Only title/name-like containers are treated as plan names. Generic
@@ -79,6 +85,11 @@ TECH_REJECT = (
 )
 LD_JSON_RE = re.compile(
     r"<script[^>]*type=[\"']application/ld\+json[\"'][^>]*>(.*?)</script>", re.S | re.I
+)
+IDRIVE_ADDONS = (
+    ("Server Backup", "server-cloud-backup"),
+    ("Microsoft Office 365 Backup", "microsoft-office-365-backup"),
+    ("Google Workspace Backup", "google-workspace-backup"),
 )
 
 
@@ -172,6 +183,46 @@ def parse_money(token: str, default_currency: str) -> tuple[float, str] | None:
     if not (0 < value < 20000):
         return None
     return round(value, 2), currency or default_currency
+
+
+def normalize_pricing_unit(value: str) -> str:
+    value = re.sub(r"\s+", " ", str(value or "").strip().lower())
+    value = re.sub(r"^per\s+", "", value)
+    value = {"mo": "month", "months": "month", "monthly": "month",
+             "yr": "year", "years": "year", "annual": "year", "annually": "year"}.get(value, value)
+    return value or "unknown"
+
+
+def pricing_unit(flat: str, start: int, end: int) -> str:
+    """Return a conservative normalized billing basis near a price token.
+
+    The basis is intentionally taken from visible text immediately around the
+    price. If the source does not state it clearly, return ``unknown`` rather
+    than inventing a period or scope.
+    """
+    period = rf"(?:{PERIODS})"
+    scope = rf"(?:{SCOPES})"
+    patterns = (
+        (rf"/(?:\s*)({period})(?:\s*)/(?:\s*)({scope})", lambda m: f"{m.group(1)}/{m.group(2)}"),
+        (rf"/(?:\s*)({scope})(?:\s*)/(?:\s*)({period})", lambda m: f"{m.group(2)}/{m.group(1)}"),
+        (rf"\bper\s+({period})\s*(?:per|/)\s*({scope})", lambda m: f"{m.group(1)}/{m.group(2)}"),
+        (rf"\bper\s+({scope})\s*(?:per|/)\s*({period})", lambda m: f"{m.group(2)}/{m.group(1)}"),
+        (rf"/(?:\s*)({period})\b", lambda m: m.group(1)),
+        (rf"\bper\s+({period})\b", lambda m: m.group(1)),
+    )
+    # Prefer text after the token. Looking too far backwards can accidentally
+    # borrow the billing label belonging to the previous plan card.
+    contexts = (
+        flat[end:end + 120],
+        flat[max(0, start - 40):start],
+    )
+    for raw_context in contexts:
+        context = re.sub(r"\s+", " ", raw_context).strip().lower()
+        for pattern, normalize in patterns:
+            match = re.search(pattern, context)
+            if match:
+                return normalize_pricing_unit(normalize(match))
+    return "unknown"
 
 
 def _first_plan_text(fragment: str) -> str | None:
@@ -308,9 +359,52 @@ def from_jsonld(html: str, page_url: str, default_currency: str) -> list[dict]:
                         "currency": str(offer.get("priceCurrency") or currency or default_currency).upper(),
                         "offer_url": urllib.parse.urljoin(page_url, str(url)),
                         "valid_until": offer.get("priceValidUntil"),
+                        "pricing_unit": normalize_pricing_unit(offer.get("unitText") or offer.get("billingDuration") or "unknown"),
                         "method": "jsonld",
                     }
                 )
+    return out
+
+
+def from_idrive_addons(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """Parse IDrive's stable add-on cards by their official link targets.
+
+    These cards sit outside IDrive's tabbed plan tables, so a generic nearest
+    heading/price heuristic can accidentally associate a tab price with them.
+    Only emit a row when the named official card contains a price and an
+    explicit billing basis.
+    """
+    out = []
+    flat = flatten(html)
+    for plan, slug in IDRIVE_ADDONS:
+        anchor = re.search(
+            rf'<a[^>]+href=["\'][^"\']*{re.escape(slug)}[^"\']*["\'][^>]*>'
+            rf'\s*{re.escape(plan)}\s*</a>', html, re.I | re.S)
+        if not anchor:
+            continue
+        body_start = anchor.end()
+        body_end = min(len(html), body_start + 900)
+        body = html[body_start:body_end]
+        body_flat = flatten(body)
+        price_match = MONEY_RE.search(body_flat)
+        if not price_match:
+            continue
+        got = parse_money(price_match.group(0), default_currency)
+        if not got:
+            continue
+        unit = pricing_unit(body_flat, price_match.start(), price_match.end())
+        if unit == "unknown":
+            continue
+        price, currency = got
+        out.append({
+            "plan": plan,
+            "price": price,
+            "currency": currency,
+            "offer_url": urllib.parse.urljoin(page_url, f"/{slug}"),
+            "valid_until": None,
+            "pricing_unit": unit,
+            "method": "idrive_addon",
+        })
     return out
 
 
@@ -350,6 +444,7 @@ def from_heuristics(html: str, page_url: str, default_currency: str) -> list[dic
                     "currency": currency,
                     "offer_url": page_url,
                     "valid_until": None,
+                    "pricing_unit": pricing_unit(flat, m.start(), m.end()),
                     "method": "heuristic",
                 }
             )
@@ -360,12 +455,26 @@ def from_heuristics(html: str, page_url: str, default_currency: str) -> list[dic
 # ---------------------------------------------------------------- pipeline
 
 def dedupe(rows: list[dict]) -> list[dict]:
-    seen, kept = {}, []
+    seen: dict[tuple, int] = {}
+    kept: list[dict] = []
     for row in rows:
-        key = (row["provider_slug"], siteilang._slug(row["plan"]), row["currency"].upper())
+        base = (row["provider_slug"], siteilang._slug(row["plan"]), row["currency"].upper())
+        unit = normalize_pricing_unit(row.get("pricing_unit"))
+        key = (*base, unit)
+        unknown_key = (*base, "unknown")
+        # The same plan can appear in multiple tabs on a source page. Prefer a
+        # clearly stated basis over an ambiguous duplicate, while retaining
+        # genuinely distinct month/year or per-seat/per-server offers.
+        if unit == "unknown" and any(k[:3] == base and k[3] != "unknown" for k in seen):
+            continue
+        if unit != "unknown" and unknown_key in seen:
+            index = seen.pop(unknown_key)
+            kept[index] = row
+            seen[key] = index
+            continue
         if key in seen:
             continue
-        seen[key] = True
+        seen[key] = len(kept)
         kept.append(row)
     return kept
 
@@ -392,15 +501,24 @@ def scrape_provider(provider: dict, default_currency: str) -> dict:
 
     fetched_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     rows = from_jsonld(html, provider["source"], default_currency)
+    if provider["slug"] == "idrive":
+        rows += from_idrive_addons(html, provider["source"], default_currency)
     rows += from_heuristics(html, provider["source"], default_currency)
 
     offers = []
+    used_ids = set()
     for row in rows:
         if row["price"] is None:
             continue
+        pricing_unit_value = normalize_pricing_unit(row.get("pricing_unit"))
+        base_id = f"{provider['slug']}-{siteilang._slug(row['plan'])}-{row['currency'].lower()}"
+        offer_id = base_id
+        if offer_id in used_ids:
+            offer_id = f"{base_id}-{siteilang._slug(pricing_unit_value)}"
+        used_ids.add(offer_id)
         offers.append(
             {
-                "id": f"{provider['slug']}-{siteilang._slug(row['plan'])}-{row['currency'].lower()}",
+                "id": offer_id,
                 "provider": provider["name"],
                 "provider_slug": provider["slug"],
                 "plan": row["plan"],
@@ -411,6 +529,7 @@ def scrape_provider(provider: dict, default_currency: str) -> dict:
                 "valid_until": row["valid_until"],
                 "source_url": provider["source"],
                 "fetched_at": fetched_at,
+                "pricing_unit": row.get("pricing_unit", "unknown"),
                 "extraction": row["method"],
             }
         )
@@ -426,15 +545,42 @@ def scrape_provider(provider: dict, default_currency: str) -> dict:
     return result
 
 
+def retain_previous_on_failure(result: dict, previous: dict | None) -> dict:
+    """Keep last verified records when a source is temporarily unreachable.
+
+    An unreachable source is not evidence that its previous prices vanished.
+    Preserve the records but mark them stale so generated pages can be honest.
+    A successful no-price result is intentionally not preserved.
+    """
+    if result.get("status") != "unreachable" or not previous or not previous.get("offers"):
+        return result
+    result = dict(result)
+    result["offers"] = [{**offer, "stale": True} for offer in previous["offers"]]
+    result["status"] = "stale"
+    detail = result.get("note") or "latest fetch failed"
+    result["note"] = f"{detail}; retained {len(result['offers'])} previously verified record(s) until the source is reachable again."
+    return result
+
+
 def main(argv: list[str]) -> int:
     cfg = siteilang.load(argv[1] if len(argv) > 1 else siteilang.DEFAULT_PATH)
     conf = siteilang.settings(cfg)
     default_currency = conf.get("currency", "USD")
     providers = siteilang.providers(cfg)
 
+    previous_by_slug = {}
+    if os.path.exists(DATA_FILE):
+        try:
+            with open(DATA_FILE, "r", encoding="utf-8") as fh:
+                old_data = json.load(fh)
+            previous_by_slug = {p["slug"]: p for p in old_data.get("providers", []) if p.get("slug")}
+        except (OSError, ValueError, TypeError):
+            previous_by_slug = {}
+
     results = []
     for provider in providers:
         res = scrape_provider(provider, default_currency)
+        res = retain_previous_on_failure(res, previous_by_slug.get(provider["slug"]))
         results.append(res)
 
     all_offers = sorted(
@@ -450,6 +596,7 @@ def main(argv: list[str]) -> int:
             "niche": cfg["site"].get("niche"),
             "providers_total": len(results),
             "providers_with_price": sum(1 for r in results if r["status"] == "ok"),
+            "providers_with_stale_price": sum(1 for r in results if r["status"] == "stale"),
             "offers_total": len(all_offers),
             "rule": "prices come from official public pages only; unreadable prices are left out, never estimated",
         },

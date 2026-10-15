@@ -4,3 +4,5 @@ __pycache__/
 venv/
 .DS_Store
 .workbuddy-ai/
+# Windows shell redirection can create a reserved-name artifact.
+nul
