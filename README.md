@@ -7,7 +7,8 @@ Prices are read straight from each provider's own public pricing page, every
 **The rule this project follows: a price that cannot be verified on the official
 page is left out. It is never estimated, never carried over from the last run.**
 
-Live: `<set after deploy>`
+Repo: https://github.com/Q7748533/youhui
+Live: https://53213a96be244b908bd518f9961dc360.sg.agentos-app.run
 
 ## What it does
 
