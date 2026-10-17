@@ -118,7 +118,9 @@ def pricing_basis_label(value: str) -> str:
     value = pricing_basis({"pricing_unit": value})
     if value == "unknown":
         return "billing basis not stated"
-    return "per " + value.replace("/", " / ")
+    # Keep unit abbreviations readable: "per month / GB", not "per month / gb".
+    return "per " + " / ".join(part.upper() if part in ("gb", "tb") else part
+                              for part in value.split("/"))
 
 
 def observed_family(plan: str) -> str:
@@ -217,10 +219,35 @@ def write_og_image(path: str) -> None:
         fh.write(png)
 
 
+def write_favicon(path: str) -> None:
+    """32x32 brand mark (purple field, white disc), pure stdlib."""
+    size = 32
+    field = (103, 82, 214)   # --purple
+    mark = (255, 255, 255)
+    mid = (size - 1) / 2
+    radius_sq = 10.5 ** 2
+    rows = []
+    for y in range(size):
+        row = bytearray()
+        for x in range(size):
+            row += bytes(mark if (x - mid) ** 2 + (y - mid) ** 2 <= radius_sq else field)
+        rows.append(b"\x00" + bytes(row))
+    raw = b"".join(rows)
+
+    def chunk(tag: bytes, data: bytes) -> bytes:
+        return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF)
+
+    png = (b"\x89PNG\r\n\x1a\n"
+           + chunk(b"IHDR", struct.pack(">IIBBBBB", size, size, 8, 2, 0, 0, 0))
+           + chunk(b"IDAT", zlib.compress(raw, 9))
+           + chunk(b"IEND", b""))
+    with open(os.path.join(SITE_DIR, path), "wb") as fh:
+        fh.write(png)
+
+
 def main(argv: list[str]) -> int:
     cfg = siteilang.load(argv[1] if len(argv) > 1 else siteilang.DEFAULT_PATH)
     conf = siteilang.settings(cfg)
-    clean_output()
     clean_output()
     if not os.path.exists(DATA_FILE):
         print("data/offers.json missing — run `python scraper.py` first", file=sys.stderr)
@@ -302,6 +329,7 @@ def main(argv: list[str]) -> int:
             title=esc(title),
             description=esc(description),
             canonical=esc(page_url(path)),
+            og_url=esc(url_for(path)),
             brand=esc(brand),
             tagline=esc(conf.get("tagline", "")),
             root=root,
@@ -511,6 +539,30 @@ def main(argv: list[str]) -> int:
                                   "No same-basis peer prices were found, so no ranking is shown.")
         else:
             comparison_summary = "A price comparison is not available because a current price could not be verified."
+        siblings = [peer for peer in offers
+                    if peer["provider_slug"] == o["provider_slug"]
+                    and peer["id"] != o["id"]
+                    and peer.get("price") is not None
+                    and not is_expired(peer)]
+        if siblings:
+            items = "".join(
+                f'<li><a href="{root}deals/{esc(peer["id"])}/">{esc(peer["title"])}</a> — '
+                f'{esc(money(peer["price"], peer["currency"]))} {esc(pricing_basis_label(pricing_basis(peer)))}, '
+                f'checked {esc(display_date(peer["fetched_at"]))}</li>' for peer in siblings)
+            other_plans_block = f'<ul class="clean">{items}</ul>'
+        else:
+            other_plans_block = ('<div class="card"><div class="sub">No other verified '
+                                 f'{esc(o["provider"])} plan is currently listed.</div></div>')
+        if o.get("price") is not None and o.get("stale"):
+            deal_description = (f'{o["title"]}: previously verified at {price_display} '
+                                f'{pricing_basis_label(basis)}; the latest source fetch was unavailable.')
+        elif o.get("price") is not None:
+            deal_description = (f'{o["title"]}: {price_display} {pricing_basis_label(basis)}, '
+                                f'verified {display_date(o["fetched_at"])} on the official '
+                                f'{o["provider"]} pricing page.')
+        else:
+            deal_description = (f'{o["title"]}: no current public price could be verified on the '
+                                f'official {o["provider"]} pricing page. Missing prices stay missing.')
         body = read_template("deal.html").safe_substitute(
             breadcrumb=(f'<a href="{root}">{esc(brand)}</a> / '
                         f'<a href="{root}providers/{esc(o["provider_slug"])}/">{esc(o["provider"])}</a> / {esc(o["plan"])}'),
@@ -530,11 +582,12 @@ def main(argv: list[str]) -> int:
             source_url=esc(o["source_url"]),
             fetched_at=esc(display_time(o["fetched_at"])),
             comparison_summary=esc(comparison_summary),
+            other_plans_block=other_plans_block,
             note=esc("This page carries only what the source page published. Missing fields are missing on purpose."),
         )
         write(f'deals/{o["id"]}/index.html', page(
             f'{o["title"]} — {price_display} ({month})',
-            f'{o["title"]} at {price_display} {o["currency"]}. Read from the official {o["provider"]} pricing page.',
+            deal_description,
             f'/deals/{o["id"]}/', body, offer_node(o, page_url(f'/deals/{o["id"]}/')),
         ))
         urls.append(f'/deals/{o["id"]}/')
@@ -601,9 +654,25 @@ def main(argv: list[str]) -> int:
     urls.append("/contact/")
 
     # ------------------------------------------------------------ index files
-    lastmod = updated_at
+    def sitemap_lastmod(path: str) -> str:
+        """Per-page freshness so every rebuild does not claim 78 simultaneous
+        updates. Deal pages follow their own fetch time; provider pages follow
+        their newest verified plan."""
+        if path.startswith("/deals/"):
+            offer_id = path[len("/deals/"):-1]
+            for o in offers:
+                if o["id"] == offer_id:
+                    return o.get("fetched_at") or updated_at
+        if path.startswith("/providers/") and path != "/providers/":
+            slug = path[len("/providers/"):-1]
+            for p in providers:
+                if p["slug"] == slug:
+                    stamps = [o.get("fetched_at") for o in p.get("offers", []) if o.get("fetched_at")]
+                    return max(stamps) if stamps else updated_at
+        return updated_at
+
     locs = "\n".join(
-        f"  <url><loc>{esc(url_for(u))}</loc><lastmod>{esc(lastmod)}</lastmod></url>" for u in urls
+        f"  <url><loc>{esc(url_for(u))}</loc><lastmod>{esc(sitemap_lastmod(u))}</lastmod></url>" for u in urls
     )
     write("sitemap.xml",
           '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -611,6 +680,14 @@ def main(argv: list[str]) -> int:
     write("robots.txt",
           "User-agent: *\nAllow: /\n\nSitemap: " + url_for("/sitemap.xml") + "\n")
     write_og_image("og.png")
+    write_favicon("favicon.png")
+
+    not_found_body = read_template("404.html").safe_substitute(root=root, brand=esc(brand))
+    write("404.html", page(
+        "Page not found — " + brand,
+        f"The requested page does not exist on {brand}. Browse all providers or compare verified cloud storage prices.",
+        "/404.html", not_found_body, None,
+    ))
 
     print(f"built {len(urls)} pages -> {SITE_DIR}/  (offers: {len(offers)}, live: {len(live_offers)})")
     if not has_base:
