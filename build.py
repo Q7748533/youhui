@@ -78,9 +78,16 @@ def read_template(name: str) -> Template:
 
 def clean_output() -> None:
     """site/ is 100% generated. Wipe it so renamed or dropped providers do not
-    leave orphan pages behind (they would stay in sitemap.xml forever)."""
+    leave orphan pages behind (they would stay in sitemap.xml forever).
+
+    The wipe is best-effort: if the platform refuses to delete the directory,
+    the build still overwrites every current page and git records any removals.
+    """
     if SITE_DIR == "site" and os.path.isdir(SITE_DIR):
-        shutil.rmtree(SITE_DIR)
+        try:
+            shutil.rmtree(SITE_DIR)
+        except OSError as exc:
+            print(f"warning: could not wipe {SITE_DIR}/ ({exc}); rebuilding over it", file=sys.stderr)
 
 
 def write(path: str, content: str) -> None:
@@ -265,6 +272,11 @@ def main(argv: list[str]) -> int:
         print("WARNING: base_url in .ilang/site.ilang is not a real URL — "
               "canonical/sitemap/robots will use root-relative paths until it is set.", file=sys.stderr)
     root = (base + "/") if has_base else "/"
+    # Internal hrefs follow the same host-agnostic form as canonical when
+    # canonical_relative is set: a rotated public hostname must not break
+    # navigation. Social/OG URLs use url_for() and stay absolute.
+    if conf.get("canonical_relative", "false").lower() == "true":
+        root = "/"
     now = datetime.now(timezone.utc)
     month = now.strftime("%B %Y")
     updated_at = data["meta"].get("generated_at", now.replace(microsecond=0).isoformat())
@@ -330,6 +342,7 @@ def main(argv: list[str]) -> int:
             description=esc(description),
             canonical=esc(page_url(path)),
             og_url=esc(url_for(path)),
+            og_image=esc(url_for("/og.png")),
             brand=esc(brand),
             tagline=esc(conf.get("tagline", "")),
             root=root,
