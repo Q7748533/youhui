@@ -774,13 +774,18 @@ def retain_previous_on_failure(result: dict, previous: dict | None) -> dict:
     An unreachable source is not evidence that its previous prices vanished.
     Preserve the records but mark them stale so generated pages can be honest.
     A successful no-price result is intentionally not preserved.
+
+    robots_disallow is handled the same way: official robots.txt can flip
+    briefly during staging/rollouts, and the records were obtained while the
+    path was allowed. The no-fetch rule still applies — we only stop fetching,
+    we never bypass robots.
     """
-    if result.get("status") != "unreachable" or not previous or not previous.get("offers"):
+    if result.get("status") not in ("unreachable", "robots_disallow") or not previous or not previous.get("offers"):
         return result
     result = dict(result)
     result["offers"] = [{**offer, "stale": True} for offer in previous["offers"]]
     result["status"] = "stale"
-    detail = result.get("note") or "latest fetch failed"
+    detail = result.get("note") or "latest fetch blocked"
     result["note"] = f"{detail}; retained {len(result['offers'])} previously verified record(s) until the source is reachable again."
     return result
 
