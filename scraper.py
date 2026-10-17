@@ -104,6 +104,192 @@ SPECIAL_PLAN_UNITS = {
 }
 
 
+# ---------------------------------------------------------------- dedicated parsers
+# Pages whose static structure confuses the generic heuristic (marketing
+# headlines near prices, calculators, usage-based tables) get a URL-keyed
+# parser. A dedicated parser only emits rows it can bind to a named plan and
+# an explicit billing basis; when the page markup changes and the patterns
+# stop matching, it returns rows=[] and the safe "no verified price" path
+# applies instead of a wrong binding.
+
+def _flat_text(html: str) -> str:
+    return re.sub(r"\s+", " ", _clean_text(SCRIPT_RE.sub(" ", html)))
+
+
+def _dedicated_row(plan: str, price: float, currency: str, page_url: str,
+                   unit: str, method: str) -> dict:
+    return {
+        "plan": plan,
+        "price": price,
+        "currency": currency,
+        "offer_url": page_url,
+        "valid_until": None,
+        "pricing_unit": unit,
+        "method": method,
+    }
+
+
+def from_bunny(html: str, page_url: str, default_currency: str) -> list[dict]:
+    flat = _flat_text(html)
+    out = []
+    edge_at = flat.find("Edge tier SSD")
+    standard_part = flat[:edge_at] if edge_at >= 0 else flat
+    edge_part = flat[edge_at:] if edge_at >= 0 else ""
+    for m in re.finditer(r"(Single region|Two regions|Three regions)\s+\$([\d.]+)/GB", standard_part):
+        got = parse_money(f"${m.group(2)}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                f"Standard tier HDD ({m.group(1).lower()})", got[0], got[1],
+                page_url, "month/gb", "dedicated"))
+    if edge_part:
+        m = re.search(r"Single region\s+\$([\d.]+)/GB", edge_part)
+        if m:
+            got = parse_money(f"${m.group(1)}", default_currency)
+            if got:
+                out.append(_dedicated_row(
+                    "Edge tier SSD (single region)", got[0], got[1],
+                    page_url, "month/gb", "dedicated"))
+    return out
+
+
+def from_r2(html: str, page_url: str, default_currency: str) -> list[dict]:
+    flat = _flat_text(html)
+    out = []
+    # The R2 table is column-per-plan but row-major when flattened:
+    # "Storage $X / GB-month $Y / GB-month" = Standard then Infrequent Access.
+    m = re.search(r"Storage\s+\$([\d.]+)\s*/\s*GB-month\s+\$([\d.]+)\s*/\s*GB-month", flat)
+    if m:
+        for name, token in (("Standard storage", m.group(1)),
+                            ("Infrequent Access storage", m.group(2))):
+            got = parse_money(f"${token}", default_currency)
+            if got:
+                out.append(_dedicated_row(name, got[0], got[1],
+                                          page_url, "month/gb", "dedicated"))
+    return out
+
+
+def from_backblaze_b2(html: str, page_url: str, default_currency: str) -> list[dict]:
+    flat = _flat_text(html)
+    out = []
+    # The page is served in two variants: a newer card layout
+    # ("Starts at $ 6.95 / TB / mo") and an older prose copy
+    # ("on-demand cloud storage at $5/TB/month"). Handle both; when neither
+    # pattern is found the safe empty result applies.
+    cards = re.findall(r"Starts at \$\s?([\d.]+)\s*/\s*TB\s*/\s*mo\b", flat)
+    if len(cards) >= 2:
+        for name, token in (("B2 Cloud Storage", cards[0]), ("B2 Overdrive", cards[1])):
+            got = parse_money(f"${token}", default_currency)
+            if got:
+                out.append(_dedicated_row(name, got[0], got[1],
+                                          page_url, "month/tb", "dedicated"))
+        return out
+    m = re.search(r"on-demand cloud storage at \$([\d.]+)\s*/TB/month", flat)
+    if m:
+        got = parse_money(f"${m.group(1)}", default_currency)
+        if got:
+            out.append(_dedicated_row("B2 Cloud Storage", got[0], got[1],
+                                      page_url, "month/tb", "dedicated"))
+    m = re.search(r"Built on top of Backblaze B2, pricing starts at \$([\d.]+) per TB/month", flat)
+    if m:
+        got = parse_money(f"${m.group(1)}", default_currency)
+        if got:
+            out.append(_dedicated_row("B2 Overdrive", got[0], got[1],
+                                      page_url, "month/tb", "dedicated"))
+    return out
+
+
+def from_backblaze_backup(html: str, page_url: str, default_currency: str) -> list[dict]:
+    flat = _flat_text(html)
+    out = []
+    for m in re.finditer(r"(Personal|Business) backup\s+[^\$]{0,30}?\$([\d.]+)\s*/\s*year", flat):
+        got = parse_money(f"${m.group(2)}", default_currency)
+        if got:
+            out.append(_dedicated_row(f"{m.group(1)} backup", got[0], got[1],
+                                      page_url, "year", "dedicated"))
+    return out
+
+
+def from_wasabi(html: str, page_url: str, default_currency: str) -> list[dict]:
+    flat = _flat_text(html)
+    m = re.search(r"Starting at \$?([\d.]+)\s*(?:per\s+TB/month|TB/month)", flat)
+    if not m:
+        return []
+    got = parse_money(f"${m.group(1)}", default_currency)
+    if not got:
+        return []
+    return [_dedicated_row("Pay as you go", got[0], got[1], page_url, "month/tb", "dedicated")]
+
+
+def from_idrive_e2(html: str, page_url: str, default_currency: str) -> list[dict]:
+    flat = _flat_text(html)
+    matches = list(re.finditer(r"Starts at \$([\d.]+)\s*/\s*year", flat))
+    if not matches:
+        return []
+    veeam_at = flat.find("For Veeam Users")
+    out = []
+    standard = next((m for m in matches if veeam_at < 0 or m.start() < veeam_at), None)
+    if standard:
+        got = parse_money(f"${standard.group(1)}", default_currency)
+        if got:
+            out.append(_dedicated_row("1 TB", got[0], got[1], page_url, "year/tb", "dedicated"))
+    veeam = next((m for m in matches if veeam_at >= 0 and m.start() > veeam_at), None)
+    if veeam:
+        got = parse_money(f"${veeam.group(1)}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                "1 TB (Veeam/MSP/Resellers)", got[0], got[1], page_url, "year/tb", "dedicated"))
+    return out
+
+
+def from_dropbox(html: str, page_url: str, default_currency: str) -> list[dict]:
+    flat = _flat_text(html)
+    m = re.search(
+        r"Price\s+\$([\d.]+)\s*/\s*month\s+\$([\d.]+)\s*/\s*user\s*/\s*month"
+        r"\s+\$([\d.]+)\s*/\s*user\s*/\s*month", flat)
+    if not m:
+        return []
+    plans = (("Plus", m.group(1), "month"),
+             ("Standard", m.group(2), "month/user"),
+             ("Advanced", m.group(3), "month/user"))
+    out = []
+    for name, token, unit in plans:
+        got = parse_money(f"${token}", default_currency)
+        if got:
+            out.append(_dedicated_row(name, got[0], got[1], page_url, unit, "dedicated"))
+    return out
+
+
+def from_jottacloud(html: str, page_url: str, default_currency: str) -> list[dict]:
+    flat = _flat_text(html)
+    out = []
+    # The pricing page serves currency variants (NOK/USD/EUR) with one stable
+    # structure: "<plan> <CUR> X / month <CUR> Y / year". Both billing options
+    # are current published prices, so each becomes its own record.
+    cur = r"(?:NOK|USD|EUR)"
+    pattern = re.compile(
+        rf"((?:Unlimited\*?|Home \d+ TB|Pro \d+ TB|Business [A-Z][a-z]+))\s+"
+        rf"({cur})\s?([\d.]+)\s*/\s*month\s+({cur})\s?([\d.]+)\s*/\s*year")
+    for m in pattern.finditer(flat):
+        plan = m.group(1).rstrip("*").strip()
+        for token, unit, cur_group in ((m.group(3), "month", 2), (m.group(5), "year", 4)):
+            got = parse_money(f"{m.group(cur_group)} {token}", default_currency)
+            if got:
+                out.append(_dedicated_row(plan, got[0], got[1], page_url, unit, "dedicated"))
+    return out
+
+
+DEDICATED_PARSERS = {
+    "https://bunny.net/storage": from_bunny,
+    "https://developers.cloudflare.com/r2/pricing": from_r2,
+    "https://www.backblaze.com/cloud-storage/pricing": from_backblaze_b2,
+    "https://www.backblaze.com/backup-pricing.html": from_backblaze_backup,
+    "https://wasabi.com/pricing": from_wasabi,
+    "https://www.idrive.com/e2": from_idrive_e2,
+    "https://www.dropbox.com/plans": from_dropbox,
+    "https://www.jottacloud.com/en/pricing": from_jottacloud,
+}
+
+
 # ---------------------------------------------------------------- http
 
 def _decode(raw: bytes, encoding: str) -> str:
@@ -175,7 +361,7 @@ def parse_money(token: str, default_currency: str) -> tuple[float, str] | None:
             currency = code
             raw = raw.replace(sym, "")
             break
-    for code in ("USD", "EUR", "GBP", "JPY"):
+    for code in ("USD", "EUR", "GBP", "JPY", "NOK", "SEK", "DKK", "CHF", "CAD", "AUD"):
         if code in raw:
             currency = code
             raw = raw.replace(code, "")
@@ -193,7 +379,9 @@ def parse_money(token: str, default_currency: str) -> tuple[float, str] | None:
         return None
     if not (0 < value < 20000):
         return None
-    return round(value, 2), currency or default_currency
+    # Four decimals keep per-GB unit prices ($0.015/GB-month) exact; normal
+    # prices are unaffected.
+    return round(value, 4), currency or default_currency
 
 
 def normalize_pricing_unit(value: str) -> str:
@@ -520,10 +708,21 @@ def scrape_provider(provider: dict, default_currency: str) -> dict:
         return result
 
     fetched_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    rows = from_jsonld(html, provider["source"], default_currency)
+    rows = list(from_jsonld(html, provider["source"], default_currency))
     if provider["slug"] == "idrive":
         rows += from_idrive_addons(html, provider["source"], default_currency)
-    rows += from_heuristics(html, provider["source"], default_currency)
+    dedicated_fn = DEDICATED_PARSERS.get(provider["source"].rstrip("/"))
+    if dedicated_fn is not None:
+        dedicated_rows = dedicated_fn(html, provider["source"], default_currency)
+        if dedicated_rows:
+            # A dedicated parser only matches named plans with explicit
+            # billing bases, so its rows replace whatever noise the generic
+            # heuristic would pair on this page.
+            rows = dedicated_rows
+        else:
+            rows += from_heuristics(html, provider["source"], default_currency)
+    else:
+        rows += from_heuristics(html, provider["source"], default_currency)
 
     offers = []
     used_ids = set()

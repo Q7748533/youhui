@@ -33,7 +33,11 @@ def esc(value) -> str:
 
 def money(amount, currency: str) -> str:
     symbol = SYMBOLS.get(currency, currency + " ")
-    return f"{symbol}{amount:,.2f}"
+    # Whole-cent amounts keep the familiar two decimals; per-GB style unit
+    # prices like $0.015 must not be rounded into a wrong price.
+    if abs(amount * 100 - round(amount * 100)) < 1e-9:
+        return f"{symbol}{amount:,.2f}"
+    return f"{symbol}{amount:,.4f}".rstrip("0").rstrip(".")
 
 
 def display_time(value) -> str:

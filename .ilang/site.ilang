@@ -27,6 +27,13 @@ ILANG
   Zoolz | https://www.zoolz.com | https://www.zoolz.com/pricing/ |
   Storj | https://storj.io | https://storj.io/pricing |
   Proton Drive | https://proton.me | https://proton.me/drive/pricing |
+  Backblaze | https://www.backblaze.com | https://www.backblaze.com/cloud-storage/pricing |
+  Backblaze Computer Backup | https://www.backblaze.com | https://www.backblaze.com/backup-pricing.html |
+  Wasabi | https://wasabi.com | https://wasabi.com/pricing/ |
+  Cloudflare R2 | https://developers.cloudflare.com | https://developers.cloudflare.com/r2/pricing/ |
+  Bunny Storage | https://bunny.net | https://bunny.net/storage/ |
+  Dropbox | https://www.dropbox.com | https://www.dropbox.com/plans |
+  IDrive e2 | https://www.idrive.com | https://www.idrive.com/e2/ |
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
   title price currency pricing_unit offer_url valid_until source_url fetched_at
