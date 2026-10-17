@@ -1,0 +1,13 @@
+// Static-asset serving configuration for the Cloudflare Worker that serves
+// this site. `not_found_handling: "404-page"` makes Workers serve the nearest
+// 404.html (site/404.html) with a real 404 status instead of an empty body.
+// Requires the deploy command to run from the repo root: npx wrangler deploy
+{
+	"name": "cloud-storage-deals",
+	"compatibility_date": "2026-10-17",
+	"assets": {
+		"directory": "./site",
+		"not_found_handling": "404-page",
+		"html_handling": "auto-trailing-slash"
+	}
+}

@@ -130,6 +130,18 @@ def pricing_basis_label(value: str) -> str:
                               for part in value.split("/"))
 
 
+_NUM_WORDS = {"single": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6"}
+
+
+def compact_title(title: str) -> str:
+    """Shorten a plan label for <title> without changing its meaning.
+    Mechanical number-word compaction only: "three regions" -> "3 regions".
+    Nothing else in the label is altered, so it stays the source's own words."""
+    for word, digit in _NUM_WORDS.items():
+        title = re.sub(rf"\b{word} (regions?)\b", rf"{digit} \1", title)
+    return title
+
+
 def observed_family(plan: str) -> str:
     """Classify only vocabulary visible in an official plan label."""
     low = plan.lower()
@@ -279,6 +291,8 @@ def main(argv: list[str]) -> int:
         root = "/"
     now = datetime.now(timezone.utc)
     month = now.strftime("%B %Y")
+    # Short month form keeps long plan labels under the ~65-character SERP cut.
+    month_short = now.strftime("%b %Y")
     updated_at = data["meta"].get("generated_at", now.replace(microsecond=0).isoformat())
     updated_at_display = display_time(updated_at)
 
@@ -307,7 +321,10 @@ def main(argv: list[str]) -> int:
     def page_url(path: str) -> str:
         return path if conf.get("canonical_relative", "false").lower() == "true" else url_for(path)
 
-    def page(title: str, description: str, path: str, body: str, extra_ld=None) -> str:
+    def page(title: str, description: str, path: str, body: str, extra_ld=None, noindex: bool = False) -> str:
+        # Thin pages that carry no verifiable price stay crawlable for link
+        # flow but ask not to be indexed until they have real content.
+        robots_meta = '<meta name="robots" content="noindex,follow">' if noindex else ""
         graph = [
             {
                 "@type": "Organization",
@@ -343,6 +360,7 @@ def main(argv: list[str]) -> int:
             canonical=esc(page_url(path)),
             og_url=esc(url_for(path)),
             og_image=esc(url_for("/og.png")),
+            robots_meta=robots_meta,
             brand=esc(brand),
             tagline=esc(conf.get("tagline", "")),
             root=root,
@@ -442,6 +460,10 @@ def main(argv: list[str]) -> int:
     urls.append("/providers/")
 
     for p in providers:
+        # Providers with no verifiable price produce near-duplicate thin
+        # pages. Keep them crawlable for link flow but out of the index and
+        # the sitemap until real price data shows up on the official page.
+        indexable = bool(p["offers"])
         if p["offers"]:
             block = "<table><thead><tr><th>Plan</th><th>Price</th><th>Billing basis</th><th>Page</th></tr></thead><tbody>"
             for o in p["offers"]:
@@ -462,6 +484,27 @@ def main(argv: list[str]) -> int:
         groups: dict[tuple[str, str], list[dict]] = {}
         for offer in priced_offers:
             groups.setdefault((offer["currency"], pricing_basis(offer)), []).append(offer)
+
+        # Data-driven meta description: lead with the verified range and the
+        # billing basis instead of a generic plan-count sentence.
+        if priced_offers and len(groups) == 1:
+            (currency, basis), group = next(iter(groups.items()))
+            low = money(min(o["price"] for o in group), currency)
+            high = money(max(o["price"] for o in group), currency)
+            range_text = low if low == high else f"{low} to {high}"
+            provider_description = (f'{p["name"]}: {len(priced_offers)} verified plan(s) from {range_text} '
+                                    f'{pricing_basis_label(basis)}, read from the official pricing page.')
+        elif priced_offers:
+            bases = ", ".join(pricing_basis_label(b) for _, b in sorted(groups))
+            provider_description = (f'{p["name"]}: {len(priced_offers)} verified plan(s) across {len(groups)} '
+                                    f'billing bases ({bases}). Read from the official pricing page.')
+        elif p.get("status") == "stale" and p["offers"]:
+            provider_description = (f'{p["name"]}: {len(p["offers"])} previously verified plan(s) kept for reference; '
+                                    "the latest fetch of the official page was unavailable.")
+        else:
+            provider_description = (f'{p["name"]} official {niche} pricing page, tracked by {brand}. '
+                                    "No current public price could be verified.")
+
         if p.get("status") == "stale":
             comparison_summary = (f'Latest fetch unavailable. {len(p["offers"])} previously verified plan(s) are retained '
                                   "for reference and are not treated as current prices or ranked.")
@@ -517,11 +560,12 @@ def main(argv: list[str]) -> int:
             note=esc(p.get("note", "")),
         )
         write(f'providers/{p["slug"]}/index.html', page(
-            f"{p['name']} {niche} plans and prices — {month}",
-            f'{p["name"]}: {len(p["offers"])} plan(s) verified from the official pricing page. {p.get("note", "")}',
-            f'/providers/{p["slug"]}/', body, product,
+            f"{p['name']} {niche} plans — {month}",
+            provider_description,
+            f'/providers/{p["slug"]}/', body, product, noindex=not indexable,
         ))
-        urls.append(f'/providers/{p["slug"]}/')
+        if indexable:
+            urls.append(f'/providers/{p["slug"]}/')
 
     # ------------------------------------------------------------ deals
     for o in offers:
@@ -576,6 +620,19 @@ def main(argv: list[str]) -> int:
         else:
             deal_description = (f'{o["title"]}: no current public price could be verified on the '
                                 f'official {o["provider"]} pricing page. Missing prices stay missing.')
+        interval = conf.get("refresh_human", "6 hours")
+        if not interval.lower().startswith("every"):
+            interval = "every " + interval
+        methodology_block = (
+            '<h2>How this price was verified</h2>'
+            f'<div class="card"><p class="lede" style="margin:0">This figure was read from the official public '
+            f'{esc(o["provider"])} pricing page (<a href="{esc(o["source_url"])}" rel="nofollow noopener" target="_blank">source</a>) '
+            f'on {esc(display_time(o["fetched_at"]))}. This site re-checks every official source '
+            f'{esc(interval)}. Prices are never estimated, averaged, or carried over '
+            "from an earlier run: when a source is unavailable or a price disappears, the value is left out or marked stale "
+            "and excluded from comparisons. The billing basis is reproduced exactly as the source page states it, and only "
+            "plans sharing the same provider, currency, and billing basis are ever compared with each other.</p></div>"
+        )
         body = read_template("deal.html").safe_substitute(
             breadcrumb=(f'<a href="{root}">{esc(brand)}</a> / '
                         f'<a href="{root}providers/{esc(o["provider_slug"])}/">{esc(o["provider"])}</a> / {esc(o["plan"])}'),
@@ -596,10 +653,11 @@ def main(argv: list[str]) -> int:
             fetched_at=esc(display_time(o["fetched_at"])),
             comparison_summary=esc(comparison_summary),
             other_plans_block=other_plans_block,
+            methodology_block=methodology_block,
             note=esc("This page carries only what the source page published. Missing fields are missing on purpose."),
         )
         write(f'deals/{o["id"]}/index.html', page(
-            f'{o["title"]} — {price_display} ({month})',
+            f'{compact_title(o["title"])} — {price_display} ({month_short})',
             deal_description,
             f'/deals/{o["id"]}/', body, offer_node(o, page_url(f'/deals/{o["id"]}/')),
         ))
@@ -692,6 +750,21 @@ def main(argv: list[str]) -> int:
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + locs + "\n</urlset>\n")
     write("robots.txt",
           "User-agent: *\nAllow: /\n\nSitemap: " + url_for("/sitemap.xml") + "\n")
+    # Served by Workers static assets (the file itself is never published).
+    # The detach rule ("! Cache-Control") stops the images from inheriting the
+    # HTML cache policy — duplicated values would be comma-joined by Workers.
+    write("_headers",
+          "/*\n"
+          "  X-Content-Type-Options: nosniff\n"
+          "  Referrer-Policy: strict-origin-when-cross-origin\n"
+          "  Strict-Transport-Security: max-age=31536000; includeSubDomains\n"
+          "  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400\n"
+          "/favicon.png\n"
+          "  ! Cache-Control\n"
+          "  Cache-Control: public, max-age=31536000, immutable\n"
+          "/og.png\n"
+          "  ! Cache-Control\n"
+          "  Cache-Control: public, max-age=31536000, immutable\n")
     write_og_image("og.png")
     write_favicon("favicon.png")
 
