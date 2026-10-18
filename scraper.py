@@ -278,6 +278,43 @@ def from_jottacloud(html: str, page_url: str, default_currency: str) -> list[dic
     return out
 
 
+def from_zoolz(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """Zoolz pricing cards (WordPress/ElementsKit markup).
+
+    Only Monthly cards are recorded. The same page ships two conflicting sets
+    of Yearly figures — static markup says one thing while an inline script
+    rewrites every ``.yearly-plan`` wrapper with a different array at load —
+    so Yearly cannot be verified as a current price and is skipped. The
+    stale ``og:description`` mentions yet another Monthly figure; it is a
+    cached summary, not the rendered card, and is not trusted.
+    """
+    out = []
+    price_re = re.compile(
+        r'elementskit-pricing-price">\s*'
+        r'<sup[^>]*>\s*\$\s*</sup>\s*'
+        r'<span>\s*([\d,]+(?:\.\d+)?)\s*</span>\s*'
+        r'<sub[^>]*>\s*(Monthly|Yearly)\s*</sub>', re.S | re.I)
+    title_re = re.compile(r'>\s*([^<]{3,80}?)\s*<')
+    for m in price_re.finditer(html):
+        period = m.group(2)
+        if period.lower() != "monthly":
+            continue
+        i = html.rfind("elementskit-pricing-title", 0, m.start())
+        if i < 0:
+            continue
+        tm = title_re.search(html[i:i + 300])
+        title = tm.group(1).strip() if tm else ""
+        if not title:
+            continue
+        # Normalize spacing so the same plan repeated across page sections
+        # ("24TB" vs "24 TB") collapses to one dedupe key.
+        title = re.sub(r"(\d)\s*(TB|GB)\b", r"\1 \2", title, flags=re.I)
+        got = parse_money(f"${m.group(1).replace(',', '')}", default_currency)
+        if got:
+            out.append(_dedicated_row(title, got[0], got[1], page_url, "month", "dedicated"))
+    return out
+
+
 DEDICATED_PARSERS = {
     "https://bunny.net/storage": from_bunny,
     "https://developers.cloudflare.com/r2/pricing": from_r2,
@@ -287,6 +324,7 @@ DEDICATED_PARSERS = {
     "https://www.idrive.com/e2": from_idrive_e2,
     "https://www.dropbox.com/plans": from_dropbox,
     "https://www.jottacloud.com/en/pricing": from_jottacloud,
+    "https://www.zoolz.com/pricing": from_zoolz,
 }
 
 

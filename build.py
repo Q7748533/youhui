@@ -372,12 +372,16 @@ def main(argv: list[str]) -> int:
     urls: list[str] = []
 
     # ------------------------------------------------------------ index
+    # Providers with a verifiable price get the main grid; providers whose
+    # official page publishes no price move to a small "also tracked" line so
+    # the homepage never shows a deal card without a deal in it.
     cards = []
+    unpriced = []
     for p in providers:
         badge = {"ok": "ok", "stale": "warn", "no_price": "warn", "unreachable": "bad", "robots_disallow": "warn"}.get(p["status"], "warn")
         label = {"ok": f'{len(p["offers"])} plans', "stale": f'{len(p["offers"])} stale plans', "no_price": "no verified price",
                  "unreachable": "source unavailable", "robots_disallow": "robots disallow"}.get(p["status"], p["status"])
-        cards.append(
+        card = (
             f'<article class="card"><div class="card-top"><span class="provider">{esc(p["name"])}</span>'
             f'<span class="tag {badge}">{esc(label)}</span></div>'
             f'<div class="plan">Official pricing source</div>'
@@ -385,6 +389,19 @@ def main(argv: list[str]) -> int:
             f'<div class="card-actions"><a href="{root}providers/{esc(p["slug"])}/">View provider</a>'
             f'<a href="{esc(p["site"])}" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>'
         )
+        if p["offers"]:
+            cards.append(card)
+        else:
+            unpriced.append(p)
+    if unpriced:
+        tracked_links = ", ".join(
+            f'<a href="{root}providers/{esc(p["slug"])}/">{esc(p["name"])}</a>' for p in unpriced)
+        also_tracked = (
+            f'<p class="note" style="margin-top:16px">Also tracked, no verifiable public price right now: {tracked_links}. '
+            "Their official pages are still checked on every refresh; a price shows up here the day one is published.</p>"
+        )
+    else:
+        also_tracked = ""
 
     offer_cards = []
     for o in sorted(live_offers, key=lambda item: (item.get("price") is None, item.get("price") or 0, item["provider"]))[:12]:
@@ -417,6 +434,7 @@ def main(argv: list[str]) -> int:
         updated_at=esc(updated_at_display),
         cron_note=esc(conf.get("refresh_human", "6 hours")),
         provider_cards="\n".join(cards),
+        also_tracked=also_tracked,
         offer_cards="\n".join(offer_cards),
         root=root,
     )
@@ -663,6 +681,65 @@ def main(argv: list[str]) -> int:
         ))
         urls.append(f'/deals/{o["id"]}/')
 
+    # ------------------------------------------------------------ billing bases
+    # One aggregation page per billing basis actually present in the data.
+    # Within a page, prices are grouped by currency so every table stays
+    # directly comparable; different bases are never mixed into one ranking.
+    # Runs before the compare page so the compare template can link to them.
+    niche_nice = niche.replace("-", " ").title()
+    basis_offers: dict[str, list[dict]] = {}
+    for o in live_offers:
+        if o.get("price") is None:
+            continue
+        b = pricing_basis(o)
+        if b != "unknown":
+            basis_offers.setdefault(b, []).append(o)
+    basis_link_items = []
+    for b in sorted(basis_offers):
+        group = basis_offers[b]
+        slug = b.replace("/", "-")
+        label = pricing_basis_label(b)
+        sections = []
+        for cur in sorted({o["currency"] for o in group}):
+            rows = sorted([o for o in group if o["currency"] == cur], key=lambda o: o["price"])
+            low = money(rows[0]["price"], cur)
+            high = money(rows[-1]["price"], cur)
+            range_note = low if low == high else f"{low} to {high}"
+            trs = "".join(
+                f'<tr><td><a href="{root}providers/{esc(o["provider_slug"])}/">{esc(o["provider"])}</a></td>'
+                f'<td><a href="{root}deals/{esc(o["id"])}/">{esc(o["plan"])}</a></td>'
+                f'<td>{esc(money(o["price"], o["currency"]))}</td>'
+                f'<td><a href="{esc(o["source_url"])}" rel="nofollow noopener" target="_blank">source</a></td></tr>'
+                for o in rows)
+            sections.append(
+                f'<h3>{esc(cur)} prices</h3>'
+                f'<p class="note">{len(rows)} verified plan(s), {esc(range_note)} {esc(label)}.</p>'
+                f'<table><thead><tr><th>Provider</th><th>Plan</th><th>Price</th><th>Page</th></tr></thead>'
+                f'<tbody>{trs}</tbody></table>')
+        basis_body = (
+            f'<div class="crumbs"><a href="{root}">{esc(brand)}</a> / Billing basis</div>'
+            f'<div class="hero" style="padding-top:8px"><div><div class="eyebrow">Billing basis</div>'
+            f'<h1>{esc(f"{niche_nice} prices {label}")}</h1>'
+            f'<p class="lede">{esc(f"{len(group)} verified plan(s) are billed {label}. Every figure below was read from an official public pricing page.")}</p></div></div>'
+            + "".join(sections)
+            + f'<p class="note" style="margin-top:18px">Plans that share a billing basis and a currency are directly comparable. '
+              f'A plan billed {esc(label)} and a flat subscription are different products and are never ranked together. '
+              "Missing prices stay missing.</p>"
+        )
+        item_list = {"@type": "ItemList", "name": f"{niche_nice} plans billed {label}",
+                     "itemListElement": [{"@type": "ListItem", "position": i + 1,
+                                          "name": f'{o["provider"]} {o["plan"]}',
+                                          "url": page_url(f'/deals/{o["id"]}/')} for i, o in enumerate(group)]}
+        basis_description = (f"{len(group)} verified {niche.replace('-', ' ')} plan(s) billed {label}, "
+                             "grouped by currency so every figure stays comparable. Read from official pricing pages.")
+        write(f"basis/{slug}/index.html", page(
+            f"{niche_nice} prices {label} — {month}",
+            basis_description,
+            f"/basis/{slug}/", basis_body, item_list,
+        ))
+        urls.append(f"/basis/{slug}/")
+        basis_link_items.append((slug, label, len(group)))
+
     # ------------------------------------------------------------ compare
     trows = []
     for p in sorted(providers, key=lambda x: (x["status"] != "ok", x["name"].lower())):
@@ -681,12 +758,23 @@ def main(argv: list[str]) -> int:
             f'<td><span class="tag {"ok" if p["status"] == "ok" else "warn"}">{esc(p["status"])}</span></td>'
             f'<td><a href="{esc(p["source"])}" rel="nofollow noopener" target="_blank">source</a></td></tr>'
         )
+    if basis_link_items:
+        basis_links_html = (
+            '<h2>Browse by billing basis</h2>'
+            '<div class="actions">'
+            + "".join(f'<a class="btn btn-secondary" href="{root}basis/{slug}/">{esc(label)} ({n} plan{"s" if n != 1 else ""})</a>'
+                      for slug, label, n in basis_link_items)
+            + "</div>"
+        )
+    else:
+        basis_links_html = ""
     cbody = read_template("compare.html").safe_substitute(
         breadcrumb=f'<a href="{root}">{esc(brand)}</a> / Compare',
         headline=esc(f"Compare {niche} providers — {month}"),
         lede=esc(f"Lowest listed price per provider, with its billing basis shown separately. Values come from official public pricing pages on {updated_at[:10]}."),
         table_rows="\n".join(trows),
         note=esc("The lowest listed values use different currencies, periods, and billing scopes across providers; they are not a normalized recommendation. Empty cells mean no public price was verified."),
+        basis_links=basis_links_html,
     )
     write("compare/index.html", page(
         f"Compare {niche} providers — {month}",
