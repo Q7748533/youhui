@@ -726,6 +726,10 @@ def main(argv: list[str]) -> int:
               f'A plan billed {esc(label)} and a flat subscription are different products and are never ranked together. '
               "Missing prices stay missing.</p>"
         )
+        # Same thin-page policy as provider pages: a basis page with fewer
+        # than 3 verified plans is not worth indexing yet; it recovers
+        # automatically once more providers land on the same billing basis.
+        basis_indexable = len(group) >= 3
         item_list = {"@type": "ItemList", "name": f"{niche_nice} plans billed {label}",
                      "itemListElement": [{"@type": "ListItem", "position": i + 1,
                                           "name": f'{o["provider"]} {o["plan"]}',
@@ -735,9 +739,10 @@ def main(argv: list[str]) -> int:
         write(f"basis/{slug}/index.html", page(
             f"{niche_nice} prices {label} — {month}",
             basis_description,
-            f"/basis/{slug}/", basis_body, item_list,
+            f"/basis/{slug}/", basis_body, item_list, noindex=not basis_indexable,
         ))
-        urls.append(f"/basis/{slug}/")
+        if basis_indexable:
+            urls.append(f"/basis/{slug}/")
         basis_link_items.append((slug, label, len(group)))
 
     # ------------------------------------------------------------ compare
