@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   refresh:
@@ -20,6 +21,11 @@ jobs:
 
       - name: Scrape official pricing pages
         run: python scraper.py
+
+      - name: Alert on parser health drops
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python ci_alert.py
 
       - name: Rebuild static site
         run: python build.py

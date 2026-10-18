@@ -1,0 +1,212 @@
+{
+  "generated_at": "2026-10-18T15:29:02+00:00",
+  "providers": [
+    {
+      "slug": "pcloud",
+      "name": "pCloud",
+      "status": "no_price",
+      "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "priced_offers_before": 0,
+      "priced_offers_now": 0,
+      "alert": false
+    },
+    {
+      "slug": "icedrive",
+      "name": "Icedrive",
+      "status": "no_price",
+      "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "priced_offers_before": 0,
+      "priced_offers_now": 0,
+      "alert": false
+    },
+    {
+      "slug": "internxt",
+      "name": "Internxt",
+      "status": "no_price",
+      "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "priced_offers_before": 0,
+      "priced_offers_now": 0,
+      "alert": false
+    },
+    {
+      "slug": "filen",
+      "name": "Filen",
+      "status": "no_price",
+      "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "priced_offers_before": 0,
+      "priced_offers_now": 0,
+      "alert": false
+    },
+    {
+      "slug": "koofr",
+      "name": "Koofr",
+      "status": "no_price",
+      "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "priced_offers_before": 0,
+      "priced_offers_now": 0,
+      "alert": false
+    },
+    {
+      "slug": "sync-com",
+      "name": "Sync.com",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 3,
+      "priced_offers_now": 3,
+      "alert": false
+    },
+    {
+      "slug": "tresorit",
+      "name": "Tresorit",
+      "status": "no_price",
+      "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "priced_offers_before": 0,
+      "priced_offers_now": 0,
+      "alert": false
+    },
+    {
+      "slug": "idrive",
+      "name": "IDrive",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 6,
+      "priced_offers_now": 6,
+      "alert": false
+    },
+    {
+      "slug": "jottacloud",
+      "name": "Jottacloud",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 20,
+      "priced_offers_now": 20,
+      "alert": false
+    },
+    {
+      "slug": "zoolz",
+      "name": "Zoolz",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 5,
+      "priced_offers_now": 5,
+      "alert": false
+    },
+    {
+      "slug": "storj",
+      "name": "Storj",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 4,
+      "priced_offers_now": 4,
+      "alert": false
+    },
+    {
+      "slug": "proton-drive",
+      "name": "Proton Drive",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 5,
+      "priced_offers_now": 5,
+      "alert": false
+    },
+    {
+      "slug": "backblaze",
+      "name": "Backblaze",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 2,
+      "priced_offers_now": 2,
+      "alert": false
+    },
+    {
+      "slug": "backblaze-computer-backup",
+      "name": "Backblaze Computer Backup",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 2,
+      "priced_offers_now": 2,
+      "alert": false
+    },
+    {
+      "slug": "wasabi",
+      "name": "Wasabi",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 1,
+      "priced_offers_now": 1,
+      "alert": false
+    },
+    {
+      "slug": "cloudflare-r2",
+      "name": "Cloudflare R2",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 2,
+      "priced_offers_now": 2,
+      "alert": false
+    },
+    {
+      "slug": "bunny-storage",
+      "name": "Bunny Storage",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 4,
+      "priced_offers_now": 4,
+      "alert": false
+    },
+    {
+      "slug": "dropbox",
+      "name": "Dropbox",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 3,
+      "priced_offers_now": 3,
+      "alert": false
+    },
+    {
+      "slug": "idrive-e2",
+      "name": "IDrive e2",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 2,
+      "priced_offers_now": 2,
+      "alert": false
+    },
+    {
+      "slug": "apple-icloud",
+      "name": "Apple iCloud",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 5,
+      "priced_offers_now": 5,
+      "alert": false
+    },
+    {
+      "slug": "crashplan",
+      "name": "CrashPlan",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 4,
+      "priced_offers_now": 4,
+      "alert": false
+    },
+    {
+      "slug": "mediafire",
+      "name": "MediaFire",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 3,
+      "priced_offers_now": 3,
+      "alert": false
+    },
+    {
+      "slug": "aws-s3",
+      "name": "AWS S3",
+      "status": "ok",
+      "note": "",
+      "priced_offers_before": 4,
+      "priced_offers_now": 4,
+      "alert": false
+    }
+  ]
+}

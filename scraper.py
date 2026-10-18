@@ -403,6 +403,75 @@ def from_mediafire(html: str, page_url: str, default_currency: str) -> list[dict
     return out
 
 
+AWS_REGION = "us-east-1"
+AWS_CLASSES = (
+    # usage type (exact), volume type (exact), plan label
+    ("TimedStorage-ByteHrs", "Standard", "S3 Standard"),
+    ("TimedStorage-SIA-ByteHrs", "Standard - Infrequent Access", "S3 Standard-IA"),
+    ("TimedStorage-GIR-ByteHrs", "Glacier Instant Retrieval", "S3 Glacier Instant Retrieval"),
+    ("TimedStorage-GlacierByteHrs", "Amazon Glacier", "S3 Glacier Flexible Retrieval"),
+)
+
+
+def from_aws_s3(index_text: str, page_url: str, default_currency: str) -> list[dict]:
+    """AWS S3 prices from the official Price List bulk JSON (no scraping).
+
+    The provider source is the region index document; this parser resolves
+    the current us-east-1 offer file, then takes the first-tier (lowest
+    beginRange) on-demand GB-Month price for four general-purpose storage
+    classes. Tiered classes spell the tier out in the plan name, mirroring
+    the headline figure on aws.amazon.com. Any structural surprise yields
+    an empty result, never a guessed price.
+    """
+    try:
+        index = json.loads(index_text)
+        current = index["regions"][AWS_REGION]["currentVersionUrl"]
+    except (KeyError, TypeError, ValueError):
+        return []
+    if not isinstance(current, str) or not current.startswith("/offers/"):
+        return []
+    try:
+        status, body = fetch("https://pricing.us-east-1.amazonaws.com" + current)
+        if status != 200:
+            return []
+        offer = json.loads(body)
+    except (RuntimeError, ValueError):
+        return []
+
+    wanted = {usage: (vtype, label) for usage, vtype, label in AWS_CLASSES}
+    out = []
+    for sku, product in offer.get("products", {}).items():
+        attrs = product.get("attributes", {})
+        if product.get("productFamily") != "Storage" or attrs.get("regionCode") != AWS_REGION:
+            continue
+        hit = wanted.get(attrs.get("usagetype", ""))
+        if hit is None or attrs.get("volumeType") != hit[0]:
+            continue
+        label = hit[1]
+        dims = []
+        for term in offer.get("terms", {}).get("OnDemand", {}).get(sku, {}).values():
+            for pd in term.get("priceDimensions", {}).values():
+                if pd.get("unit") == "GB-Mo" and "USD" in pd.get("pricePerUnit", {}):
+                    dims.append(pd)
+        if not dims:
+            continue
+        first = min(dims, key=lambda pd: float(pd.get("beginRange") or 0))
+        try:
+            price = float(first["pricePerUnit"]["USD"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if price <= 0:
+            continue
+        end = str(first.get("endRange", "Inf"))
+        if end.lower() != "inf":
+            try:
+                label += f" (first {int(float(end)) // 1024} TB)"
+            except (ValueError, OverflowError):
+                pass
+        out.append(_dedicated_row(label, price, "USD", page_url, "month/gb", "dedicated"))
+    return out
+
+
 DEDICATED_PARSERS = {
     "https://bunny.net/storage": from_bunny,
     "https://developers.cloudflare.com/r2/pricing": from_r2,
@@ -416,6 +485,7 @@ DEDICATED_PARSERS = {
     "https://www.apple.com/icloud": from_icloud,
     "https://www.crashplan.com/pricing": from_crashplan,
     "https://www.mediafire.com/upgrade": from_mediafire,
+    "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/region_index.json": from_aws_s3,
 }
 
 
@@ -964,6 +1034,36 @@ def main(argv: list[str]) -> int:
     os.makedirs(DATA_DIR, exist_ok=True)
     with open(DATA_FILE, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=2, sort_keys=False)
+
+    # Machine-readable health report for CI alerting: a provider whose
+    # verified-price count collapses to zero, or whose fetch failed outright,
+    # usually means an official page changed and the parser no longer matches.
+    def priced(items: list[dict]) -> int:
+        return sum(1 for o in items if o.get("price") is not None and not o.get("stale"))
+
+    report = {
+        "generated_at": payload["meta"]["generated_at"],
+        "providers": [],
+    }
+    for r in results:
+        prev = previous_by_slug.get(r["slug"], {})
+        before = priced(prev.get("offers", []))
+        now = priced(r["offers"])
+        entry = {
+            "slug": r["slug"],
+            "name": r["name"],
+            "status": r["status"],
+            "note": r.get("note", ""),
+            "priced_offers_before": before,
+            "priced_offers_now": now,
+            "alert": (
+                r["status"] in ("unreachable", "robots_disallow")
+                or (before > 0 and now == 0)
+            ),
+        }
+        report["providers"].append(entry)
+    with open(os.path.join(DATA_DIR, "scrape_report.json"), "w", encoding="utf-8") as fh:
+        json.dump(report, fh, ensure_ascii=False, indent=2)
 
     print(f"providers: {payload['meta']['providers_total']}  "
           f"with_price: {payload['meta']['providers_with_price']}  "
