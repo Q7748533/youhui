@@ -34,6 +34,9 @@ ILANG
   Bunny Storage | https://bunny.net | https://bunny.net/storage/ |
   Dropbox | https://www.dropbox.com | https://www.dropbox.com/plans |
   IDrive e2 | https://www.idrive.com | https://www.idrive.com/e2/ |
+  Apple iCloud | https://www.apple.com | https://www.apple.com/icloud/ |
+  CrashPlan | https://www.crashplan.com | https://www.crashplan.com/pricing/ |
+  MediaFire | https://www.mediafire.com | https://www.mediafire.com/upgrade/ |
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
   title price currency pricing_unit offer_url valid_until source_url fetched_at

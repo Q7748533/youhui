@@ -315,6 +315,94 @@ def from_zoolz(html: str, page_url: str, default_currency: str) -> list[dict]:
     return out
 
 
+def from_icloud(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """Apple iCloud+ tiles on apple.com/icloud.
+
+    The page repeats the same five paid tiers in two layouts (a plain
+    "50GB" block and an "iCloud+ 50GB" block). Both are normalized to the
+    "iCloud+ <size>" name so dedupe collapses them. The free tier has no
+    currency amount and is not recorded.
+    """
+    out = []
+    tile_re = re.compile(
+        r'tile-eyebrow[^>]*>\s*([^<]{1,30}?)\s*</h3>\s*'
+        r'<p class="tile-headline[^>]*>\s*(\$[\d.]+)/month\s*</p>')
+    for m in tile_re.finditer(html):
+        name = m.group(1).strip()
+        if not name.lower().startswith("icloud+"):
+            name = "iCloud+ " + name
+        got = parse_money(m.group(2), default_currency)
+        if got:
+            out.append(_dedicated_row(name, got[0], got[1], page_url, "month", "dedicated"))
+    return out
+
+
+def from_crashplan(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """CrashPlan small-business cards, one per page section.
+
+    Every card carries the same family name, so the section comment
+    (ENDPOINTS / SERVERS / MICROSOFT 365 / GOOGLE WORKSPACE) is turned
+    into a distinguishing suffix. The Enterprise card quotes "Custom"
+    and is skipped; prices billed annually are the displayed monthly
+    equivalent and are recorded as such.
+    """
+    out = []
+    labels = {
+        "Endpoints": "Endpoint backup",
+        "Servers": "Server backup",
+        "Microsoft 365": "Microsoft 365",
+        "Google Workspace": "Google Workspace",
+    }
+    card_re = re.compile(
+        r'<h3 class="tt">([^<]{1,50})</h3>.{0,800}?'
+        r'<span class="am">(\$[0-9.]+)</span><span class="pe">([^<]{1,30})</span>', re.S)
+    marks = [(m.start(), m.group(1).strip().title())
+             for m in re.finditer(r'<!-- ([A-Za-z0-9 ]{3,40}) -->', html)]
+    marks.append((len(html), ""))
+    for (s, section), (e, _) in zip(marks, marks[1:]):
+        label = labels.get(section, section)
+        for m in card_re.finditer(html[s:e]):
+            unit_raw = m.group(3).strip().strip("/")
+            unit = {"user/month": "month/user", "server/month": "month/server"}.get(unit_raw)
+            if unit is None:
+                continue
+            got = parse_money(m.group(2), default_currency)
+            if got:
+                out.append(_dedicated_row(
+                    f"{m.group(1).strip()} {label}", got[0], got[1], page_url, unit, "dedicated"))
+    return out
+
+
+def from_mediafire(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """MediaFire upgrade page (discount layout).
+
+    Only current selling prices are recorded. The Pro card renders an
+    "Original price" block next to the discounted live price and the
+    originals are excluded by site policy. The Business plan is driven
+    by JavaScript with $0.00 placeholders and is skipped entirely.
+    """
+    out = []
+
+    def grab(element_id: str, plan: str) -> None:
+        # Two renderings exist: "$X/month" (annual-equivalent) and
+        # "or $X month-to-month" (plain monthly). Accept both.
+        m = re.search(r'<p id="' + element_id + r'">\s*(?:\$[\d.]+/month|or\s+(\$[\d.]+)\s*month-to-month)\s*</p>', html)
+        if m:
+            amount = m.group(1) or re.search(r'\$([\d.]+)', m.group(0)).group(0)
+            got = parse_money(amount, default_currency)
+            if got and got[0] > 0:
+                out.append(_dedicated_row(plan, got[0], got[1], page_url, "month", "dedicated"))
+
+    grab("yearly-monthly-price-promo", "Pro (billed annually)")
+    grab("monthly-price-promo", "Pro (month-to-month)")
+    m = re.search(r'id="planUltraColumn".{0,4000}?<p[^>]*>\s*(\$[0-9.]+)/month\s*</p>', html, re.S)
+    if m:
+        got = parse_money(m.group(1), default_currency)
+        if got and got[0] > 0:
+            out.append(_dedicated_row("Ultra", got[0], got[1], page_url, "month", "dedicated"))
+    return out
+
+
 DEDICATED_PARSERS = {
     "https://bunny.net/storage": from_bunny,
     "https://developers.cloudflare.com/r2/pricing": from_r2,
@@ -325,6 +413,9 @@ DEDICATED_PARSERS = {
     "https://www.dropbox.com/plans": from_dropbox,
     "https://www.jottacloud.com/en/pricing": from_jottacloud,
     "https://www.zoolz.com/pricing": from_zoolz,
+    "https://www.apple.com/icloud": from_icloud,
+    "https://www.crashplan.com/pricing": from_crashplan,
+    "https://www.mediafire.com/upgrade": from_mediafire,
 }
 
 
