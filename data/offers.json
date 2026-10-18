@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-17T20:40:12+00:00",
+    "generated_at": "2026-10-18T04:40:26+00:00",
     "locale": "en-US",
     "currency": "USD",
     "brand": "Cloud Storage Deals",
@@ -86,7 +86,7 @@
           "offer_url": "https://www.sync.com/pricing",
           "valid_until": null,
           "source_url": "https://www.sync.com/pricing",
-          "fetched_at": "2026-10-17T20:40:02+00:00",
+          "fetched_at": "2026-10-18T04:40:17+00:00",
           "pricing_unit": "user/month",
           "extraction": "heuristic"
         },
@@ -101,7 +101,7 @@
           "offer_url": "https://www.sync.com/pricing",
           "valid_until": null,
           "source_url": "https://www.sync.com/pricing",
-          "fetched_at": "2026-10-17T20:40:02+00:00",
+          "fetched_at": "2026-10-18T04:40:17+00:00",
           "pricing_unit": "user/month",
           "extraction": "heuristic"
         },
@@ -116,7 +116,7 @@
           "offer_url": "https://www.sync.com/pricing",
           "valid_until": null,
           "source_url": "https://www.sync.com/pricing",
-          "fetched_at": "2026-10-17T20:40:02+00:00",
+          "fetched_at": "2026-10-18T04:40:17+00:00",
           "pricing_unit": "user/month",
           "extraction": "heuristic"
         }
@@ -154,7 +154,7 @@
           "offer_url": "https://www.idrive.com/server-cloud-backup",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-17T20:40:02+00:00",
+          "fetched_at": "2026-10-18T04:40:18+00:00",
           "pricing_unit": "month/server",
           "extraction": "idrive_addon"
         },
@@ -169,7 +169,7 @@
           "offer_url": "https://www.idrive.com/microsoft-office-365-backup",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-17T20:40:02+00:00",
+          "fetched_at": "2026-10-18T04:40:18+00:00",
           "pricing_unit": "year/seat",
           "extraction": "idrive_addon"
         },
@@ -184,7 +184,7 @@
           "offer_url": "https://www.idrive.com/google-workspace-backup",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-17T20:40:02+00:00",
+          "fetched_at": "2026-10-18T04:40:18+00:00",
           "pricing_unit": "year/seat",
           "extraction": "idrive_addon"
         },
@@ -199,7 +199,7 @@
           "offer_url": "https://www.idrive.com/pricing",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-17T20:40:02+00:00",
+          "fetched_at": "2026-10-18T04:40:18+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         },
@@ -214,7 +214,7 @@
           "offer_url": "https://www.idrive.com/pricing",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-17T20:40:02+00:00",
+          "fetched_at": "2026-10-18T04:40:18+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         },
@@ -229,7 +229,7 @@
           "offer_url": "https://www.idrive.com/pricing",
           "valid_until": null,
           "source_url": "https://www.idrive.com/pricing",
-          "fetched_at": "2026-10-17T20:40:02+00:00",
+          "fetched_at": "2026-10-18T04:40:18+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         }
@@ -256,7 +256,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -271,7 +271,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         },
@@ -286,7 +286,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -301,7 +301,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         },
@@ -316,7 +316,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -331,7 +331,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         },
@@ -346,7 +346,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -361,7 +361,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         },
@@ -376,7 +376,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -391,7 +391,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         },
@@ -406,7 +406,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -421,7 +421,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         },
@@ -436,7 +436,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -451,7 +451,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         },
@@ -466,7 +466,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -481,7 +481,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         },
@@ -496,7 +496,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -511,7 +511,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         },
@@ -526,7 +526,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -541,7 +541,7 @@
           "offer_url": "https://www.jottacloud.com/en/pricing/",
           "valid_until": null,
           "source_url": "https://www.jottacloud.com/en/pricing/",
-          "fetched_at": "2026-10-17T20:40:05+00:00",
+          "fetched_at": "2026-10-18T04:40:20+00:00",
           "pricing_unit": "year",
           "extraction": "dedicated"
         }
@@ -579,7 +579,7 @@
           "offer_url": "https://storj.io/pricing",
           "valid_until": null,
           "source_url": "https://storj.io/pricing",
-          "fetched_at": "2026-10-17T20:40:08+00:00",
+          "fetched_at": "2026-10-18T04:40:22+00:00",
           "pricing_unit": "month/tb",
           "extraction": "heuristic"
         },
@@ -594,7 +594,7 @@
           "offer_url": "https://storj.io/pricing",
           "valid_until": null,
           "source_url": "https://storj.io/pricing",
-          "fetched_at": "2026-10-17T20:40:08+00:00",
+          "fetched_at": "2026-10-18T04:40:22+00:00",
           "pricing_unit": "license/tb",
           "extraction": "heuristic"
         },
@@ -609,7 +609,7 @@
           "offer_url": "https://storj.io/pricing",
           "valid_until": null,
           "source_url": "https://storj.io/pricing",
-          "fetched_at": "2026-10-17T20:40:08+00:00",
+          "fetched_at": "2026-10-18T04:40:22+00:00",
           "pricing_unit": "license/month",
           "extraction": "heuristic"
         },
@@ -624,7 +624,7 @@
           "offer_url": "https://storj.io/pricing",
           "valid_until": null,
           "source_url": "https://storj.io/pricing",
-          "fetched_at": "2026-10-17T20:40:08+00:00",
+          "fetched_at": "2026-10-18T04:40:22+00:00",
           "pricing_unit": "license/month",
           "extraction": "heuristic"
         }
@@ -651,7 +651,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-17T20:40:10+00:00",
+          "fetched_at": "2026-10-18T04:40:23+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         },
@@ -666,7 +666,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-17T20:40:10+00:00",
+          "fetched_at": "2026-10-18T04:40:23+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         },
@@ -681,7 +681,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-17T20:40:10+00:00",
+          "fetched_at": "2026-10-18T04:40:23+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         },
@@ -696,7 +696,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-17T20:40:10+00:00",
+          "fetched_at": "2026-10-18T04:40:23+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         },
@@ -711,7 +711,7 @@
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
           "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-17T20:40:10+00:00",
+          "fetched_at": "2026-10-18T04:40:23+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         }
@@ -826,7 +826,7 @@
           "offer_url": "https://wasabi.com/pricing/",
           "valid_until": null,
           "source_url": "https://wasabi.com/pricing/",
-          "fetched_at": "2026-10-17T20:40:10+00:00",
+          "fetched_at": "2026-10-18T04:40:24+00:00",
           "pricing_unit": "month/tb",
           "extraction": "dedicated"
         }
@@ -853,7 +853,7 @@
           "offer_url": "https://developers.cloudflare.com/r2/pricing/",
           "valid_until": null,
           "source_url": "https://developers.cloudflare.com/r2/pricing/",
-          "fetched_at": "2026-10-17T20:40:11+00:00",
+          "fetched_at": "2026-10-18T04:40:24+00:00",
           "pricing_unit": "month/gb",
           "extraction": "dedicated"
         },
@@ -868,7 +868,7 @@
           "offer_url": "https://developers.cloudflare.com/r2/pricing/",
           "valid_until": null,
           "source_url": "https://developers.cloudflare.com/r2/pricing/",
-          "fetched_at": "2026-10-17T20:40:11+00:00",
+          "fetched_at": "2026-10-18T04:40:24+00:00",
           "pricing_unit": "month/gb",
           "extraction": "dedicated"
         }
@@ -895,7 +895,7 @@
           "offer_url": "https://bunny.net/storage/",
           "valid_until": null,
           "source_url": "https://bunny.net/storage/",
-          "fetched_at": "2026-10-17T20:40:11+00:00",
+          "fetched_at": "2026-10-18T04:40:24+00:00",
           "pricing_unit": "month/gb",
           "extraction": "dedicated"
         },
@@ -910,7 +910,7 @@
           "offer_url": "https://bunny.net/storage/",
           "valid_until": null,
           "source_url": "https://bunny.net/storage/",
-          "fetched_at": "2026-10-17T20:40:11+00:00",
+          "fetched_at": "2026-10-18T04:40:24+00:00",
           "pricing_unit": "month/gb",
           "extraction": "dedicated"
         },
@@ -925,7 +925,7 @@
           "offer_url": "https://bunny.net/storage/",
           "valid_until": null,
           "source_url": "https://bunny.net/storage/",
-          "fetched_at": "2026-10-17T20:40:11+00:00",
+          "fetched_at": "2026-10-18T04:40:24+00:00",
           "pricing_unit": "month/gb",
           "extraction": "dedicated"
         },
@@ -940,7 +940,7 @@
           "offer_url": "https://bunny.net/storage/",
           "valid_until": null,
           "source_url": "https://bunny.net/storage/",
-          "fetched_at": "2026-10-17T20:40:11+00:00",
+          "fetched_at": "2026-10-18T04:40:24+00:00",
           "pricing_unit": "month/gb",
           "extraction": "dedicated"
         }
@@ -967,7 +967,7 @@
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-10-17T20:40:12+00:00",
+          "fetched_at": "2026-10-18T04:40:26+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
@@ -982,7 +982,7 @@
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-10-17T20:40:12+00:00",
+          "fetched_at": "2026-10-18T04:40:26+00:00",
           "pricing_unit": "month/user",
           "extraction": "dedicated"
         },
@@ -997,7 +997,7 @@
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-10-17T20:40:12+00:00",
+          "fetched_at": "2026-10-18T04:40:26+00:00",
           "pricing_unit": "month/user",
           "extraction": "dedicated"
         }
@@ -1024,7 +1024,7 @@
           "offer_url": "https://www.idrive.com/e2/",
           "valid_until": null,
           "source_url": "https://www.idrive.com/e2/",
-          "fetched_at": "2026-10-17T20:40:12+00:00",
+          "fetched_at": "2026-10-18T04:40:26+00:00",
           "pricing_unit": "year/tb",
           "extraction": "dedicated"
         },
@@ -1039,7 +1039,7 @@
           "offer_url": "https://www.idrive.com/e2/",
           "valid_until": null,
           "source_url": "https://www.idrive.com/e2/",
-          "fetched_at": "2026-10-17T20:40:12+00:00",
+          "fetched_at": "2026-10-18T04:40:26+00:00",
           "pricing_unit": "year/tb",
           "extraction": "dedicated"
         }
@@ -1124,7 +1124,7 @@
       "offer_url": "https://bunny.net/storage/",
       "valid_until": null,
       "source_url": "https://bunny.net/storage/",
-      "fetched_at": "2026-10-17T20:40:11+00:00",
+      "fetched_at": "2026-10-18T04:40:24+00:00",
       "pricing_unit": "month/gb",
       "extraction": "dedicated"
     },
@@ -1139,7 +1139,7 @@
       "offer_url": "https://bunny.net/storage/",
       "valid_until": null,
       "source_url": "https://bunny.net/storage/",
-      "fetched_at": "2026-10-17T20:40:11+00:00",
+      "fetched_at": "2026-10-18T04:40:24+00:00",
       "pricing_unit": "month/gb",
       "extraction": "dedicated"
     },
@@ -1154,7 +1154,7 @@
       "offer_url": "https://bunny.net/storage/",
       "valid_until": null,
       "source_url": "https://bunny.net/storage/",
-      "fetched_at": "2026-10-17T20:40:11+00:00",
+      "fetched_at": "2026-10-18T04:40:24+00:00",
       "pricing_unit": "month/gb",
       "extraction": "dedicated"
     },
@@ -1169,7 +1169,7 @@
       "offer_url": "https://bunny.net/storage/",
       "valid_until": null,
       "source_url": "https://bunny.net/storage/",
-      "fetched_at": "2026-10-17T20:40:11+00:00",
+      "fetched_at": "2026-10-18T04:40:24+00:00",
       "pricing_unit": "month/gb",
       "extraction": "dedicated"
     },
@@ -1184,7 +1184,7 @@
       "offer_url": "https://developers.cloudflare.com/r2/pricing/",
       "valid_until": null,
       "source_url": "https://developers.cloudflare.com/r2/pricing/",
-      "fetched_at": "2026-10-17T20:40:11+00:00",
+      "fetched_at": "2026-10-18T04:40:24+00:00",
       "pricing_unit": "month/gb",
       "extraction": "dedicated"
     },
@@ -1199,7 +1199,7 @@
       "offer_url": "https://developers.cloudflare.com/r2/pricing/",
       "valid_until": null,
       "source_url": "https://developers.cloudflare.com/r2/pricing/",
-      "fetched_at": "2026-10-17T20:40:11+00:00",
+      "fetched_at": "2026-10-18T04:40:24+00:00",
       "pricing_unit": "month/gb",
       "extraction": "dedicated"
     },
@@ -1214,7 +1214,7 @@
       "offer_url": "https://www.dropbox.com/plans",
       "valid_until": null,
       "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-10-17T20:40:12+00:00",
+      "fetched_at": "2026-10-18T04:40:26+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1229,7 +1229,7 @@
       "offer_url": "https://www.dropbox.com/plans",
       "valid_until": null,
       "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-10-17T20:40:12+00:00",
+      "fetched_at": "2026-10-18T04:40:26+00:00",
       "pricing_unit": "month/user",
       "extraction": "dedicated"
     },
@@ -1244,7 +1244,7 @@
       "offer_url": "https://www.dropbox.com/plans",
       "valid_until": null,
       "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-10-17T20:40:12+00:00",
+      "fetched_at": "2026-10-18T04:40:26+00:00",
       "pricing_unit": "month/user",
       "extraction": "dedicated"
     },
@@ -1259,7 +1259,7 @@
       "offer_url": "https://www.idrive.com/server-cloud-backup",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-17T20:40:02+00:00",
+      "fetched_at": "2026-10-18T04:40:18+00:00",
       "pricing_unit": "month/server",
       "extraction": "idrive_addon"
     },
@@ -1274,7 +1274,7 @@
       "offer_url": "https://www.idrive.com/pricing",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-17T20:40:02+00:00",
+      "fetched_at": "2026-10-18T04:40:18+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -1289,7 +1289,7 @@
       "offer_url": "https://www.idrive.com/pricing",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-17T20:40:02+00:00",
+      "fetched_at": "2026-10-18T04:40:18+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -1304,7 +1304,7 @@
       "offer_url": "https://www.idrive.com/microsoft-office-365-backup",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-17T20:40:02+00:00",
+      "fetched_at": "2026-10-18T04:40:18+00:00",
       "pricing_unit": "year/seat",
       "extraction": "idrive_addon"
     },
@@ -1319,7 +1319,7 @@
       "offer_url": "https://www.idrive.com/google-workspace-backup",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-17T20:40:02+00:00",
+      "fetched_at": "2026-10-18T04:40:18+00:00",
       "pricing_unit": "year/seat",
       "extraction": "idrive_addon"
     },
@@ -1334,7 +1334,7 @@
       "offer_url": "https://www.idrive.com/pricing",
       "valid_until": null,
       "source_url": "https://www.idrive.com/pricing",
-      "fetched_at": "2026-10-17T20:40:02+00:00",
+      "fetched_at": "2026-10-18T04:40:18+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -1349,7 +1349,7 @@
       "offer_url": "https://www.idrive.com/e2/",
       "valid_until": null,
       "source_url": "https://www.idrive.com/e2/",
-      "fetched_at": "2026-10-17T20:40:12+00:00",
+      "fetched_at": "2026-10-18T04:40:26+00:00",
       "pricing_unit": "year/tb",
       "extraction": "dedicated"
     },
@@ -1364,7 +1364,7 @@
       "offer_url": "https://www.idrive.com/e2/",
       "valid_until": null,
       "source_url": "https://www.idrive.com/e2/",
-      "fetched_at": "2026-10-17T20:40:12+00:00",
+      "fetched_at": "2026-10-18T04:40:26+00:00",
       "pricing_unit": "year/tb",
       "extraction": "dedicated"
     },
@@ -1379,7 +1379,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1394,7 +1394,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1409,7 +1409,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1424,7 +1424,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1439,7 +1439,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1454,7 +1454,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1469,7 +1469,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1484,7 +1484,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1499,7 +1499,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1514,7 +1514,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1529,7 +1529,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1544,7 +1544,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
@@ -1559,7 +1559,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1574,7 +1574,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1589,7 +1589,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1604,7 +1604,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1619,7 +1619,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1634,7 +1634,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1649,7 +1649,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1664,7 +1664,7 @@
       "offer_url": "https://www.jottacloud.com/en/pricing/",
       "valid_until": null,
       "source_url": "https://www.jottacloud.com/en/pricing/",
-      "fetched_at": "2026-10-17T20:40:05+00:00",
+      "fetched_at": "2026-10-18T04:40:20+00:00",
       "pricing_unit": "year",
       "extraction": "dedicated"
     },
@@ -1679,7 +1679,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-17T20:40:10+00:00",
+      "fetched_at": "2026-10-18T04:40:23+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -1694,7 +1694,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-17T20:40:10+00:00",
+      "fetched_at": "2026-10-18T04:40:23+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -1709,7 +1709,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-17T20:40:10+00:00",
+      "fetched_at": "2026-10-18T04:40:23+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -1724,7 +1724,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-17T20:40:10+00:00",
+      "fetched_at": "2026-10-18T04:40:23+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -1739,7 +1739,7 @@
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
       "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-17T20:40:10+00:00",
+      "fetched_at": "2026-10-18T04:40:23+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -1754,7 +1754,7 @@
       "offer_url": "https://storj.io/pricing",
       "valid_until": null,
       "source_url": "https://storj.io/pricing",
-      "fetched_at": "2026-10-17T20:40:08+00:00",
+      "fetched_at": "2026-10-18T04:40:22+00:00",
       "pricing_unit": "month/tb",
       "extraction": "heuristic"
     },
@@ -1769,7 +1769,7 @@
       "offer_url": "https://storj.io/pricing",
       "valid_until": null,
       "source_url": "https://storj.io/pricing",
-      "fetched_at": "2026-10-17T20:40:08+00:00",
+      "fetched_at": "2026-10-18T04:40:22+00:00",
       "pricing_unit": "license/tb",
       "extraction": "heuristic"
     },
@@ -1784,7 +1784,7 @@
       "offer_url": "https://storj.io/pricing",
       "valid_until": null,
       "source_url": "https://storj.io/pricing",
-      "fetched_at": "2026-10-17T20:40:08+00:00",
+      "fetched_at": "2026-10-18T04:40:22+00:00",
       "pricing_unit": "license/month",
       "extraction": "heuristic"
     },
@@ -1799,7 +1799,7 @@
       "offer_url": "https://storj.io/pricing",
       "valid_until": null,
       "source_url": "https://storj.io/pricing",
-      "fetched_at": "2026-10-17T20:40:08+00:00",
+      "fetched_at": "2026-10-18T04:40:22+00:00",
       "pricing_unit": "license/month",
       "extraction": "heuristic"
     },
@@ -1814,7 +1814,7 @@
       "offer_url": "https://www.sync.com/pricing",
       "valid_until": null,
       "source_url": "https://www.sync.com/pricing",
-      "fetched_at": "2026-10-17T20:40:02+00:00",
+      "fetched_at": "2026-10-18T04:40:17+00:00",
       "pricing_unit": "user/month",
       "extraction": "heuristic"
     },
@@ -1829,7 +1829,7 @@
       "offer_url": "https://www.sync.com/pricing",
       "valid_until": null,
       "source_url": "https://www.sync.com/pricing",
-      "fetched_at": "2026-10-17T20:40:02+00:00",
+      "fetched_at": "2026-10-18T04:40:17+00:00",
       "pricing_unit": "user/month",
       "extraction": "heuristic"
     },
@@ -1844,7 +1844,7 @@
       "offer_url": "https://www.sync.com/pricing",
       "valid_until": null,
       "source_url": "https://www.sync.com/pricing",
-      "fetched_at": "2026-10-17T20:40:02+00:00",
+      "fetched_at": "2026-10-18T04:40:17+00:00",
       "pricing_unit": "user/month",
       "extraction": "heuristic"
     },
@@ -1859,7 +1859,7 @@
       "offer_url": "https://wasabi.com/pricing/",
       "valid_until": null,
       "source_url": "https://wasabi.com/pricing/",
-      "fetched_at": "2026-10-17T20:40:10+00:00",
+      "fetched_at": "2026-10-18T04:40:24+00:00",
       "pricing_unit": "month/tb",
       "extraction": "dedicated"
     }
