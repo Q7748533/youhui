@@ -2,10 +2,12 @@
 """CI health gate for the scraper.
 
 Reads data/scrape_report.json (written by scraper.py) and opens a GitHub
-issue the first time a provider's fetch fails or its verified-price count
-collapses to zero. A single open issue acts as the latch: while it stays
-open, later runs stay silent. Exit code is always 0 — alerting must never
-break the data pipeline.
+issue the first time a provider's fetch fails, its verified-price count
+collapses to zero, or its records are retained as stale after a failed
+fetch. A single open issue acts as the latch: while it stays open, later
+runs stay silent. When a later run reports no flagged providers, the open
+issue is closed automatically with a recovery note. Exit code is always
+0 — alerting must never break the data pipeline.
 """
 import json
 import os
@@ -21,6 +23,18 @@ def gh(args: list[str]) -> subprocess.CompletedProcess:
     return subprocess.run(["gh", *args], capture_output=True, text=True, timeout=60)
 
 
+def open_issue_number() -> int | None:
+    """Return the number of the open latch issue, or None."""
+    existing = gh(["issue", "list", "--state", "open", "--search",
+                   f'"{ISSUE_TITLE}" in:title', "--json", "number"])
+    if existing.returncode != 0 or existing.stdout.strip() in ("", "[]"):
+        return None
+    try:
+        return json.loads(existing.stdout)[0]["number"]
+    except (ValueError, KeyError, IndexError):
+        return None
+
+
 def main() -> int:
     try:
         with open(REPORT, encoding="utf-8") as fh:
@@ -29,7 +43,21 @@ def main() -> int:
         return 0  # no report = nothing to alert about; never fail CI
 
     flagged = [p for p in report.get("providers", []) if p.get("alert")]
+
     if not flagged:
+        # Recovery: close the latch issue so the next failure can alert again.
+        if not os.environ.get("GITHUB_TOKEN") and not os.environ.get("GH_TOKEN"):
+            return 0
+        number = open_issue_number()
+        if number is not None:
+            sha = os.environ.get("GITHUB_SHA", "")[:12]
+            closed = gh(["issue", "close", str(number), "--comment",
+                         "Recovered: the latest scrape verified prices for all "
+                         f"flagged providers again"
+                         + (f" (report at commit {sha})." if sha else ".")])
+            print("Closed scraper-health issue (recovered)."
+                  if closed.returncode == 0
+                  else f"Could not close issue #{number}: {closed.stderr.strip()[:200]}")
         return 0
 
     lines = [f"- **{p['name']}** (`{p['slug']}`): status `{p['status']}`, "
@@ -51,9 +79,8 @@ def main() -> int:
         print("Scraper health alert (no token, printing instead):\n" + body)
         return 0
 
-    existing = gh(["issue", "list", "--state", "open", "--search",
-                   f'"{ISSUE_TITLE}" in:title', "--json", "number"])
-    if existing.returncode == 0 and existing.stdout.strip() not in ("", "[]"):
+    number = open_issue_number()
+    if number is not None:
         print("Open scraper-health issue already exists; not duplicating.")
         return 0
 

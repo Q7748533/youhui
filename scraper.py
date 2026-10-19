@@ -499,8 +499,13 @@ def _decode(raw: bytes, encoding: str) -> str:
     return raw.decode("utf-8", "ignore")
 
 
-def fetch(url: str) -> tuple[int, str]:
-    """Strict TLS first; fall back to unverified only when explicitly allowed."""
+def fetch(url: str, attempts: int = 2) -> tuple[int, str]:
+    """Strict TLS first; fall back to unverified only when explicitly allowed.
+
+    Transient blocks and resets are common on CDNs protecting pricing pages
+    (Backblaze in particular fails intermittently), so each fetch is retried
+    once after a short pause before the caller sees a failure.
+    """
     req = urllib.request.Request(
         url,
         headers={
@@ -513,12 +518,15 @@ def fetch(url: str) -> tuple[int, str]:
     if os.environ.get("PROMO_RADAR_INSECURE_SSL"):
         contexts.append(ssl._create_unverified_context())
     last = None
-    for ctx in contexts:
-        try:
-            with urllib.request.urlopen(req, timeout=TIMEOUT, context=ctx) as resp:
-                return resp.status, _decode(resp.read(), resp.headers.get("Content-Encoding", ""))
-        except Exception as exc:  # noqa: BLE001 - network is best-effort by design
-            last = exc
+    for attempt in range(max(1, attempts)):
+        if attempt:
+            time.sleep(8)
+        for ctx in contexts:
+            try:
+                with urllib.request.urlopen(req, timeout=TIMEOUT, context=ctx) as resp:
+                    return resp.status, _decode(resp.read(), resp.headers.get("Content-Encoding", ""))
+            except Exception as exc:  # noqa: BLE001 - network is best-effort by design
+                last = exc
     raise RuntimeError(f"{type(last).__name__}: {last}")
 
 
@@ -1057,7 +1065,7 @@ def main(argv: list[str]) -> int:
             "priced_offers_before": before,
             "priced_offers_now": now,
             "alert": (
-                r["status"] in ("unreachable", "robots_disallow")
+                r["status"] in ("unreachable", "robots_disallow", "stale")
                 or (before > 0 and now == 0)
             ),
         }
