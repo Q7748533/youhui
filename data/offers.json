@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generated_at": "2026-10-20T14:33:50+00:00",
+    "generated_at": "2026-10-20T15:01:21+00:00",
     "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
     "brand": "Cloud Storage Deals",
     "niche": "cloud-storage",
-    "providers_total": 23,
-    "providers_with_price": 17,
+    "providers_total": 26,
+    "providers_with_price": 20,
     "providers_with_stale_price": 0,
-    "offers_total": 75,
+    "offers_total": 81,
     "rule": "prices come from official public pages only; unreadable prices are left out, never estimated"
   },
   "providers": [
@@ -1407,6 +1407,132 @@
       ],
       "status": "ok",
       "note": ""
+    },
+    {
+      "name": "DigitalOcean Spaces",
+      "slug": "digitalocean-spaces",
+      "site": "https://www.digitalocean.com",
+      "source": "https://www.digitalocean.com/products/spaces/",
+      "affiliate": "",
+      "outbound": "https://www.digitalocean.com/products/spaces/",
+      "offers": [
+        {
+          "id": "digitalocean-spaces-250gib-included-1tib-transfer-usd",
+          "provider": "DigitalOcean Spaces",
+          "provider_slug": "digitalocean-spaces",
+          "plan": "250GiB included (1TiB transfer)",
+          "title": "DigitalOcean Spaces 250GiB included (1TiB transfer)",
+          "price": 5.0,
+          "currency": "USD",
+          "offer_url": "https://www.digitalocean.com/products/spaces/",
+          "valid_until": null,
+          "source_url": "https://www.digitalocean.com/products/spaces/",
+          "fetched_at": "2026-10-20T15:01:15+00:00",
+          "pricing_unit": "month",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "digitalocean-spaces-additional-storage-usd",
+          "provider": "DigitalOcean Spaces",
+          "provider_slug": "digitalocean-spaces",
+          "plan": "Additional storage",
+          "title": "DigitalOcean Spaces Additional storage",
+          "price": 0.02,
+          "currency": "USD",
+          "offer_url": "https://www.digitalocean.com/products/spaces/",
+          "valid_until": null,
+          "source_url": "https://www.digitalocean.com/products/spaces/",
+          "fetched_at": "2026-10-20T15:01:15+00:00",
+          "pricing_unit": "month/gb",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "digitalocean-spaces-cold-storage-usd",
+          "provider": "DigitalOcean Spaces",
+          "provider_slug": "digitalocean-spaces",
+          "plan": "Cold storage",
+          "title": "DigitalOcean Spaces Cold storage",
+          "price": 0.007,
+          "currency": "USD",
+          "offer_url": "https://www.digitalocean.com/products/spaces/",
+          "valid_until": null,
+          "source_url": "https://www.digitalocean.com/products/spaces/",
+          "fetched_at": "2026-10-20T15:01:15+00:00",
+          "pricing_unit": "month/gb",
+          "extraction": "dedicated"
+        }
+      ],
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "name": "Impossible Cloud",
+      "slug": "impossible-cloud",
+      "site": "https://www.impossiblecloud.com",
+      "source": "https://www.impossiblecloud.com/pricing/",
+      "affiliate": "",
+      "outbound": "https://www.impossiblecloud.com/pricing/",
+      "offers": [
+        {
+          "id": "impossible-cloud-pay-as-you-go-eur",
+          "provider": "Impossible Cloud",
+          "provider_slug": "impossible-cloud",
+          "plan": "Pay-as-you-go",
+          "title": "Impossible Cloud Pay-as-you-go",
+          "price": 7.99,
+          "currency": "EUR",
+          "offer_url": "https://www.impossiblecloud.com/pricing/",
+          "valid_until": null,
+          "source_url": "https://www.impossiblecloud.com/pricing/",
+          "fetched_at": "2026-10-20T15:01:18+00:00",
+          "pricing_unit": "month/tb",
+          "extraction": "dedicated"
+        }
+      ],
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "name": "Filebase",
+      "slug": "filebase",
+      "site": "https://filebase.com",
+      "source": "https://filebase.com/pricing/",
+      "affiliate": "",
+      "outbound": "https://filebase.com/pricing/",
+      "offers": [
+        {
+          "id": "filebase-pro-usd",
+          "provider": "Filebase",
+          "provider_slug": "filebase",
+          "plan": "Pro",
+          "title": "Filebase Pro",
+          "price": 7.5,
+          "currency": "USD",
+          "offer_url": "https://filebase.com/pricing/",
+          "valid_until": null,
+          "source_url": "https://filebase.com/pricing/",
+          "fetched_at": "2026-10-20T15:01:21+00:00",
+          "pricing_unit": "month",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "filebase-additional-storage-usd",
+          "provider": "Filebase",
+          "provider_slug": "filebase",
+          "plan": "Additional storage",
+          "title": "Filebase Additional storage",
+          "price": 0.015,
+          "currency": "USD",
+          "offer_url": "https://filebase.com/pricing/",
+          "valid_until": null,
+          "source_url": "https://filebase.com/pricing/",
+          "fetched_at": "2026-10-20T15:01:21+00:00",
+          "pricing_unit": "month/gb",
+          "extraction": "dedicated"
+        }
+      ],
+      "status": "ok",
+      "note": ""
     }
   ],
   "offers": [
@@ -1756,6 +1882,51 @@
       "extraction": "dedicated"
     },
     {
+      "id": "digitalocean-spaces-cold-storage-usd",
+      "provider": "DigitalOcean Spaces",
+      "provider_slug": "digitalocean-spaces",
+      "plan": "Cold storage",
+      "title": "DigitalOcean Spaces Cold storage",
+      "price": 0.007,
+      "currency": "USD",
+      "offer_url": "https://www.digitalocean.com/products/spaces/",
+      "valid_until": null,
+      "source_url": "https://www.digitalocean.com/products/spaces/",
+      "fetched_at": "2026-10-20T15:01:15+00:00",
+      "pricing_unit": "month/gb",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "digitalocean-spaces-additional-storage-usd",
+      "provider": "DigitalOcean Spaces",
+      "provider_slug": "digitalocean-spaces",
+      "plan": "Additional storage",
+      "title": "DigitalOcean Spaces Additional storage",
+      "price": 0.02,
+      "currency": "USD",
+      "offer_url": "https://www.digitalocean.com/products/spaces/",
+      "valid_until": null,
+      "source_url": "https://www.digitalocean.com/products/spaces/",
+      "fetched_at": "2026-10-20T15:01:15+00:00",
+      "pricing_unit": "month/gb",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "digitalocean-spaces-250gib-included-1tib-transfer-usd",
+      "provider": "DigitalOcean Spaces",
+      "provider_slug": "digitalocean-spaces",
+      "plan": "250GiB included (1TiB transfer)",
+      "title": "DigitalOcean Spaces 250GiB included (1TiB transfer)",
+      "price": 5.0,
+      "currency": "USD",
+      "offer_url": "https://www.digitalocean.com/products/spaces/",
+      "valid_until": null,
+      "source_url": "https://www.digitalocean.com/products/spaces/",
+      "fetched_at": "2026-10-20T15:01:15+00:00",
+      "pricing_unit": "month",
+      "extraction": "dedicated"
+    },
+    {
       "id": "dropbox-plus-usd",
       "provider": "Dropbox",
       "provider_slug": "dropbox",
@@ -1798,6 +1969,36 @@
       "source_url": "https://www.dropbox.com/plans",
       "fetched_at": "2026-10-19T22:25:10+00:00",
       "pricing_unit": "month/user",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "filebase-additional-storage-usd",
+      "provider": "Filebase",
+      "provider_slug": "filebase",
+      "plan": "Additional storage",
+      "title": "Filebase Additional storage",
+      "price": 0.015,
+      "currency": "USD",
+      "offer_url": "https://filebase.com/pricing/",
+      "valid_until": null,
+      "source_url": "https://filebase.com/pricing/",
+      "fetched_at": "2026-10-20T15:01:21+00:00",
+      "pricing_unit": "month/gb",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "filebase-pro-usd",
+      "provider": "Filebase",
+      "provider_slug": "filebase",
+      "plan": "Pro",
+      "title": "Filebase Pro",
+      "price": 7.5,
+      "currency": "USD",
+      "offer_url": "https://filebase.com/pricing/",
+      "valid_until": null,
+      "source_url": "https://filebase.com/pricing/",
+      "fetched_at": "2026-10-20T15:01:21+00:00",
+      "pricing_unit": "month",
       "extraction": "dedicated"
     },
     {
@@ -1918,6 +2119,21 @@
       "source_url": "https://www.idrive.com/e2/",
       "fetched_at": "2026-10-19T22:25:10+00:00",
       "pricing_unit": "year/tb",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "impossible-cloud-pay-as-you-go-eur",
+      "provider": "Impossible Cloud",
+      "provider_slug": "impossible-cloud",
+      "plan": "Pay-as-you-go",
+      "title": "Impossible Cloud Pay-as-you-go",
+      "price": 7.99,
+      "currency": "EUR",
+      "offer_url": "https://www.impossiblecloud.com/pricing/",
+      "valid_until": null,
+      "source_url": "https://www.impossiblecloud.com/pricing/",
+      "fetched_at": "2026-10-20T15:01:18+00:00",
+      "pricing_unit": "month/tb",
       "extraction": "dedicated"
     },
     {

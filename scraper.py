@@ -472,6 +472,87 @@ def from_aws_s3(index_text: str, page_url: str, default_currency: str) -> list[d
     return out
 
 
+def from_digitalocean_spaces(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """DigitalOcean Spaces product page (pricing block inside marketing cards).
+
+    Three rows, all USD, all static: the entry bundle named in prose
+    ("starting at $5 per month for 250GiB with 1TiB of outbound
+    transfer"), the storage-card overage unit price, and the cold storage
+    class. Outbound transfer pricing is deliberately skipped — it is
+    bandwidth, not storage, and a bandwidth rate must never be compared
+    against a storage rate under the same unit.
+    """
+    flat = _flat_text(html)
+    out = []
+    m = re.search(
+        r"starting at \$([\d.]+) per month for (\d+)GiB with (\d+)TiB of outbound transfer",
+        flat)
+    if m:
+        got = parse_money(f"${m.group(1)}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                f"{m.group(2)}GiB included ({m.group(3)}TiB transfer)",
+                got[0], got[1], page_url, "month", "dedicated"))
+    m = re.search(r"\$([\d.]+)/GiB additional storage", flat)
+    if m:
+        got = parse_money(f"${m.group(1)}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                "Additional storage", got[0], got[1], page_url, "month/gb", "dedicated"))
+    m = re.search(r"\$([\d.]+)/GiB cold storage", flat)
+    if m:
+        got = parse_money(f"${m.group(1)}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                "Cold storage", got[0], got[1], page_url, "month/gb", "dedicated"))
+    return out
+
+
+def from_impossible_cloud(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """Impossible Cloud pricing page (Webflow marketing layout).
+
+    The pay-as-you-go card reads "Pay-as-you-go €7.99 Per TB/month".
+    Note the page server-renders EUR regardless of visitor region, so the
+    recorded currency is the one actually on the page — never assumed to
+    be USD. The reserved-capacity card is "Partners only" with no public
+    number and is skipped.
+    """
+    flat = _flat_text(html)
+    m = re.search(r"Pay-as-you-go\s+([€£$¥])\s?([\d.]+)\s+Per TB/month", flat, re.I)
+    if not m:
+        return []
+    got = parse_money(f"{m.group(1)}{m.group(2)}", default_currency)
+    if not got:
+        return []
+    return [_dedicated_row("Pay-as-you-go", got[0], got[1], page_url, "month/tb", "dedicated")]
+
+
+def from_filebase(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """Filebase pricing page (Next.js/static cards).
+
+    The Pro card price and the comparison table both render the same
+    "$7.50 /month" figure, so the two occurrences collapse into one
+    dedupe key. The Free tier ($0/month) carries no selling price and is
+    skipped — a zero price is not a comparable offer. The additional
+    storage unit price is anchored on the "Additional Storage $X/GB"
+    label so it cannot be confused with the separately-labelled
+    "Additional IPFS bandwidth" rate that shares the same number.
+    """
+    flat = _flat_text(html)
+    out = []
+    for m in re.finditer(r"\$([\d.]+)\s*/\s*month\b", flat):
+        got = parse_money(f"${m.group(1)}", default_currency)
+        if got and got[0] > 0:
+            out.append(_dedicated_row("Pro", got[0], got[1], page_url, "month", "dedicated"))
+    m = re.search(r"Additional Storage\s+\$([\d.]+)/GB", flat)
+    if m:
+        got = parse_money(f"${m.group(1)}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                "Additional storage", got[0], got[1], page_url, "month/gb", "dedicated"))
+    return out
+
+
 DEDICATED_PARSERS = {
     "https://bunny.net/storage": from_bunny,
     "https://developers.cloudflare.com/r2/pricing": from_r2,
@@ -485,6 +566,9 @@ DEDICATED_PARSERS = {
     "https://www.apple.com/icloud": from_icloud,
     "https://www.crashplan.com/pricing": from_crashplan,
     "https://www.mediafire.com/upgrade": from_mediafire,
+    "https://www.digitalocean.com/products/spaces": from_digitalocean_spaces,
+    "https://www.impossiblecloud.com/pricing": from_impossible_cloud,
+    "https://filebase.com/pricing": from_filebase,
     "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/region_index.json": from_aws_s3,
 }
 

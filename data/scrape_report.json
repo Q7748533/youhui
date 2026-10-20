@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T14:33:50+00:00",
+  "generated_at": "2026-10-20T15:01:21+00:00",
   "providers": [
     {
       "slug": "pcloud",
@@ -127,7 +127,7 @@
       "status": "ok",
       "note": "",
       "failure_streak": 0,
-      "priced_offers_before": 0,
+      "priced_offers_before": 2,
       "priced_offers_now": 2,
       "alert": false
     },
@@ -137,7 +137,7 @@
       "status": "ok",
       "note": "",
       "failure_streak": 0,
-      "priced_offers_before": 0,
+      "priced_offers_before": 2,
       "priced_offers_now": 2,
       "alert": false
     },
@@ -229,6 +229,36 @@
       "failure_streak": 0,
       "priced_offers_before": 4,
       "priced_offers_now": 4,
+      "alert": false
+    },
+    {
+      "slug": "digitalocean-spaces",
+      "name": "DigitalOcean Spaces",
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
+      "priced_offers_before": 0,
+      "priced_offers_now": 3,
+      "alert": false
+    },
+    {
+      "slug": "impossible-cloud",
+      "name": "Impossible Cloud",
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
+      "priced_offers_before": 0,
+      "priced_offers_now": 1,
+      "alert": false
+    },
+    {
+      "slug": "filebase",
+      "name": "Filebase",
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
+      "priced_offers_before": 0,
+      "priced_offers_now": 2,
       "alert": false
     }
   ]

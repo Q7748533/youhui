@@ -38,6 +38,9 @@ ILANG
   CrashPlan | https://www.crashplan.com | https://www.crashplan.com/pricing/ |
   MediaFire | https://www.mediafire.com | https://www.mediafire.com/upgrade/ |
   AWS S3 | https://aws.amazon.com | https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/region_index.json |
+  DigitalOcean Spaces | https://www.digitalocean.com | https://www.digitalocean.com/products/spaces/ |
+  Impossible Cloud | https://www.impossiblecloud.com | https://www.impossiblecloud.com/pricing/ |
+  Filebase | https://filebase.com | https://filebase.com/pricing/ |
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
   title price currency pricing_unit offer_url valid_until source_url fetched_at
