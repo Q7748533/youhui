@@ -1,13 +1,14 @@
 {
   "meta": {
-    "generated_at": "2026-10-19T22:25:20+00:00",
+    "generated_at": "2026-10-20T03:30:02+00:00",
+    "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
     "brand": "Cloud Storage Deals",
     "niche": "cloud-storage",
     "providers_total": 23,
-    "providers_with_price": 15,
-    "providers_with_stale_price": 2,
+    "providers_with_price": 17,
+    "providers_with_stale_price": 0,
     "offers_total": 75,
     "rule": "prices come from official public pages only; unreadable prices are left out, never estimated"
   },
@@ -814,10 +815,9 @@
           "offer_url": "https://www.backblaze.com/cloud-storage/pricing",
           "valid_until": null,
           "source_url": "https://www.backblaze.com/cloud-storage/pricing",
-          "fetched_at": "2026-10-19T16:54:00+00:00",
+          "fetched_at": "2026-10-20T03:29:25+00:00",
           "pricing_unit": "month/tb",
-          "extraction": "dedicated",
-          "stale": true
+          "extraction": "dedicated"
         },
         {
           "id": "backblaze-b2-overdrive-usd",
@@ -830,14 +830,13 @@
           "offer_url": "https://www.backblaze.com/cloud-storage/pricing",
           "valid_until": null,
           "source_url": "https://www.backblaze.com/cloud-storage/pricing",
-          "fetched_at": "2026-10-19T16:54:00+00:00",
+          "fetched_at": "2026-10-20T03:29:25+00:00",
           "pricing_unit": "month/tb",
-          "extraction": "dedicated",
-          "stale": true
+          "extraction": "dedicated"
         }
       ],
-      "status": "stale",
-      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again."
+      "status": "ok",
+      "note": ""
     },
     {
       "name": "Backblaze Computer Backup",
@@ -858,10 +857,9 @@
           "offer_url": "https://www.backblaze.com/backup-pricing.html",
           "valid_until": null,
           "source_url": "https://www.backblaze.com/backup-pricing.html",
-          "fetched_at": "2026-10-19T16:54:02+00:00",
+          "fetched_at": "2026-10-20T03:29:28+00:00",
           "pricing_unit": "year",
-          "extraction": "dedicated",
-          "stale": true
+          "extraction": "dedicated"
         },
         {
           "id": "backblaze-computer-backup-business-backup-usd",
@@ -874,14 +872,13 @@
           "offer_url": "https://www.backblaze.com/backup-pricing.html",
           "valid_until": null,
           "source_url": "https://www.backblaze.com/backup-pricing.html",
-          "fetched_at": "2026-10-19T16:54:02+00:00",
+          "fetched_at": "2026-10-20T03:29:28+00:00",
           "pricing_unit": "year",
-          "extraction": "dedicated",
-          "stale": true
+          "extraction": "dedicated"
         }
       ],
-      "status": "stale",
-      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again."
+      "status": "ok",
+      "note": ""
     },
     {
       "name": "Wasabi",
@@ -1559,10 +1556,9 @@
       "offer_url": "https://www.backblaze.com/cloud-storage/pricing",
       "valid_until": null,
       "source_url": "https://www.backblaze.com/cloud-storage/pricing",
-      "fetched_at": "2026-10-19T16:54:00+00:00",
+      "fetched_at": "2026-10-20T03:29:25+00:00",
       "pricing_unit": "month/tb",
-      "extraction": "dedicated",
-      "stale": true
+      "extraction": "dedicated"
     },
     {
       "id": "backblaze-b2-overdrive-usd",
@@ -1575,10 +1571,9 @@
       "offer_url": "https://www.backblaze.com/cloud-storage/pricing",
       "valid_until": null,
       "source_url": "https://www.backblaze.com/cloud-storage/pricing",
-      "fetched_at": "2026-10-19T16:54:00+00:00",
+      "fetched_at": "2026-10-20T03:29:25+00:00",
       "pricing_unit": "month/tb",
-      "extraction": "dedicated",
-      "stale": true
+      "extraction": "dedicated"
     },
     {
       "id": "backblaze-computer-backup-personal-backup-usd",
@@ -1591,10 +1586,9 @@
       "offer_url": "https://www.backblaze.com/backup-pricing.html",
       "valid_until": null,
       "source_url": "https://www.backblaze.com/backup-pricing.html",
-      "fetched_at": "2026-10-19T16:54:02+00:00",
+      "fetched_at": "2026-10-20T03:29:28+00:00",
       "pricing_unit": "year",
-      "extraction": "dedicated",
-      "stale": true
+      "extraction": "dedicated"
     },
     {
       "id": "backblaze-computer-backup-business-backup-usd",
@@ -1607,10 +1601,9 @@
       "offer_url": "https://www.backblaze.com/backup-pricing.html",
       "valid_until": null,
       "source_url": "https://www.backblaze.com/backup-pricing.html",
-      "fetched_at": "2026-10-19T16:54:02+00:00",
+      "fetched_at": "2026-10-20T03:29:28+00:00",
       "pricing_unit": "year",
-      "extraction": "dedicated",
-      "stale": true
+      "extraction": "dedicated"
     },
     {
       "id": "bunny-storage-standard-tier-hdd-single-region-usd",

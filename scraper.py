@@ -894,7 +894,7 @@ def dedupe(rows: list[dict]) -> list[dict]:
     return kept
 
 
-def scrape_provider(provider: dict, default_currency: str) -> dict:
+def scrape_provider(provider: dict, default_currency: str, previous: dict | None = None) -> dict:
     result = dict(provider)
     result["offers"] = []
     result["status"] = "unreachable"
@@ -965,6 +965,21 @@ def scrape_provider(provider: dict, default_currency: str) -> dict:
         )
 
     offers = dedupe(offers)
+
+    # Freshness without churn: an offer whose data is identical to the
+    # previous live record keeps that record's fetched_at. Unchanged pages
+    # then do not claim a new verification date on every run, which keeps
+    # sitemap lastmod meaningful (Google only trusts lastmod that is
+    # consistently and verifiably accurate).
+    prev_by_id = {o["id"]: o for o in (previous or {}).get("offers", []) if not o.get("stale")}
+    for offer in offers:
+        prev = prev_by_id.get(offer["id"])
+        if prev is not None and (
+            {k: v for k, v in prev.items() if k not in ("fetched_at", "stale")}
+            == {k: v for k, v in offer.items() if k not in ("fetched_at", "stale")}
+        ):
+            offer["fetched_at"] = prev["fetched_at"]
+
     result["offers"] = offers
     result["status"] = "ok" if offers else "no_price"
     if not offers:
@@ -979,21 +994,40 @@ def retain_previous_on_failure(result: dict, previous: dict | None) -> dict:
     """Keep last verified records when a source is temporarily unreachable.
 
     An unreachable source is not evidence that its previous prices vanished.
-    Preserve the records but mark them stale so generated pages can be honest.
-    A successful no-price result is intentionally not preserved.
+    Preserve the records so generated pages can be honest. A successful
+    no-price result is intentionally not preserved.
 
     robots_disallow is handled the same way: official robots.txt can flip
     briefly during staging/rollouts, and the records were obtained while the
     path was allowed. The no-fetch rule still applies — we only stop fetching,
     we never bypass robots.
+
+    Consecutive-failure hysteresis: a single failed run keeps the previous
+    records live (their fetched_at still states exactly when they were
+    verified, so nothing on the site becomes untrue), because one flaky
+    fetch must not flip sitemap membership or noindex state back and forth.
+    Two or more consecutive failures mark the records stale. A legacy stale
+    record without a streak counter counts as already failing, so stale data
+    is never silently promoted back to live.
     """
     if result.get("status") not in ("unreachable", "robots_disallow") or not previous or not previous.get("offers"):
         return result
     result = dict(result)
-    result["offers"] = [{**offer, "stale": True} for offer in previous["offers"]]
-    result["status"] = "stale"
     detail = result.get("note") or "latest fetch blocked"
-    result["note"] = f"{detail}; retained {len(result['offers'])} previously verified record(s) until the source is reachable again."
+    prev_offers = previous["offers"]
+    streak = int(previous.get("failure_streak") or 0)
+    if not streak and any(o.get("stale") for o in prev_offers):
+        streak = 2
+    streak += 1
+    result["failure_streak"] = streak
+    if streak >= 2:
+        result["offers"] = [{**offer, "stale": True} for offer in prev_offers]
+        result["status"] = "stale"
+        result["note"] = f"{detail}; retained {len(result['offers'])} previously verified record(s) until the source is reachable again."
+    else:
+        result["offers"] = [dict(offer) for offer in prev_offers]
+        result["status"] = "ok" if any(o.get("price") is not None for o in prev_offers) else "no_price"
+        result["note"] = f"{detail}; first consecutive failure — records stay live until the next run confirms."
     return result
 
 
@@ -1004,17 +1038,21 @@ def main(argv: list[str]) -> int:
     providers = siteilang.providers(cfg)
 
     previous_by_slug = {}
+    previous_meta: dict = {}
+    previous_providers: list[dict] = []
     if os.path.exists(DATA_FILE):
         try:
             with open(DATA_FILE, "r", encoding="utf-8") as fh:
                 old_data = json.load(fh)
             previous_by_slug = {p["slug"]: p for p in old_data.get("providers", []) if p.get("slug")}
+            previous_meta = old_data.get("meta", {})
+            previous_providers = old_data.get("providers", [])
         except (OSError, ValueError, TypeError):
             previous_by_slug = {}
 
     results = []
     for provider in providers:
-        res = scrape_provider(provider, default_currency)
+        res = scrape_provider(provider, default_currency, previous_by_slug.get(provider["slug"]))
         res = retain_previous_on_failure(res, previous_by_slug.get(provider["slug"]))
         results.append(res)
 
@@ -1022,9 +1060,26 @@ def main(argv: list[str]) -> int:
         [o for r in results for o in r["offers"]],
         key=lambda o: (o["provider_slug"], o["price"]),
     )
+
+    # Bump the freshness stamp only when the records actually changed (or the
+    # calendar month rolled over, since month labels appear in page copy).
+    # Unchanged data then rewrites a byte-identical payload: repeated runs and
+    # CI commits become true no-ops and sitemap lastmod stays trustworthy.
+    def _comparable(records: list[dict]) -> str:
+        return json.dumps(records, sort_keys=True, ensure_ascii=False)
+
+    data_month = datetime.now(timezone.utc).strftime("%Y-%m")
+    data_changed = (
+        _comparable(results) != _comparable(previous_providers)
+        or data_month != previous_meta.get("data_month")
+    )
+    now_stamp = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    generated_at = now_stamp if data_changed else (previous_meta.get("generated_at") or now_stamp)
+
     payload = {
         "meta": {
-            "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+            "generated_at": generated_at,
+            "data_month": data_month,
             "locale": conf.get("locale", "en-US"),
             "currency": default_currency,
             "brand": cfg["site"].get("brand"),
@@ -1062,10 +1117,12 @@ def main(argv: list[str]) -> int:
             "name": r["name"],
             "status": r["status"],
             "note": r.get("note", ""),
+            "failure_streak": r.get("failure_streak", 0),
             "priced_offers_before": before,
             "priced_offers_now": now,
             "alert": (
                 r["status"] in ("unreachable", "robots_disallow", "stale")
+                or r.get("failure_streak", 0) >= 1
                 or (before > 0 and now == 0)
             ),
         }

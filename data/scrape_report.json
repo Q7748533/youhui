@@ -1,11 +1,12 @@
 {
-  "generated_at": "2026-10-19T22:25:20+00:00",
+  "generated_at": "2026-10-20T03:30:02+00:00",
   "providers": [
     {
       "slug": "pcloud",
       "name": "pCloud",
       "status": "no_price",
       "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "failure_streak": 0,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": false
@@ -15,6 +16,7 @@
       "name": "Icedrive",
       "status": "no_price",
       "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "failure_streak": 0,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": false
@@ -24,6 +26,7 @@
       "name": "Internxt",
       "status": "no_price",
       "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "failure_streak": 0,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": false
@@ -33,6 +36,7 @@
       "name": "Filen",
       "status": "no_price",
       "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "failure_streak": 0,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": false
@@ -42,6 +46,7 @@
       "name": "Koofr",
       "status": "no_price",
       "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "failure_streak": 0,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": false
@@ -51,6 +56,7 @@
       "name": "Sync.com",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 3,
       "priced_offers_now": 3,
       "alert": false
@@ -60,6 +66,7 @@
       "name": "Tresorit",
       "status": "no_price",
       "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
+      "failure_streak": 0,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": false
@@ -69,6 +76,7 @@
       "name": "IDrive",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 6,
       "priced_offers_now": 6,
       "alert": false
@@ -78,6 +86,7 @@
       "name": "Jottacloud",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 20,
       "priced_offers_now": 20,
       "alert": false
@@ -87,6 +96,7 @@
       "name": "Zoolz",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 5,
       "priced_offers_now": 5,
       "alert": false
@@ -96,6 +106,7 @@
       "name": "Storj",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 4,
       "priced_offers_now": 4,
       "alert": false
@@ -105,6 +116,7 @@
       "name": "Proton Drive",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 5,
       "priced_offers_now": 5,
       "alert": false
@@ -112,26 +124,29 @@
     {
       "slug": "backblaze",
       "name": "Backblaze",
-      "status": "stale",
-      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 2,
-      "priced_offers_now": 0,
-      "alert": true
+      "priced_offers_now": 2,
+      "alert": false
     },
     {
       "slug": "backblaze-computer-backup",
       "name": "Backblaze Computer Backup",
-      "status": "stale",
-      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 2,
-      "priced_offers_now": 0,
-      "alert": true
+      "priced_offers_now": 2,
+      "alert": false
     },
     {
       "slug": "wasabi",
       "name": "Wasabi",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 1,
       "priced_offers_now": 1,
       "alert": false
@@ -141,6 +156,7 @@
       "name": "Cloudflare R2",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
       "alert": false
@@ -150,6 +166,7 @@
       "name": "Bunny Storage",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 4,
       "priced_offers_now": 4,
       "alert": false
@@ -159,6 +176,7 @@
       "name": "Dropbox",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 3,
       "priced_offers_now": 3,
       "alert": false
@@ -168,6 +186,7 @@
       "name": "IDrive e2",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
       "alert": false
@@ -177,6 +196,7 @@
       "name": "Apple iCloud",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 5,
       "priced_offers_now": 5,
       "alert": false
@@ -186,6 +206,7 @@
       "name": "CrashPlan",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 4,
       "priced_offers_now": 4,
       "alert": false
@@ -195,6 +216,7 @@
       "name": "MediaFire",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 3,
       "priced_offers_now": 3,
       "alert": false
@@ -204,6 +226,7 @@
       "name": "AWS S3",
       "status": "ok",
       "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 4,
       "priced_offers_now": 4,
       "alert": false
