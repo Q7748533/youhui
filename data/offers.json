@@ -1,14 +1,14 @@
 {
   "meta": {
-    "generated_at": "2026-10-20T17:14:46+00:00",
+    "generated_at": "2026-10-20T21:41:31+00:00",
     "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
     "brand": "Cloud Storage Deals",
     "niche": "cloud-storage",
     "providers_total": 26,
-    "providers_with_price": 20,
-    "providers_with_stale_price": 0,
+    "providers_with_price": 18,
+    "providers_with_stale_price": 2,
     "offers_total": 81,
     "rule": "prices come from official public pages only; unreadable prices are left out, never estimated"
   },
@@ -817,7 +817,8 @@
           "source_url": "https://www.backblaze.com/cloud-storage/pricing",
           "fetched_at": "2026-10-20T14:33:12+00:00",
           "pricing_unit": "month/tb",
-          "extraction": "dedicated"
+          "extraction": "dedicated",
+          "stale": true
         },
         {
           "id": "backblaze-b2-overdrive-usd",
@@ -832,12 +833,13 @@
           "source_url": "https://www.backblaze.com/cloud-storage/pricing",
           "fetched_at": "2026-10-20T14:33:12+00:00",
           "pricing_unit": "month/tb",
-          "extraction": "dedicated"
+          "extraction": "dedicated",
+          "stale": true
         }
       ],
-      "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1
+      "status": "stale",
+      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
+      "failure_streak": 2
     },
     {
       "name": "Backblaze Computer Backup",
@@ -860,7 +862,8 @@
           "source_url": "https://www.backblaze.com/backup-pricing.html",
           "fetched_at": "2026-10-20T14:33:16+00:00",
           "pricing_unit": "year",
-          "extraction": "dedicated"
+          "extraction": "dedicated",
+          "stale": true
         },
         {
           "id": "backblaze-computer-backup-business-backup-usd",
@@ -875,12 +878,13 @@
           "source_url": "https://www.backblaze.com/backup-pricing.html",
           "fetched_at": "2026-10-20T14:33:16+00:00",
           "pricing_unit": "year",
-          "extraction": "dedicated"
+          "extraction": "dedicated",
+          "stale": true
         }
       ],
-      "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1
+      "status": "stale",
+      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
+      "failure_streak": 2
     },
     {
       "name": "Wasabi",
@@ -1686,7 +1690,8 @@
       "source_url": "https://www.backblaze.com/cloud-storage/pricing",
       "fetched_at": "2026-10-20T14:33:12+00:00",
       "pricing_unit": "month/tb",
-      "extraction": "dedicated"
+      "extraction": "dedicated",
+      "stale": true
     },
     {
       "id": "backblaze-b2-overdrive-usd",
@@ -1701,7 +1706,8 @@
       "source_url": "https://www.backblaze.com/cloud-storage/pricing",
       "fetched_at": "2026-10-20T14:33:12+00:00",
       "pricing_unit": "month/tb",
-      "extraction": "dedicated"
+      "extraction": "dedicated",
+      "stale": true
     },
     {
       "id": "backblaze-computer-backup-personal-backup-usd",
@@ -1716,7 +1722,8 @@
       "source_url": "https://www.backblaze.com/backup-pricing.html",
       "fetched_at": "2026-10-20T14:33:16+00:00",
       "pricing_unit": "year",
-      "extraction": "dedicated"
+      "extraction": "dedicated",
+      "stale": true
     },
     {
       "id": "backblaze-computer-backup-business-backup-usd",
@@ -1731,7 +1738,8 @@
       "source_url": "https://www.backblaze.com/backup-pricing.html",
       "fetched_at": "2026-10-20T14:33:16+00:00",
       "pricing_unit": "year",
-      "extraction": "dedicated"
+      "extraction": "dedicated",
+      "stale": true
     },
     {
       "id": "bunny-storage-standard-tier-hdd-single-region-usd",
