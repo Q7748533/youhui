@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T15:01:21+00:00",
+  "generated_at": "2026-10-20T17:14:46+00:00",
   "providers": [
     {
       "slug": "pcloud",
@@ -125,21 +125,21 @@
       "slug": "backblaze",
       "name": "Backblaze",
       "status": "ok",
-      "note": "",
-      "failure_streak": 0,
+      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
-      "alert": false
+      "alert": true
     },
     {
       "slug": "backblaze-computer-backup",
       "name": "Backblaze Computer Backup",
       "status": "ok",
-      "note": "",
-      "failure_streak": 0,
+      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
-      "alert": false
+      "alert": true
     },
     {
       "slug": "wasabi",
@@ -237,7 +237,7 @@
       "status": "ok",
       "note": "",
       "failure_streak": 0,
-      "priced_offers_before": 0,
+      "priced_offers_before": 3,
       "priced_offers_now": 3,
       "alert": false
     },
@@ -247,7 +247,7 @@
       "status": "ok",
       "note": "",
       "failure_streak": 0,
-      "priced_offers_before": 0,
+      "priced_offers_before": 1,
       "priced_offers_now": 1,
       "alert": false
     },
@@ -257,7 +257,7 @@
       "status": "ok",
       "note": "",
       "failure_streak": 0,
-      "priced_offers_before": 0,
+      "priced_offers_before": 2,
       "priced_offers_now": 2,
       "alert": false
     }
