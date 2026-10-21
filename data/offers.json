@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T17:18:13+00:00",
+    "generated_at": "2026-10-21T21:47:26+00:00",
     "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
@@ -32,8 +32,8 @@
       "affiliate": "",
       "outbound": "https://icedrive.net/",
       "offers": [],
-      "status": "unreachable",
-      "note": "fetch failed: RuntimeError"
+      "status": "no_price",
+      "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose."
     },
     {
       "name": "Internxt",
@@ -839,7 +839,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 2
+      "failure_streak": 3
     },
     {
       "name": "Backblaze Computer Backup",
@@ -884,7 +884,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 2
+      "failure_streak": 3
     },
     {
       "name": "Wasabi",
