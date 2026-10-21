@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T06:05:32+00:00",
+  "generated_at": "2026-10-21T11:57:40+00:00",
   "providers": [
     {
       "slug": "pcloud",
@@ -75,11 +75,11 @@
       "slug": "idrive",
       "name": "IDrive",
       "status": "ok",
-      "note": "",
-      "failure_streak": 0,
+      "note": "HTTP 202; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1,
       "priced_offers_before": 6,
       "priced_offers_now": 6,
-      "alert": false
+      "alert": true
     },
     {
       "slug": "jottacloud",
@@ -125,21 +125,21 @@
       "slug": "backblaze",
       "name": "Backblaze",
       "status": "ok",
-      "note": "",
-      "failure_streak": 0,
+      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
-      "alert": false
+      "alert": true
     },
     {
       "slug": "backblaze-computer-backup",
       "name": "Backblaze Computer Backup",
       "status": "ok",
-      "note": "",
-      "failure_streak": 0,
+      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
-      "alert": false
+      "alert": true
     },
     {
       "slug": "wasabi",
@@ -185,11 +185,11 @@
       "slug": "idrive-e2",
       "name": "IDrive e2",
       "status": "ok",
-      "note": "",
-      "failure_streak": 0,
+      "note": "HTTP 202; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
-      "alert": false
+      "alert": true
     },
     {
       "slug": "apple-icloud",

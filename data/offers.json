@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T06:05:32+00:00",
+    "generated_at": "2026-10-21T11:57:40+00:00",
     "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
@@ -236,7 +236,8 @@
         }
       ],
       "status": "ok",
-      "note": ""
+      "note": "HTTP 202; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1
     },
     {
       "name": "Jottacloud",
@@ -836,7 +837,8 @@
         }
       ],
       "status": "ok",
-      "note": ""
+      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1
     },
     {
       "name": "Backblaze Computer Backup",
@@ -878,7 +880,8 @@
         }
       ],
       "status": "ok",
-      "note": ""
+      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1
     },
     {
       "name": "Wasabi",
@@ -1118,7 +1121,8 @@
         }
       ],
       "status": "ok",
-      "note": ""
+      "note": "HTTP 202; first consecutive failure — records stay live until the next run confirms.",
+      "failure_streak": 1
     },
     {
       "name": "Apple iCloud",
@@ -1543,32 +1547,32 @@
       "outbound": "https://upcloud.com/products/object-storage/",
       "offers": [
         {
-          "id": "upcloud-250-gb-eur",
+          "id": "upcloud-250-gb-usd",
           "provider": "UpCloud",
           "provider_slug": "upcloud",
           "plan": "250 GB",
           "title": "UpCloud 250 GB",
           "price": 5.0,
-          "currency": "EUR",
+          "currency": "USD",
           "offer_url": "https://upcloud.com/products/object-storage/",
           "valid_until": null,
           "source_url": "https://upcloud.com/products/object-storage/",
-          "fetched_at": "2026-10-21T06:05:24+00:00",
+          "fetched_at": "2026-10-21T11:57:37+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
         {
-          "id": "upcloud-each-additional-250-gb-eur",
+          "id": "upcloud-each-additional-250-gb-usd",
           "provider": "UpCloud",
           "provider_slug": "upcloud",
           "plan": "Each additional 250 GB",
           "title": "UpCloud Each additional 250 GB",
           "price": 5.0,
-          "currency": "EUR",
+          "currency": "USD",
           "offer_url": "https://upcloud.com/products/object-storage/",
           "valid_until": null,
           "source_url": "https://upcloud.com/products/object-storage/",
-          "fetched_at": "2026-10-21T06:05:24+00:00",
+          "fetched_at": "2026-10-21T11:57:37+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         }
@@ -3010,32 +3014,32 @@
       "extraction": "heuristic"
     },
     {
-      "id": "upcloud-250-gb-eur",
+      "id": "upcloud-250-gb-usd",
       "provider": "UpCloud",
       "provider_slug": "upcloud",
       "plan": "250 GB",
       "title": "UpCloud 250 GB",
       "price": 5.0,
-      "currency": "EUR",
+      "currency": "USD",
       "offer_url": "https://upcloud.com/products/object-storage/",
       "valid_until": null,
       "source_url": "https://upcloud.com/products/object-storage/",
-      "fetched_at": "2026-10-21T06:05:24+00:00",
+      "fetched_at": "2026-10-21T11:57:37+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
     {
-      "id": "upcloud-each-additional-250-gb-eur",
+      "id": "upcloud-each-additional-250-gb-usd",
       "provider": "UpCloud",
       "provider_slug": "upcloud",
       "plan": "Each additional 250 GB",
       "title": "UpCloud Each additional 250 GB",
       "price": 5.0,
-      "currency": "EUR",
+      "currency": "USD",
       "offer_url": "https://upcloud.com/products/object-storage/",
       "valid_until": null,
       "source_url": "https://upcloud.com/products/object-storage/",
-      "fetched_at": "2026-10-21T06:05:24+00:00",
+      "fetched_at": "2026-10-21T11:57:37+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
