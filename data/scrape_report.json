@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T04:56:52+00:00",
+  "generated_at": "2026-10-21T06:05:32+00:00",
   "providers": [
     {
       "slug": "pcloud",
@@ -125,21 +125,21 @@
       "slug": "backblaze",
       "name": "Backblaze",
       "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1,
+      "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
-      "alert": true
+      "alert": false
     },
     {
       "slug": "backblaze-computer-backup",
       "name": "Backblaze Computer Backup",
       "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1,
+      "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
-      "alert": true
+      "alert": false
     },
     {
       "slug": "wasabi",
@@ -259,6 +259,46 @@
       "failure_streak": 0,
       "priced_offers_before": 2,
       "priced_offers_now": 2,
+      "alert": false
+    },
+    {
+      "slug": "upcloud",
+      "name": "UpCloud",
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
+      "priced_offers_before": 2,
+      "priced_offers_now": 2,
+      "alert": false
+    },
+    {
+      "slug": "sevalla",
+      "name": "Sevalla",
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
+      "priced_offers_before": 1,
+      "priced_offers_now": 1,
+      "alert": false
+    },
+    {
+      "slug": "opendrive",
+      "name": "OpenDrive",
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
+      "priced_offers_before": 2,
+      "priced_offers_now": 2,
+      "alert": false
+    },
+    {
+      "slug": "livedrive",
+      "name": "LiveDrive",
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
+      "priced_offers_before": 6,
+      "priced_offers_now": 6,
       "alert": false
     }
   ]

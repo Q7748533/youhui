@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T04:56:52+00:00",
+    "generated_at": "2026-10-21T06:05:32+00:00",
     "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
     "brand": "Cloud Storage Deals",
     "niche": "cloud-storage",
-    "providers_total": 26,
-    "providers_with_price": 20,
+    "providers_total": 30,
+    "providers_with_price": 24,
     "providers_with_stale_price": 0,
-    "offers_total": 81,
+    "offers_total": 92,
     "rule": "prices come from official public pages only; unreadable prices are left out, never estimated"
   },
   "providers": [
@@ -836,8 +836,7 @@
         }
       ],
       "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1
+      "note": ""
     },
     {
       "name": "Backblaze Computer Backup",
@@ -879,8 +878,7 @@
         }
       ],
       "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1
+      "note": ""
     },
     {
       "name": "Wasabi",
@@ -1530,6 +1528,219 @@
           "source_url": "https://filebase.com/pricing/",
           "fetched_at": "2026-10-20T15:01:21+00:00",
           "pricing_unit": "month/gb",
+          "extraction": "dedicated"
+        }
+      ],
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "name": "UpCloud",
+      "slug": "upcloud",
+      "site": "https://upcloud.com",
+      "source": "https://upcloud.com/products/object-storage/",
+      "affiliate": "",
+      "outbound": "https://upcloud.com/products/object-storage/",
+      "offers": [
+        {
+          "id": "upcloud-250-gb-eur",
+          "provider": "UpCloud",
+          "provider_slug": "upcloud",
+          "plan": "250 GB",
+          "title": "UpCloud 250 GB",
+          "price": 5.0,
+          "currency": "EUR",
+          "offer_url": "https://upcloud.com/products/object-storage/",
+          "valid_until": null,
+          "source_url": "https://upcloud.com/products/object-storage/",
+          "fetched_at": "2026-10-21T06:05:24+00:00",
+          "pricing_unit": "month",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "upcloud-each-additional-250-gb-eur",
+          "provider": "UpCloud",
+          "provider_slug": "upcloud",
+          "plan": "Each additional 250 GB",
+          "title": "UpCloud Each additional 250 GB",
+          "price": 5.0,
+          "currency": "EUR",
+          "offer_url": "https://upcloud.com/products/object-storage/",
+          "valid_until": null,
+          "source_url": "https://upcloud.com/products/object-storage/",
+          "fetched_at": "2026-10-21T06:05:24+00:00",
+          "pricing_unit": "month",
+          "extraction": "dedicated"
+        }
+      ],
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "name": "Sevalla",
+      "slug": "sevalla",
+      "site": "https://sevalla.com",
+      "source": "https://sevalla.com/object-storage/",
+      "affiliate": "",
+      "outbound": "https://sevalla.com/object-storage/",
+      "offers": [
+        {
+          "id": "sevalla-object-storage-usd",
+          "provider": "Sevalla",
+          "provider_slug": "sevalla",
+          "plan": "Object storage",
+          "title": "Sevalla Object storage",
+          "price": 0.02,
+          "currency": "USD",
+          "offer_url": "https://sevalla.com/object-storage/",
+          "valid_until": null,
+          "source_url": "https://sevalla.com/object-storage/",
+          "fetched_at": "2026-10-21T06:05:26+00:00",
+          "pricing_unit": "month/gb",
+          "extraction": "dedicated"
+        }
+      ],
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "name": "OpenDrive",
+      "slug": "opendrive",
+      "site": "https://www.opendrive.com",
+      "source": "https://www.opendrive.com/pricing",
+      "affiliate": "",
+      "outbound": "https://www.opendrive.com/pricing",
+      "offers": [
+        {
+          "id": "opendrive-personal-unlimited-usd",
+          "provider": "OpenDrive",
+          "provider_slug": "opendrive",
+          "plan": "Personal Unlimited",
+          "title": "OpenDrive Personal Unlimited",
+          "price": 12.95,
+          "currency": "USD",
+          "offer_url": "https://www.opendrive.com/pricing",
+          "valid_until": null,
+          "source_url": "https://www.opendrive.com/pricing",
+          "fetched_at": "2026-10-21T06:05:28+00:00",
+          "pricing_unit": "month",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "opendrive-personal-unlimited-usd-year",
+          "provider": "OpenDrive",
+          "provider_slug": "opendrive",
+          "plan": "Personal Unlimited",
+          "title": "OpenDrive Personal Unlimited",
+          "price": 129.0,
+          "currency": "USD",
+          "offer_url": "https://www.opendrive.com/pricing",
+          "valid_until": null,
+          "source_url": "https://www.opendrive.com/pricing",
+          "fetched_at": "2026-10-21T06:05:28+00:00",
+          "pricing_unit": "year",
+          "extraction": "dedicated"
+        }
+      ],
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "name": "LiveDrive",
+      "slug": "livedrive",
+      "site": "https://www.livedrive.com",
+      "source": "https://www.livedrive.com/",
+      "affiliate": "",
+      "outbound": "https://www.livedrive.com/",
+      "offers": [
+        {
+          "id": "livedrive-backup-unlimited-storage-gbp",
+          "provider": "LiveDrive",
+          "provider_slug": "livedrive",
+          "plan": "Backup (unlimited storage)",
+          "title": "LiveDrive Backup (unlimited storage)",
+          "price": 7.69,
+          "currency": "GBP",
+          "offer_url": "https://www.livedrive.com/",
+          "valid_until": null,
+          "source_url": "https://www.livedrive.com/",
+          "fetched_at": "2026-10-21T06:05:32+00:00",
+          "pricing_unit": "month",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "livedrive-backup-unlimited-storage-gbp-year",
+          "provider": "LiveDrive",
+          "provider_slug": "livedrive",
+          "plan": "Backup (unlimited storage)",
+          "title": "LiveDrive Backup (unlimited storage)",
+          "price": 76.9,
+          "currency": "GBP",
+          "offer_url": "https://www.livedrive.com/",
+          "valid_until": null,
+          "source_url": "https://www.livedrive.com/",
+          "fetched_at": "2026-10-21T06:05:32+00:00",
+          "pricing_unit": "year",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "livedrive-briefcase-2-tb-gbp",
+          "provider": "LiveDrive",
+          "provider_slug": "livedrive",
+          "plan": "Briefcase (2 TB)",
+          "title": "LiveDrive Briefcase (2 TB)",
+          "price": 11.99,
+          "currency": "GBP",
+          "offer_url": "https://www.livedrive.com/",
+          "valid_until": null,
+          "source_url": "https://www.livedrive.com/",
+          "fetched_at": "2026-10-21T06:05:32+00:00",
+          "pricing_unit": "month",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "livedrive-briefcase-2-tb-gbp-year",
+          "provider": "LiveDrive",
+          "provider_slug": "livedrive",
+          "plan": "Briefcase (2 TB)",
+          "title": "LiveDrive Briefcase (2 TB)",
+          "price": 119.9,
+          "currency": "GBP",
+          "offer_url": "https://www.livedrive.com/",
+          "valid_until": null,
+          "source_url": "https://www.livedrive.com/",
+          "fetched_at": "2026-10-21T06:05:32+00:00",
+          "pricing_unit": "year",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "livedrive-pro-suite-5-tb-gbp",
+          "provider": "LiveDrive",
+          "provider_slug": "livedrive",
+          "plan": "Pro Suite (5 TB)",
+          "title": "LiveDrive Pro Suite (5 TB)",
+          "price": 17.59,
+          "currency": "GBP",
+          "offer_url": "https://www.livedrive.com/",
+          "valid_until": null,
+          "source_url": "https://www.livedrive.com/",
+          "fetched_at": "2026-10-21T06:05:32+00:00",
+          "pricing_unit": "month",
+          "extraction": "dedicated"
+        },
+        {
+          "id": "livedrive-pro-suite-5-tb-gbp-year",
+          "provider": "LiveDrive",
+          "provider_slug": "livedrive",
+          "plan": "Pro Suite (5 TB)",
+          "title": "LiveDrive Pro Suite (5 TB)",
+          "price": 175.9,
+          "currency": "GBP",
+          "offer_url": "https://www.livedrive.com/",
+          "valid_until": null,
+          "source_url": "https://www.livedrive.com/",
+          "fetched_at": "2026-10-21T06:05:32+00:00",
+          "pricing_unit": "year",
           "extraction": "dedicated"
         }
       ],
@@ -2439,6 +2650,96 @@
       "extraction": "dedicated"
     },
     {
+      "id": "livedrive-backup-unlimited-storage-gbp",
+      "provider": "LiveDrive",
+      "provider_slug": "livedrive",
+      "plan": "Backup (unlimited storage)",
+      "title": "LiveDrive Backup (unlimited storage)",
+      "price": 7.69,
+      "currency": "GBP",
+      "offer_url": "https://www.livedrive.com/",
+      "valid_until": null,
+      "source_url": "https://www.livedrive.com/",
+      "fetched_at": "2026-10-21T06:05:32+00:00",
+      "pricing_unit": "month",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "livedrive-briefcase-2-tb-gbp",
+      "provider": "LiveDrive",
+      "provider_slug": "livedrive",
+      "plan": "Briefcase (2 TB)",
+      "title": "LiveDrive Briefcase (2 TB)",
+      "price": 11.99,
+      "currency": "GBP",
+      "offer_url": "https://www.livedrive.com/",
+      "valid_until": null,
+      "source_url": "https://www.livedrive.com/",
+      "fetched_at": "2026-10-21T06:05:32+00:00",
+      "pricing_unit": "month",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "livedrive-pro-suite-5-tb-gbp",
+      "provider": "LiveDrive",
+      "provider_slug": "livedrive",
+      "plan": "Pro Suite (5 TB)",
+      "title": "LiveDrive Pro Suite (5 TB)",
+      "price": 17.59,
+      "currency": "GBP",
+      "offer_url": "https://www.livedrive.com/",
+      "valid_until": null,
+      "source_url": "https://www.livedrive.com/",
+      "fetched_at": "2026-10-21T06:05:32+00:00",
+      "pricing_unit": "month",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "livedrive-backup-unlimited-storage-gbp-year",
+      "provider": "LiveDrive",
+      "provider_slug": "livedrive",
+      "plan": "Backup (unlimited storage)",
+      "title": "LiveDrive Backup (unlimited storage)",
+      "price": 76.9,
+      "currency": "GBP",
+      "offer_url": "https://www.livedrive.com/",
+      "valid_until": null,
+      "source_url": "https://www.livedrive.com/",
+      "fetched_at": "2026-10-21T06:05:32+00:00",
+      "pricing_unit": "year",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "livedrive-briefcase-2-tb-gbp-year",
+      "provider": "LiveDrive",
+      "provider_slug": "livedrive",
+      "plan": "Briefcase (2 TB)",
+      "title": "LiveDrive Briefcase (2 TB)",
+      "price": 119.9,
+      "currency": "GBP",
+      "offer_url": "https://www.livedrive.com/",
+      "valid_until": null,
+      "source_url": "https://www.livedrive.com/",
+      "fetched_at": "2026-10-21T06:05:32+00:00",
+      "pricing_unit": "year",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "livedrive-pro-suite-5-tb-gbp-year",
+      "provider": "LiveDrive",
+      "provider_slug": "livedrive",
+      "plan": "Pro Suite (5 TB)",
+      "title": "LiveDrive Pro Suite (5 TB)",
+      "price": 175.9,
+      "currency": "GBP",
+      "offer_url": "https://www.livedrive.com/",
+      "valid_until": null,
+      "source_url": "https://www.livedrive.com/",
+      "fetched_at": "2026-10-21T06:05:32+00:00",
+      "pricing_unit": "year",
+      "extraction": "dedicated"
+    },
+    {
       "id": "mediafire-pro-billed-annually-usd",
       "provider": "MediaFire",
       "provider_slug": "mediafire",
@@ -2481,6 +2782,36 @@
       "source_url": "https://www.mediafire.com/upgrade/",
       "fetched_at": "2026-10-19T22:25:11+00:00",
       "pricing_unit": "month",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "opendrive-personal-unlimited-usd",
+      "provider": "OpenDrive",
+      "provider_slug": "opendrive",
+      "plan": "Personal Unlimited",
+      "title": "OpenDrive Personal Unlimited",
+      "price": 12.95,
+      "currency": "USD",
+      "offer_url": "https://www.opendrive.com/pricing",
+      "valid_until": null,
+      "source_url": "https://www.opendrive.com/pricing",
+      "fetched_at": "2026-10-21T06:05:28+00:00",
+      "pricing_unit": "month",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "opendrive-personal-unlimited-usd-year",
+      "provider": "OpenDrive",
+      "provider_slug": "opendrive",
+      "plan": "Personal Unlimited",
+      "title": "OpenDrive Personal Unlimited",
+      "price": 129.0,
+      "currency": "USD",
+      "offer_url": "https://www.opendrive.com/pricing",
+      "valid_until": null,
+      "source_url": "https://www.opendrive.com/pricing",
+      "fetched_at": "2026-10-21T06:05:28+00:00",
+      "pricing_unit": "year",
       "extraction": "dedicated"
     },
     {
@@ -2557,6 +2888,21 @@
       "fetched_at": "2026-10-19T22:25:07+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
+    },
+    {
+      "id": "sevalla-object-storage-usd",
+      "provider": "Sevalla",
+      "provider_slug": "sevalla",
+      "plan": "Object storage",
+      "title": "Sevalla Object storage",
+      "price": 0.02,
+      "currency": "USD",
+      "offer_url": "https://sevalla.com/object-storage/",
+      "valid_until": null,
+      "source_url": "https://sevalla.com/object-storage/",
+      "fetched_at": "2026-10-21T06:05:26+00:00",
+      "pricing_unit": "month/gb",
+      "extraction": "dedicated"
     },
     {
       "id": "storj-standard-usd",
@@ -2662,6 +3008,36 @@
       "fetched_at": "2026-10-19T22:24:47+00:00",
       "pricing_unit": "user/month",
       "extraction": "heuristic"
+    },
+    {
+      "id": "upcloud-250-gb-eur",
+      "provider": "UpCloud",
+      "provider_slug": "upcloud",
+      "plan": "250 GB",
+      "title": "UpCloud 250 GB",
+      "price": 5.0,
+      "currency": "EUR",
+      "offer_url": "https://upcloud.com/products/object-storage/",
+      "valid_until": null,
+      "source_url": "https://upcloud.com/products/object-storage/",
+      "fetched_at": "2026-10-21T06:05:24+00:00",
+      "pricing_unit": "month",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "upcloud-each-additional-250-gb-eur",
+      "provider": "UpCloud",
+      "provider_slug": "upcloud",
+      "plan": "Each additional 250 GB",
+      "title": "UpCloud Each additional 250 GB",
+      "price": 5.0,
+      "currency": "EUR",
+      "offer_url": "https://upcloud.com/products/object-storage/",
+      "valid_until": null,
+      "source_url": "https://upcloud.com/products/object-storage/",
+      "fetched_at": "2026-10-21T06:05:24+00:00",
+      "pricing_unit": "month",
+      "extraction": "dedicated"
     },
     {
       "id": "wasabi-pay-as-you-go-usd",
