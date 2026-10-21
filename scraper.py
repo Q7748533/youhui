@@ -553,6 +553,115 @@ def from_filebase(html: str, page_url: str, default_currency: str) -> list[dict]
     return out
 
 
+def from_upcloud(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """UpCloud Managed Object Storage product page.
+
+    Prices in the server-rendered capacity table are monthly and may be
+    localized: the page exposes "$5/mo" or "€5/mo" for 250 GB and the
+    corresponding same-currency +5/month step for each additional 250 GB.
+    The prose also mentions a separate
+    "€0.02/GB" figure without a billing period; because the page currently
+    mixes currencies and does not state that period beside the unit price,
+    that figure is deliberately omitted instead of assigning month/GB.
+    Hourly equivalents are not duplicated.
+    """
+    flat = _flat_text(html)
+    out = []
+    currency = r"([$€£¥])\s*([\d.]+)"
+    m = re.search(rf"(\d+)\s*GB Included\s+{currency}/mo", flat)
+    if m:
+        got = parse_money(f"{m.group(2)}{m.group(3)}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                f"{m.group(1)} GB", got[0], got[1], page_url, "month", "dedicated"))
+    m = re.search(rf"\+\s*(\d+)\s*GB for each upscale\s+\+\s*{currency}/mo", flat)
+    if m:
+        got = parse_money(f"{m.group(2)}{m.group(3)}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                f"Each additional {m.group(1)} GB", got[0], got[1],
+                page_url, "month", "dedicated"))
+    return out
+
+
+def from_livedrive(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """LiveDrive homepage plan cards (public, static WordPress markup).
+
+    The dedicated pricing page currently returns 404; the homepage contains
+    the current plan selector and its static price nodes. Only the six
+    explicitly named price elements (three plans × monthly/annual) are read.
+    The GBP symbol is taken from the rendered page, not inferred from locale.
+    """
+    out = []
+    plans = {
+        "backup": ("Backup (unlimited storage)", "month"),
+        "briefcase": ("Briefcase (2 TB)", "month"),
+        "pro": ("Pro Suite (5 TB)", "month"),
+    }
+    pattern = re.compile(
+        r'<p[^>]*class="[^"]*\bzd-price-(backup|briefcase|pro)-(monthly|annual)\b'
+        r'[^"]*"[^>]*>(.*?)</p>', re.S | re.I)
+    for m in pattern.finditer(html):
+        key, period, fragment = m.groups()
+        plan, _ = plans[key.lower()]
+        token = re.sub(r"\s+", " ", _clean_text(fragment)).strip()
+        got = parse_money(token, default_currency)
+        if not got or got[0] <= 0:
+            continue
+        unit = "month" if period.lower() == "monthly" else "year"
+        out.append(_dedicated_row(plan, got[0], got[1], page_url, unit, "dedicated"))
+    return out
+
+
+# SpiderOak is excluded: spideroak.com/robots.txt is a blanket
+# "User-agent: * / Disallow: /" — the site explicitly disallows crawlers, and
+# that robots rule outranks the fact that its prices are static and readable.
+
+def from_sevalla(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """Sevalla object storage (Kinsta; single flat unit price).
+
+    The page quotes exactly one number — "Pay $ 0.02 /GB" with no egress
+    fees — so a single month/gb row is emitted. Any other figure on the
+    page belongs to application hosting products and must not leak into
+    the storage record.
+    """
+    flat = _flat_text(html)
+    m = re.search(r"Pay\s+\$\s*([\d.]+)\s*/GB", flat)
+    if not m:
+        return []
+    got = parse_money(f"${m.group(1)}", default_currency)
+    if not got:
+        return []
+    return [_dedicated_row("Object storage", got[0], got[1],
+                           page_url, "month/gb", "dedicated")]
+
+
+def from_opendrive(html: str, page_url: str, default_currency: str) -> list[dict]:
+    """OpenDrive pricing page (server-rendered plan cards).
+
+    Personal Unlimited is the only fixed-price tier ("$12.95" monthly,
+    "$129 /year" annual — the dollar sign lives in a separate tag, so the
+    flattened text reads "Personal 12.95 Users"). The Free tier is $0 and
+    the Custom plan is a per-seat ladder ($1-998/month by user count);
+    neither is a comparable offer and both are skipped.
+    """
+    flat = _flat_text(html)
+    out = []
+    m = re.search(r"Personal\s+\$?\s*([\d.]+)\s+Users", flat)
+    if m:
+        got = parse_money(f"${m.group(1)}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                "Personal Unlimited", got[0], got[1], page_url, "month", "dedicated"))
+    m = re.search(r"Personal\s+\$?\s*[\d.]+\s+Users.{0,300}?([\d,]+)\s*/\s*year", flat)
+    if m:
+        got = parse_money(f"${m.group(1).replace(',', '')}", default_currency)
+        if got:
+            out.append(_dedicated_row(
+                "Personal Unlimited", got[0], got[1], page_url, "year", "dedicated"))
+    return out
+
+
 DEDICATED_PARSERS = {
     "https://bunny.net/storage": from_bunny,
     "https://developers.cloudflare.com/r2/pricing": from_r2,
@@ -569,6 +678,10 @@ DEDICATED_PARSERS = {
     "https://www.digitalocean.com/products/spaces": from_digitalocean_spaces,
     "https://www.impossiblecloud.com/pricing": from_impossible_cloud,
     "https://filebase.com/pricing": from_filebase,
+    "https://upcloud.com/products/object-storage": from_upcloud,
+    "https://sevalla.com/object-storage": from_sevalla,
+    "https://www.opendrive.com/pricing": from_opendrive,
+    "https://www.livedrive.com": from_livedrive,
     "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/region_index.json": from_aws_s3,
 }
 

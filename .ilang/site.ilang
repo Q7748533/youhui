@@ -41,6 +41,10 @@ ILANG
   DigitalOcean Spaces | https://www.digitalocean.com | https://www.digitalocean.com/products/spaces/ |
   Impossible Cloud | https://www.impossiblecloud.com | https://www.impossiblecloud.com/pricing/ |
   Filebase | https://filebase.com | https://filebase.com/pricing/ |
+  UpCloud | https://upcloud.com | https://upcloud.com/products/object-storage/ |
+  Sevalla | https://sevalla.com | https://sevalla.com/object-storage/ |
+  OpenDrive | https://www.opendrive.com | https://www.opendrive.com/pricing |
+  LiveDrive | https://www.livedrive.com | https://www.livedrive.com/ |
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
   title price currency pricing_unit offer_url valid_until source_url fetched_at
