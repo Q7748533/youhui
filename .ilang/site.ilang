@@ -13,6 +13,7 @@ ILANG
   update_cron: "17 */6 * * *"
   refresh_human: 6 hours
   stale_after_days: 3
+  contact_email: privacy@example.com
 
 ::MODULE{PROVIDERS|title:抓哪几家 这里改了站就变}
   pCloud | https://www.pcloud.com | https://www.pcloud.com/pricing.html |
