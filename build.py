@@ -412,27 +412,98 @@ def main(argv: list[str]) -> int:
     else:
         also_tracked = ""
 
-    offer_cards = []
-    for o in sorted(live_offers, key=lambda item: (item.get("price") is None, item.get("price") or 0, item["provider"]))[:12]:
+    # ---------------------------------------------------------- home offers
+    # Cards are grouped by billing basis. An ascending list that mixes a per-GB
+    # unit price with a monthly plan fee reads like a price ranking, but the
+    # numbers are not the same unit at all — 0.0036 next to 0.99 is a different
+    # question, not a cheaper answer. Each card also states its basis so a
+    # single card still means something when seen out of context.
+    BASIS_ORDER = ["month", "month/gb", "month/tb", "month/user", "user/month",
+                   "month/server", "year", "year/tb", "year/seat",
+                   "license/month", "license/tb"]
+
+    def offer_card(o: dict) -> str:
         if o.get("price") is not None:
             price_display = money(o["price"], o["currency"])
             price_class = "price"
             status = '<span class="tag warn">Previously verified</span>' if o.get("stale") else '<span class="tag ok">Verified</span>'
+            currency_label = f' <span class="cur">{esc(o["currency"])}</span>'
         else:
             price_display = "Price unavailable"
             price_class = "price muted"
             status = '<span class="tag warn">No verified price</span>'
-        currency_label = f' <span class="cur">{esc(o["currency"])}</span>' if o.get("price") is not None else ""
-        offer_cards.append(
+            currency_label = ""
+        return (
             f'<article class="card"><div class="card-top"><span class="provider">{esc(o["provider"])}</span>{status}</div>'
             f'<div class="plan">{esc(o["plan"])}</div>'
             f'<div class="{price_class}">{esc(price_display)}{currency_label}</div>'
+            f'<div class="unit">{esc(pricing_basis_label(pricing_basis(o)))}</div>'
             f'<div class="meta">{"Last verified " if o.get("stale") else "Checked "}{esc(display_date(o["fetched_at"]))} · official source</div>'
             f'<div class="card-actions"><a href="{root}deals/{esc(o["id"])}/">View details</a>'
             f'<a href="{esc(o["offer_url"])}" rel="nofollow noopener" target="_blank">Official page ↗</a></div></article>'
         )
-    if not offer_cards:
-        offer_cards.append('<div class="card"><div class="plan">No verified price was available on the last run. Missing data stays missing.</div></div>')
+
+    home_priced = [o for o in live_offers
+                   if o.get("price") is not None and pricing_basis(o) != "unknown"]
+    by_basis: dict[str, list[dict]] = {}
+    for o in home_priced:
+        by_basis.setdefault(pricing_basis(o), []).append(o)
+    base_currency = dominant_currency(home_priced, conf.get("currency", "USD"))
+
+    def group_order(o: dict):
+        """Inside a group, the dominant currency sorts first, so neighbouring
+        cards share both the billing basis and the currency — the two things
+        that make two prices comparable in the first place."""
+        return (o["currency"] != base_currency, o["price"], o["provider"])
+
+    # Featured: the three bases holding the most directly comparable plans —
+    # ranked by plans in the site currency, because that is what the group can
+    # actually show. Ranking by raw totals would promote a basis that is
+    # mostly kroner and then display three cards in a four-column grid.
+    def site_currency_count(basis: str) -> int:
+        return sum(1 for o in by_basis[basis] if o["currency"] == base_currency)
+
+    featured = sorted(
+        sorted(by_basis, key=lambda b: (-site_currency_count(b), -len(by_basis[b])))[:3],
+        key=lambda b: BASIS_ORDER.index(b) if b in BASIS_ORDER else len(BASIS_ORDER),
+    )
+
+    offer_groups = []
+    for basis in featured:
+        whole = sorted(by_basis[basis], key=group_order)
+        label = pricing_basis_label(basis)
+        slug = basis.replace("/", "-")
+        # A shared billing basis is not enough: two figures in different
+        # currencies are still not comparable, and we do not convert. Each
+        # group therefore shows one currency only; plans in other currencies
+        # stay reachable through the billing-basis page. The site currency
+        # wins whenever the group has it — a reader should not meet kroner
+        # just because one provider publishes more year plans than another.
+        group_currency = (base_currency if any(o["currency"] == base_currency for o in whole)
+                          else dominant_currency(whole, base_currency))
+        group = [o for o in whole if o["currency"] == group_currency]
+        hidden = len(whole) - len(group)
+        note = (f"{group_currency}, same billing basis — these prices are directly comparable. "
+                f"{len(group)} verified plan{'s' if len(group) != 1 else ''}.")
+        if hidden:
+            note += f" {hidden} more in other currencies on the billing-basis page."
+        offer_groups.append(
+            '<section class="offer-group">'
+            f'<div class="section-head"><div><h3>{esc(label[0].upper() + label[1:])}</h3>'
+            f'<p>{esc(note)}</p></div>'
+            f'<a class="btn btn-secondary" href="{root}basis/{esc(slug)}/">See all {len(whole)}</a></div>'
+            f'<div class="grid">{"".join(offer_card(o) for o in group[:4])}</div></section>'
+        )
+    other_bases = [b for b in by_basis if b not in featured]
+    if other_bases:
+        other_links = ", ".join(
+            f'<a href="{root}basis/{esc(b.replace("/", "-"))}/">{esc(pricing_basis_label(b))} ({len(by_basis[b])})</a>'
+            for b in sorted(other_bases, key=lambda b: (-len(by_basis[b]), b)))
+        offer_groups.append(
+            '<p class="note" style="margin-top:22px">Also tracked on other billing bases, '
+            f'not comparable with the groups above: {other_links}.</p>')
+    if not offer_groups:
+        offer_groups.append('<div class="card"><div class="plan">No verified price was available on the last run. Missing data stays missing.</div></div>')
 
     index_body = read_template("index.html").safe_substitute(
         headline=esc(f"Compare {niche} prices from official pages."),
@@ -444,7 +515,7 @@ def main(argv: list[str]) -> int:
         cron_note=esc(conf.get("refresh_human", "6 hours")),
         provider_cards="\n".join(cards),
         also_tracked=also_tracked,
-        offer_cards="\n".join(offer_cards),
+        offer_groups="\n".join(offer_groups),
         root=root,
     )
     items = [{"@type": "ListItem", "position": i + 1, "name": o["title"], "url": page_url(f'/deals/{o["id"]}/')}
