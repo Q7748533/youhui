@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T21:47:26+00:00",
+  "generated_at": "2026-10-22T02:42:18+00:00",
   "providers": [
     {
       "slug": "pcloud",
@@ -124,22 +124,22 @@
     {
       "slug": "backblaze",
       "name": "Backblaze",
-      "status": "stale",
-      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 3,
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 0,
-      "priced_offers_now": 0,
-      "alert": true
+      "priced_offers_now": 2,
+      "alert": false
     },
     {
       "slug": "backblaze-computer-backup",
       "name": "Backblaze Computer Backup",
-      "status": "stale",
-      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 3,
+      "status": "ok",
+      "note": "",
+      "failure_streak": 0,
       "priced_offers_before": 0,
-      "priced_offers_now": 0,
-      "alert": true
+      "priced_offers_now": 2,
+      "alert": false
     },
     {
       "slug": "wasabi",
