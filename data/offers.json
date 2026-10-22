@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-22T04:57:18+00:00",
+    "generated_at": "2026-10-22T05:30:54+00:00",
     "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
@@ -836,8 +836,7 @@
         }
       ],
       "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1
+      "note": ""
     },
     {
       "name": "Backblaze Computer Backup",
@@ -879,8 +878,7 @@
         }
       ],
       "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1
+      "note": ""
     },
     {
       "name": "Wasabi",
@@ -1325,12 +1323,12 @@
           "provider_slug": "mediafire",
           "plan": "Ultra",
           "title": "MediaFire Ultra",
-          "price": 3.99,
+          "price": 10.0,
           "currency": "USD",
           "offer_url": "https://www.mediafire.com/upgrade/",
           "valid_until": null,
           "source_url": "https://www.mediafire.com/upgrade/",
-          "fetched_at": "2026-10-22T04:56:46+00:00",
+          "fetched_at": "2026-10-22T05:30:16+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         }
@@ -2742,21 +2740,6 @@
       "extraction": "dedicated"
     },
     {
-      "id": "mediafire-ultra-usd",
-      "provider": "MediaFire",
-      "provider_slug": "mediafire",
-      "plan": "Ultra",
-      "title": "MediaFire Ultra",
-      "price": 3.99,
-      "currency": "USD",
-      "offer_url": "https://www.mediafire.com/upgrade/",
-      "valid_until": null,
-      "source_url": "https://www.mediafire.com/upgrade/",
-      "fetched_at": "2026-10-22T04:56:46+00:00",
-      "pricing_unit": "month",
-      "extraction": "dedicated"
-    },
-    {
       "id": "mediafire-pro-billed-annually-usd",
       "provider": "MediaFire",
       "provider_slug": "mediafire",
@@ -2783,6 +2766,21 @@
       "valid_until": null,
       "source_url": "https://www.mediafire.com/upgrade/",
       "fetched_at": "2026-10-19T22:25:11+00:00",
+      "pricing_unit": "month",
+      "extraction": "dedicated"
+    },
+    {
+      "id": "mediafire-ultra-usd",
+      "provider": "MediaFire",
+      "provider_slug": "mediafire",
+      "plan": "Ultra",
+      "title": "MediaFire Ultra",
+      "price": 10.0,
+      "currency": "USD",
+      "offer_url": "https://www.mediafire.com/upgrade/",
+      "valid_until": null,
+      "source_url": "https://www.mediafire.com/upgrade/",
+      "fetched_at": "2026-10-22T05:30:16+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },

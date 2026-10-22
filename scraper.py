@@ -1327,6 +1327,17 @@ def main(argv: list[str]) -> int:
     with open(os.path.join(DATA_DIR, "scrape_report.json"), "w", encoding="utf-8") as fh:
         json.dump(report, fh, ensure_ascii=False, indent=2)
 
+    # Daily price archive. offers.json is overwritten on every run, so without
+    # this the site has no past: no comparison, no index, no way to answer
+    # "did this price actually change". Failure here must never break the
+    # data pipeline, so it is reported and swallowed.
+    try:
+        import archive
+        archived = archive.snapshot(payload)
+        print(f"archived {os.path.basename(archived)}")
+    except Exception as exc:                      # noqa: BLE001
+        print(f"warning: could not archive today's prices ({exc})", file=sys.stderr)
+
     print(f"providers: {payload['meta']['providers_total']}  "
           f"with_price: {payload['meta']['providers_with_price']}  "
           f"offers: {payload['meta']['offers_total']}")
