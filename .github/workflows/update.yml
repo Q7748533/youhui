@@ -19,6 +19,10 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Scrape official pricing pages
         run: python scraper.py
 
@@ -35,6 +39,14 @@ jobs:
         # leaks into the output, JSON-LD stops parsing, or an internal link
         # dangles. A broken build must not reach the branch the deploy reads.
         run: python tools/check_site.py
+
+      - name: Run tests
+        # price_history and price_index are pure logic; the parity test compares
+        # tco.py against the built site/tco.js, so it runs after the build.
+        run: |
+          python tools/test_price_history.py
+          python tools/test_price_index.py
+          python tools/test_tco_parity.py
 
       - name: Commit refreshed data and site
         run: |

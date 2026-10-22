@@ -14,7 +14,13 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import price_index
 
-BASE = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "history", "2026-10-22.json"), encoding="utf-8"))
+import archive
+
+# The real snapshot used for the sanity checks. Picked at run time rather than
+# by filename: hardcoding a date made the test fail the moment that day's file
+# was rotated out or history started accumulating.
+_HISTORY = archive.load_history()
+BASE = _HISTORY[0] if _HISTORY else {"date": "", "prices": {}}
 
 
 def snap(date, prices):

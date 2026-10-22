@@ -21,6 +21,7 @@ from string import Template
 
 import siteilang
 import archive
+import price_history
 import price_index
 import tco
 
@@ -652,6 +653,11 @@ def main(argv: list[str]) -> int:
     live_offers = [o for o in offers if not is_expired(o) and not o.get("stale")]
     priced = [p for p in providers if p["status"] in ("ok", "stale")]
 
+    # Price history is needed by the provider pages, which are built before the
+    # index page, so the archive is read here and reused below.
+    history = archive.load_history()
+    history_report = price_history.compute(history, {o["id"]: o for o in offers})
+
     def url_for(path: str) -> str:
         """Absolute URL — used by sitemap.xml and robots.txt, which require it."""
         return (base + path) if has_base else path
@@ -979,6 +985,66 @@ def main(argv: list[str]) -> int:
         if offers_node:
             product["offers"] = offers_node
 
+        # ---------------------------------------------------- price history
+        # Derived from the daily snapshots, never from offers.json: the live
+        # file only knows today, so a change can only be seen by comparing two
+        # days. With one snapshot there is nothing to compare and the section
+        # says so rather than showing an empty table that reads as "no changes".
+        ph = price_history.provider_summary(history_report, p["slug"])
+        if ph["days"] <= 1:
+            history_block = (
+                '<p class="note">Tracking began on '
+                f'<strong>{esc(ph["first_date"])}</strong>. Every change will be listed here once a '
+                'second daily snapshot exists — one snapshot cannot show a change, and this page will '
+                'not pretend otherwise.</p>'
+            )
+        else:
+            span = f'{ph["days"]} daily snapshots, {esc(ph["first_date"])} to {esc(ph["latest_date"])}'
+            if ph["change_count"]:
+                def history_row(r: dict) -> str:
+                    sign = "paid" if r["pct"] > 0 else "zero"
+                    return (
+                        f'<tr><td>{esc(r["date"])}</td>'
+                        f'<td><a href="{root}deals/{esc(r["id"])}/">{esc(r["plan"])}</a></td>'
+                        f'<td>{esc(money(r["from"], r["currency"]))}</td>'
+                        f'<td>{esc(money(r["to"], r["currency"]))}</td>'
+                        f'<td><span class="cost {sign}">{r["pct"]:+.2f}%</span></td></tr>'
+                    )
+                history_rows = "".join(history_row(r) for r in ph["rows"])
+                hidden = (f' {ph["hidden"]} older change(s) are not listed.'
+                          if ph["hidden"] else "")
+                history_block = (
+                    f'<p class="note" style="margin-bottom:14px">{ph["change_count"]} price change(s) '
+                    f'across {ph["tracked_plans"]} tracked plan(s), measured over {span}.{esc(hidden)}</p>'
+                    '<table><thead><tr><th>Date</th><th>Plan</th><th>Was</th><th>Now</th><th>Change</th>'
+                    f'</tr></thead><tbody>{history_rows}</tbody></table>'
+                )
+            else:
+                # A run of unchanged days is a finding, not an absence. Say it
+                # plainly — it is the answer to "has this provider raised
+                # prices" — but do not overclaim: a plan first seen yesterday
+                # was not read the day before, and a stale quote was never read
+                # at all, so neither can be called "matched".
+                if ph["tracked_plans"]:
+                    history_block = (
+                        f'<p class="note">No price change recorded across {span}. '
+                        f'{ph["tracked_plans"]} plan(s) have a price on record; where a quote was '
+                        'readable on both days it matched, and quotes that could not be read are '
+                        'excluded rather than counted as unchanged.</p>'
+                    )
+                else:
+                    history_block = (
+                        f'<p class="note">No price for this provider could be read across {span}, '
+                        'so there is no price history to report. This is a gap in the data, not a '
+                        'statement that prices held steady.</p>'
+                    )
+            if ph["basis_changes"]:
+                history_block += (
+                    f'<p class="note" style="margin-top:12px">{ph["basis_changes"]} further change(s) '
+                    'altered the currency or billing basis of a plan. Those are re-expressions of the '
+                    'same price, not price moves, so they are excluded from the count above.</p>'
+                )
+
         body = read_template("provider.html").safe_substitute(
             breadcrumb=f'<a href="{root}">{esc(brand)}</a> / {esc(p["name"])}',
             provider_name=esc(p["name"]),
@@ -988,6 +1054,7 @@ def main(argv: list[str]) -> int:
             comparison_summary=esc(comparison_summary),
             provider_insight=provider_insight(p),
             offer_block=block,
+            price_history_block=history_block,
             note=esc(p.get("note", "")),
         )
         write(f'providers/{p["slug"]}/index.html', page(
@@ -1520,7 +1587,7 @@ def main(argv: list[str]) -> int:
         write("tco.js", TCO_JS)
 
     # ------------------------------------------------------------ price index
-    history = archive.load_history()
+    # `history` and `history_report` were loaded before the provider pages.
     index_report = price_index.compute(
         history,
         labels={o["id"]: {"provider": o.get("provider", ""), "plan": o.get("plan", ""),
@@ -1625,6 +1692,8 @@ def main(argv: list[str]) -> int:
         base_suffix = (" Only the base snapshot exists so far, so every group sits at 100 and there "
                        "is nothing to compare against yet.") if base_only else ""
 
+        basis_slugs = {slug for slug, _label, _n in basis_link_items}
+
         def group_rows(items: list[dict]) -> str:
             if not items:
                 return '<tr><td colspan="4">No comparable quotes yet.</td></tr>'
@@ -1637,25 +1706,51 @@ def main(argv: list[str]) -> int:
                     change, paired = "—", "—"
                 else:
                     change, paired = pct(it["value"] - 100.0), str(it["paired"])
+                # A billing basis is also a page on this site, so the group
+                # name links to it: the reader who wants "all per-GB plans"
+                # is one click from the list rather than back at the nav.
+                # Compare the slug, not the raw key — "month/gb" becomes
+                # "month-gb" and only the transformed form is a real path.
+                key = it["key"]
+                slug = key.replace("/", "-")
+                label = (f'<a href="{root}basis/{esc(slug)}/">{esc(key)}</a>'
+                         if slug in basis_slugs else esc(key))
                 out.append(
-                    f'<tr><td>{esc(it["key"])}</td><td>{it["value"]:.2f}</td>'
+                    f'<tr><td>{label}</td><td>{it["value"]:.2f}</td>'
                     f'<td>{esc(change)}</td><td>{paired}</td></tr>'
                 )
             return "\n".join(out)
 
         movers = index_report["movers"]
-        if base_only or (not movers["up"] and not movers["down"]):
+        if base_only:
             movers_html = (
                 '<p class="note">No day-over-day comparison exists yet. The first movers appear once a '
                 'second daily snapshot lands — every value here is measured, and there is nothing to '
                 'measure against on day one.</p>'
             )
+        elif not movers["up"] and not movers["down"]:
+            # Distinct from the case above: the comparison happened and found
+            # nothing. Saying "no comparison exists" here would be false, and
+            # saying nothing at all would read as a broken page.
+            prev_date = series[-2]["date"] if len(series) >= 2 else ""
+            movers_html = (
+                f'<p class="note">No price moved between {esc(prev_date)} and '
+                f'{esc(index_report["latest_date"])}. {index_report["paired_latest"]} quotes were '
+                'readable on both days and every one of them matched — a measured result, not a '
+                'missing comparison. Cloud storage prices change every few months rather than daily, '
+                f'so most days look like this; per-provider change logs are on each '
+                f'<a href="{root}providers/">provider page</a>.</p>'
+            )
         else:
             def mover_rows(items: list[dict]) -> str:
                 if not items:
                     return '<tr><td colspan="4">No moves in this direction.</td></tr>'
+                # The mover names link to the quote page and the provider page,
+                # so a reader who sees "Wasabi +12%" can check the actual plan
+                # instead of taking the number on faith.
                 return "\n".join(
-                    f'<tr><td>{esc(m["provider"])}<small>{esc(m["plan"])}</small></td>'
+                    f'<tr><td><a href="{root}deals/{esc(m["id"])}/">{esc(m["provider"])}</a>'
+                    f'<small>{esc(m["plan"])}</small></td>'
                     f'<td>{esc(money(m["from"], m["currency"]))}</td>'
                     f'<td>{esc(money(m["to"], m["currency"]))}</td>'
                     f'<td><span class="cost {"paid" if m["pct"] > 0 else "zero"}">{esc(pct(m["pct"]))}</span></td></tr>'
