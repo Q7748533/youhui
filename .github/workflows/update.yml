@@ -30,6 +30,12 @@ jobs:
       - name: Rebuild static site
         run: python build.py
 
+      - name: Check the built site
+        # Fails the run before anything is committed if a template placeholder
+        # leaks into the output, JSON-LD stops parsing, or an internal link
+        # dangles. A broken build must not reach the branch the deploy reads.
+        run: python tools/check_site.py
+
       - name: Commit refreshed data and site
         run: |
           git config user.name "promo-radar bot"

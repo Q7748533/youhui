@@ -77,13 +77,25 @@ ul.clean{list-style:none;padding:0;margin:0}ul.clean li{padding:11px 0;border-bo
 .callout{background:var(--amber-soft);border:1px solid #f0d9a8;border-radius:14px;padding:20px 22px;margin:26px 0}.callout h3{font-family:Georgia,"Times New Roman",serif;font-size:20px;letter-spacing:-.03em;margin:0 0 8px}.callout p{margin:0;color:#5c4a1f;font-size:14px}.callout p+p{margin-top:9px}
 .tag.zero{background:var(--green-soft);color:var(--green)}.tag.meter{background:var(--red-soft);color:var(--red)}.tag.cond{background:var(--amber-soft);color:var(--amber)}.tag.neutral{background:#eef0f4;color:var(--muted)}
 .cost{font-weight:750;white-space:nowrap}.cost.zero{color:var(--green)}.cost.paid{color:var(--red)}
+.cost.total{color:var(--ink)}
 td small{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-top:3px;white-space:normal}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;color:var(--muted);font-weight:650}
+.field input{appearance:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-height:44px;padding:0 12px;color:var(--ink);font:inherit;font-weight:750;width:130px}
+.field input:focus{border-color:#b9b0f5;outline:3px solid #cfc7ff;outline-offset:1px}
+.presets{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.preset{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:650;color:var(--muted);cursor:pointer;font-family:inherit;transition:border-color .15s ease,color .15s ease}
+.preset:hover{border-color:#b9b0f5;color:var(--purple)}
+.preset[aria-pressed="true"]{background:var(--purple-soft);border-color:#b9b0f5;color:var(--purple)}
+.spark{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;display:block}
+.chart-legend{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font-size:12px;color:var(--ink);font-weight:700}
+.chart-scale{font-size:11px;color:var(--muted);margin-top:4px}
 footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px;color:var(--muted);font-size:13px}
 .foot-links{display:flex;gap:18px;flex-wrap:wrap;margin-top:13px}
 .foot-links a{color:var(--muted);font-weight:600}
 .foot-links a:hover{color:var(--purple);text-decoration:none}
 @media(max-width:800px){.hero{grid-template-columns:1fr;gap:24px}.method{grid-template-columns:1fr}}
-@media(max-width:600px){.wrap{padding:0 16px}header.site .wrap{min-height:64px;gap:14px}.brand{font-size:15px}nav{gap:13px;font-size:12px}nav a:nth-child(n+5){display:none}main{padding-top:30px}h1{font-size:40px}h2{font-size:25px}.hero p.lede{font-size:16px}.stats{gap:8px}.stat strong{font-size:21px}.toolbar{display:grid;grid-template-columns:1fr;align-items:stretch}.filter{width:100%}.section-head{display:block}.section-head .btn-secondary{margin-top:12px}table{display:block;overflow-x:auto;white-space:nowrap}.method{margin-top:34px}}
+@media(max-width:600px){.wrap{padding:0 16px}header.site .wrap{min-height:64px;gap:14px}.brand{font-size:15px}nav{gap:13px;font-size:12px}nav a:nth-child(n+6){display:none}main{padding-top:30px}h1{font-size:40px}h2{font-size:25px}.hero p.lede{font-size:16px}.stats{gap:8px}.stat strong{font-size:21px}.toolbar{display:grid;grid-template-columns:1fr;align-items:stretch}.filter{width:100%}.section-head{display:block}.section-head .btn-secondary{margin-top:12px}table{display:block;overflow-x:auto;white-space:nowrap}.method{margin-top:34px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"/#organization","name":"Cloud Storage Deals","url":"/","logo":"/og.png","description":"Verified cloud storage pricing, refreshed every 6 hours from official pages."},{"@type":"WebSite","@id":"/#website","name":"Cloud Storage Deals","url":"/","publisher":{"@id":"/#organization"},"inLanguage":"en-US"},{"@type":"ItemList","name":"cloud storage providers","itemListElement":[{"@type":"ListItem","position":1,"name":"pCloud","url":"/providers/pcloud/"},{"@type":"ListItem","position":2,"name":"Icedrive","url":"/providers/icedrive/"},{"@type":"ListItem","position":3,"name":"Internxt","url":"/providers/internxt/"},{"@type":"ListItem","position":4,"name":"Filen","url":"/providers/filen/"},{"@type":"ListItem","position":5,"name":"Koofr","url":"/providers/koofr/"},{"@type":"ListItem","position":6,"name":"Sync.com","url":"/providers/sync-com/"},{"@type":"ListItem","position":7,"name":"Tresorit","url":"/providers/tresorit/"},{"@type":"ListItem","position":8,"name":"IDrive","url":"/providers/idrive/"},{"@type":"ListItem","position":9,"name":"Jottacloud","url":"/providers/jottacloud/"},{"@type":"ListItem","position":10,"name":"Zoolz","url":"/providers/zoolz/"},{"@type":"ListItem","position":11,"name":"Storj","url":"/providers/storj/"},{"@type":"ListItem","position":12,"name":"Proton Drive","url":"/providers/proton-drive/"},{"@type":"ListItem","position":13,"name":"Backblaze","url":"/providers/backblaze/"},{"@type":"ListItem","position":14,"name":"Backblaze Computer Backup","url":"/providers/backblaze-computer-backup/"},{"@type":"ListItem","position":15,"name":"Wasabi","url":"/providers/wasabi/"},{"@type":"ListItem","position":16,"name":"Cloudflare R2","url":"/providers/cloudflare-r2/"},{"@type":"ListItem","position":17,"name":"Bunny Storage","url":"/providers/bunny-storage/"},{"@type":"ListItem","position":18,"name":"Dropbox","url":"/providers/dropbox/"},{"@type":"ListItem","position":19,"name":"IDrive e2","url":"/providers/idrive-e2/"},{"@type":"ListItem","position":20,"name":"Apple iCloud","url":"/providers/apple-icloud/"},{"@type":"ListItem","position":21,"name":"CrashPlan","url":"/providers/crashplan/"},{"@type":"ListItem","position":22,"name":"MediaFire","url":"/providers/mediafire/"},{"@type":"ListItem","position":23,"name":"AWS S3","url":"/providers/aws-s3/"},{"@type":"ListItem","position":24,"name":"DigitalOcean Spaces","url":"/providers/digitalocean-spaces/"},{"@type":"ListItem","position":25,"name":"Impossible Cloud","url":"/providers/impossible-cloud/"},{"@type":"ListItem","position":26,"name":"Filebase","url":"/providers/filebase/"},{"@type":"ListItem","position":27,"name":"UpCloud","url":"/providers/upcloud/"},{"@type":"ListItem","position":28,"name":"Sevalla","url":"/providers/sevalla/"},{"@type":"ListItem","position":29,"name":"OpenDrive","url":"/providers/opendrive/"},{"@type":"ListItem","position":30,"name":"LiveDrive","url":"/providers/livedrive/"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Cloud Storage Deals","item":"/"},{"@type":"ListItem","position":2,"name":"Compare cloud storage providers — October 2026","item":"/compare/"}]}]}</script>
@@ -96,6 +108,7 @@ footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px
     <a href="/providers/">Providers</a>
     <a href="/compare/">Compare</a>
     <a href="/egress/">Egress</a>
+    <a href="/calculator/">Calculator</a>
     <a href="/about/">Methodology</a>
     <a href="/contact/">Contact</a>
   </nav>
@@ -158,6 +171,8 @@ footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px
   <div class="foot-links">
     <a href="/providers/">All providers</a>
     <a href="/egress/">Egress fees</a>
+    <a href="/calculator/">TCO calculator</a>
+    <a href="/price-index/">Price index</a>
     <a href="/about/">Methodology</a>
     <a href="/privacy/">Privacy</a>
     <a href="/contact/">Contact</a>

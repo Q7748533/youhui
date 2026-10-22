@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "verified_at": "2026-10-22",
+    "note": "Which published plan the TCO calculator uses to represent each provider. Chosen by hand, not by taking the cheapest row: an automatic 'lowest price' pick selects AWS Glacier and Cloudflare R2 Infrequent Access, which are archive tiers and would make the comparison nonsense. Only offers priced per GB or per TB can be scaled linearly; flat bundles (DigitalOcean's $5 for 250 GiB, UpCloud's $5 per 250 GB) and per-seat plans are excluded rather than modelled with invented assumptions.",
+    "linear_rule": "month/gb x 1024, month/tb as-is, year/tb / 12. Everything else is out of scope."
+  },
+  "providers": [
+    {
+      "slug": "cloudflare-r2",
+      "offer_id": "cloudflare-r2-standard-storage-usd",
+      "tier": "Standard storage",
+      "note": ""
+    },
+    {
+      "slug": "backblaze",
+      "offer_id": "backblaze-b2-cloud-storage-usd",
+      "tier": "B2 Cloud Storage",
+      "note": ""
+    },
+    {
+      "slug": "wasabi",
+      "offer_id": "wasabi-pay-as-you-go-usd",
+      "tier": "Pay as you go",
+      "note": "1 TB minimum storage commitment and a 90-day minimum storage duration."
+    },
+    {
+      "slug": "storj",
+      "offer_id": "storj-standard-usd",
+      "tier": "Standard",
+      "note": "$5 minimum monthly invoice."
+    },
+    {
+      "slug": "bunny-storage",
+      "offer_id": "bunny-storage-standard-tier-hdd-single-region-usd",
+      "tier": "Standard HDD, single region",
+      "note": "Egress here is CDN delivery at the Europe / North America rate, not a storage exit fee."
+    },
+    {
+      "slug": "idrive-e2",
+      "offer_id": "idrive-e2-1-tb-usd",
+      "tier": "1 TB annual",
+      "note": "Annual price divided by 12. Billed per TB, so part-terabytes still pay for the whole TB."
+    },
+    {
+      "slug": "aws-s3",
+      "offer_id": "aws-s3-s3-standard-first-50-tb-usd",
+      "tier": "S3 Standard, first 50 TB",
+      "note": "Excludes Glacier and Standard-IA, which are archive tiers."
+    },
+    {
+      "slug": "digitalocean-spaces",
+      "offer_id": "digitalocean-spaces-additional-storage-usd",
+      "tier": "Standard, additional storage rate",
+      "note": "The $5 plan includes 250 GiB, which works out to the same per-GB rate, so the linear model holds."
+    },
+    {
+      "slug": "filebase",
+      "offer_id": "filebase-additional-storage-usd",
+      "tier": "Pro plan, additional storage rate",
+      "note": "The $7.50 Pro plan includes 500 GB at the same per-GB rate, so the linear model holds."
+    },
+    {
+      "slug": "sevalla",
+      "offer_id": "sevalla-object-storage-usd",
+      "tier": "Object storage",
+      "note": ""
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloud storage TCO calculator — Cloud Storage Deals</title>
+<meta name="description" content="Add storage and egress into one monthly bill across 10 providers. Real egress policies applied, no estimated rates.">
+<link rel="canonical" href="/calculator/">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cloud Storage Deals">
+<meta property="og:title" content="Cloud storage TCO calculator — Cloud Storage Deals">
+<meta property="og:description" content="Add storage and egress into one monthly bill across 10 providers. Real egress policies applied, no estimated rates.">
+<meta property="og:url" content="https://cloud-storage-deals.frankfraaa.workers.dev/calculator/">
+<meta property="og:image" content="https://cloud-storage-deals.frankfraaa.workers.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cloud-storage-deals.frankfraaa.workers.dev/og.png">
+<meta name="twitter:title" content="Cloud storage TCO calculator — Cloud Storage Deals">
+<meta name="twitter:description" content="Add storage and egress into one monthly bill across 10 providers. Real egress policies applied, no estimated rates.">
+<style>
+:root{--bg:#f7f7f4;--panel:#fff;--ink:#172033;--muted:#566174;--line:#e4e7ec;--purple:#6752d6;--purple-soft:#eeeafe;--green:#13795b;--green-soft:#e5f5ee;--amber:#a66008;--amber-soft:#fff3d6;--red:#b43d42;--red-soft:#fcebec;--max:1120px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+a{color:var(--purple);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid #cfc7ff;outline-offset:2px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+header.site{background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header.site .wrap{display:flex;align-items:center;gap:28px;min-height:72px;flex-wrap:wrap}
+.brand{font-weight:750;font-size:17px;color:var(--ink);letter-spacing:-.3px;line-height:1.2}
+.brand small{display:block;color:var(--muted);font-size:10px;font-weight:550;letter-spacing:.04em;margin-top:3px}
+nav{display:flex;gap:24px;margin-left:auto;font-size:14px}
+nav a{color:var(--muted);transition:color .2s ease}
+nav a:hover{color:var(--purple);text-decoration:none}
+main{padding:44px 0 68px}
+h1,h2{font-family:Georgia,"Times New Roman",serif;letter-spacing:-.045em}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:0 0 14px}
+h2{font-size:28px;line-height:1.15;margin:38px 0 14px}
+h3{font-size:16px;line-height:1.25;margin:0 0 6px}
+p.lede{color:var(--muted);font-size:17px;margin:0 0 24px;max-width:68ch}
+.eyebrow{color:var(--purple);font-size:12px;font-weight:750;letter-spacing:.1em;text-transform:uppercase}
+.hero{padding:20px 0 38px;display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:end}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn,.cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:8px;font-weight:700;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.btn-primary,.cta{background:var(--purple);color:#fff;border:1px solid var(--purple)}
+.btn-primary:hover,.cta:hover{background:#5540bf;text-decoration:none}
+.btn-secondary{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.btn-secondary:hover{border-color:#b9b0f5;color:var(--purple);text-decoration:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card,.summary,.toolbar{background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.card{padding:20px;transition:box-shadow .2s ease,border-color .2s ease}
+.card:hover{border-color:#b9b0f5;box-shadow:0 10px 22px rgba(25,31,52,.08)}
+.card .sub{color:var(--muted);font-size:13px;margin-top:7px}
+.summary{padding:22px}
+.summary h2{font-family:inherit;font-size:14px;letter-spacing:0;margin:0 0 16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat strong{display:block;font-size:25px;letter-spacing:-.05em}.stat span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.verified{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);color:var(--green);font-size:13px;font-weight:650}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px;margin-bottom:34px}.toolbar label{font-size:12px;color:var(--muted)}
+.filter{appearance:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-height:42px;padding:0 32px 0 12px;color:var(--ink);font:inherit}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:38px 0 14px}.section-head h2{margin:0}.section-head p{color:var(--muted);font-size:13px;margin:4px 0 0}
+.section-head h3{font-family:Georgia,"Times New Roman",serif;font-size:20px;line-height:1.2;margin:0;letter-spacing:-.03em}
+.offer-group{margin-top:30px}.offer-group .section-head{margin-top:0}
+section[id]{scroll-margin-top:88px}
+.unit{color:var(--muted);font-size:12px;font-weight:600;margin-top:3px}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.provider{font-weight:750}.plan{margin-top:17px;color:var(--muted);font-size:13px}.price{font-size:34px;font-weight:800;letter-spacing:-.06em;margin-top:2px}.price .cur{font-size:13px;color:var(--muted);font-weight:550;letter-spacing:0;margin-left:3px}
+.price.muted{font-size:22px;letter-spacing:-.03em}.meta{border-top:1px solid var(--line);margin-top:17px;padding-top:13px;color:var(--muted);font-size:12px}.card-actions{display:flex;gap:14px;margin-top:16px}.card-actions a{font-size:13px;font-weight:700}
+.tag{display:inline-block;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:750;white-space:nowrap;flex-shrink:0}.tag.ok{background:var(--green-soft);color:var(--green)}.tag.warn{background:var(--amber-soft);color:var(--amber)}.tag.bad{background:var(--red-soft);color:var(--red)}
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px}th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}th{background:#f1f2f5;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}tr:last-child td{border-bottom:none}tbody tr:hover{background:#fbfbfd}
+.note{color:var(--muted);font-size:13px}.crumbs{font-size:13px;color:var(--muted);margin-bottom:16px}.crumbs a{color:var(--muted)}
+ul.clean{list-style:none;padding:0;margin:0}ul.clean li{padding:11px 0;border-bottom:1px solid var(--line)}ul.clean li:last-child{border-bottom:none}
+.method{margin:42px 0 0;background:var(--ink);color:#fff;border-radius:16px;padding:24px;display:grid;grid-template-columns:1fr 2fr;gap:30px}.method h2{font-size:25px;margin:0}.method p{color:#c8ced9;margin:0}.method strong{color:#fff}
+.callout{background:var(--amber-soft);border:1px solid #f0d9a8;border-radius:14px;padding:20px 22px;margin:26px 0}.callout h3{font-family:Georgia,"Times New Roman",serif;font-size:20px;letter-spacing:-.03em;margin:0 0 8px}.callout p{margin:0;color:#5c4a1f;font-size:14px}.callout p+p{margin-top:9px}
+.tag.zero{background:var(--green-soft);color:var(--green)}.tag.meter{background:var(--red-soft);color:var(--red)}.tag.cond{background:var(--amber-soft);color:var(--amber)}.tag.neutral{background:#eef0f4;color:var(--muted)}
+.cost{font-weight:750;white-space:nowrap}.cost.zero{color:var(--green)}.cost.paid{color:var(--red)}
+.cost.total{color:var(--ink)}
+td small{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-top:3px;white-space:normal}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;color:var(--muted);font-weight:650}
+.field input{appearance:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-height:44px;padding:0 12px;color:var(--ink);font:inherit;font-weight:750;width:130px}
+.field input:focus{border-color:#b9b0f5;outline:3px solid #cfc7ff;outline-offset:1px}
+.presets{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.preset{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:650;color:var(--muted);cursor:pointer;font-family:inherit;transition:border-color .15s ease,color .15s ease}
+.preset:hover{border-color:#b9b0f5;color:var(--purple)}
+.preset[aria-pressed="true"]{background:var(--purple-soft);border-color:#b9b0f5;color:var(--purple)}
+.spark{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;display:block}
+.chart-legend{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font-size:12px;color:var(--ink);font-weight:700}
+.chart-scale{font-size:11px;color:var(--muted);margin-top:4px}
+footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px;color:var(--muted);font-size:13px}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap;margin-top:13px}
+.foot-links a{color:var(--muted);font-weight:600}
+.foot-links a:hover{color:var(--purple);text-decoration:none}
+@media(max-width:800px){.hero{grid-template-columns:1fr;gap:24px}.method{grid-template-columns:1fr}}
+@media(max-width:600px){.wrap{padding:0 16px}header.site .wrap{min-height:64px;gap:14px}.brand{font-size:15px}nav{gap:13px;font-size:12px}nav a:nth-child(n+6){display:none}main{padding-top:30px}h1{font-size:40px}h2{font-size:25px}.hero p.lede{font-size:16px}.stats{gap:8px}.stat strong{font-size:21px}.toolbar{display:grid;grid-template-columns:1fr;align-items:stretch}.filter{width:100%}.section-head{display:block}.section-head .btn-secondary{margin-top:12px}table{display:block;overflow-x:auto;white-space:nowrap}.method{margin-top:34px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"/#organization","name":"Cloud Storage Deals","url":"/","logo":"/og.png","description":"Verified cloud storage pricing, refreshed every 6 hours from official pages."},{"@type":"WebSite","@id":"/#website","name":"Cloud Storage Deals","url":"/","publisher":{"@id":"/#organization"},"inLanguage":"en-US"},{"@type":"WebApplication","name":"Cloud Storage Deals TCO calculator","applicationCategory":"BusinessApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript for interactive use","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Cloud Storage Deals","item":"/"},{"@type":"ListItem","position":2,"name":"Cloud storage TCO calculator — Cloud Storage Deals","item":"/calculator/"}]}]}</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="/">Cloud Storage Deals<small>Verified pricing from official pages</small></a>
+  <nav aria-label="Primary navigation">
+    <a href="/">Deals</a>
+    <a href="/providers/">Providers</a>
+    <a href="/compare/">Compare</a>
+    <a href="/egress/">Egress</a>
+    <a href="/calculator/">Calculator</a>
+    <a href="/about/">Methodology</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</div></header>
+<main><div class="wrap">
+<div class="crumbs"><a href="/">Cloud Storage Deals</a> / Calculator</div>
+<div class="hero" style="padding-top:8px">
+  <div>
+    <div class="eyebrow">Total cost of ownership</div>
+    <h1>What it actually costs per month</h1>
+    <p class="lede">A storage price is half a bill. This applies each provider&#x27;s real egress policy to the volume you enter, so a provider that looks cheap per gigabyte stops looking cheap once you start reading the data back.</p>
+  </div>
+  <div class="card">
+    <div class="provider">Storage price is not a cost</div>
+    <div class="meta" style="border-top:0;padding-top:10px;margin-top:0">Only providers with a per-GB or per-TB storage rate are included, so every row scales honestly. Flat bundles are listed as excluded rather than approximated.</div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="field">
+    <label for="tco-storage">Storage (TB)</label>
+    <input id="tco-storage" type="number" min="0" max="10000" step="0.5" value="1" inputmode="decimal">
+  </div>
+  <div class="field">
+    <label for="tco-egress">Egress per month (TB)</label>
+    <input id="tco-egress" type="number" min="0" max="10000" step="0.5" value="1" inputmode="decimal">
+  </div>
+  <div class="presets" role="group" aria-label="Preset scenarios">
+    <button class="preset" type="button" data-s="1" data-e="0">1 TB, no egress</button>
+    <button class="preset" type="button" data-s="1" data-e="1" aria-pressed="true">1 TB, 1 TB out</button>
+    <button class="preset" type="button" data-s="10" data-e="10">10 TB, 10 TB out</button>
+    <button class="preset" type="button" data-s="1" data-e="10">1 TB, 10 TB out</button>
+  </div>
+</div>
+
+<table>
+<thead><tr><th>Provider</th><th>Storage / month</th><th>Egress / month</th><th>Total / month</th><th>Per TB stored</th></tr></thead>
+<tbody id="tco-body">
+<tr data-slug="idrive-e2"><td><a href="/providers/idrive-e2/">IDrive e2</a><small>1 TB annual</small></td><td class="c-storage">$4.96</td><td class="c-egress">$0.00</td><td class="c-total"><span class="cost total">$4.96</span></td><td class="c-per">$4.96</td></tr>
+<tr data-slug="backblaze"><td><a href="/providers/backblaze/">Backblaze</a><small>B2 Cloud Storage</small></td><td class="c-storage">$6.95</td><td class="c-egress">$0.00</td><td class="c-total"><span class="cost total">$6.95</span></td><td class="c-per">$6.95</td></tr>
+<tr data-slug="wasabi"><td><a href="/providers/wasabi/">Wasabi</a><small>Pay as you go</small></td><td class="c-storage">$7.99</td><td class="c-egress">$0.00</td><td class="c-total"><span class="cost total">$7.99</span></td><td class="c-per">$7.99</td></tr>
+<tr data-slug="storj"><td><a href="/providers/storj/">Storj</a><small>Standard</small></td><td class="c-storage">$7.00</td><td class="c-egress">$7.00</td><td class="c-total"><span class="cost total">$14.00</span></td><td class="c-per">$14.00</td></tr>
+<tr data-slug="cloudflare-r2"><td><a href="/providers/cloudflare-r2/">Cloudflare R2</a><small>Standard storage</small></td><td class="c-storage">$15.36</td><td class="c-egress">$0.00</td><td class="c-total"><span class="cost total">$15.36</span></td><td class="c-per">$15.36</td></tr>
+<tr data-slug="filebase"><td><a href="/providers/filebase/">Filebase</a><small>Pro plan, additional storage rate</small></td><td class="c-storage">$15.36</td><td class="c-egress">$0.00</td><td class="c-total"><span class="cost total">$15.36</span></td><td class="c-per">$15.36</td></tr>
+<tr data-slug="bunny-storage"><td><a href="/providers/bunny-storage/">Bunny Storage</a><small>Standard HDD, single region</small></td><td class="c-storage">$10.24</td><td class="c-egress">$10.24</td><td class="c-total"><span class="cost total">$20.48</span></td><td class="c-per">$20.48</td></tr>
+<tr data-slug="digitalocean-spaces"><td><a href="/providers/digitalocean-spaces/">DigitalOcean Spaces</a><small>Standard, additional storage rate</small></td><td class="c-storage">$20.48</td><td class="c-egress">$0.00</td><td class="c-total"><span class="cost total">$20.48</span></td><td class="c-per">$20.48</td></tr>
+<tr data-slug="sevalla"><td><a href="/providers/sevalla/">Sevalla</a><small>Object storage</small></td><td class="c-storage">$20.48</td><td class="c-egress">$0.00</td><td class="c-total"><span class="cost total">$20.48</span></td><td class="c-per">$20.48</td></tr>
+<tr data-slug="aws-s3"><td><a href="/providers/aws-s3/">AWS S3</a><small>S3 Standard, first 50 TB</small></td><td class="c-storage">$23.55</td><td class="c-egress">$92.16</td><td class="c-total"><span class="cost total">$115.71</span></td><td class="c-per">$115.71</td></tr>
+</tbody>
+</table>
+<p class="note" style="margin-top:14px" id="tco-caption">Showing 10 providers at 1 TB stored and 1 TB of egress per month, cheapest total first. Change the inputs above to recompute.</p>
+
+<h2>How each provider charges egress</h2>
+<p class="note" style="margin-bottom:16px">The second column is where a storage-only comparison stops being useful: Storj charges $7 per TB to store and another $7 per TB to read back, so the same plan doubles the moment you actually use the data.</p>
+<table>
+<thead><tr><th>Provider</th><th>Egress rule applied</th><th>Plan used for storage</th></tr></thead>
+<tbody>
+<tr><td><a href="/providers/idrive-e2/">IDrive e2</a></td><td>Free up to 3x stored volume, then $0.01/GB</td><td>1 TB annual</td></tr>
+<tr><td><a href="/providers/backblaze/">Backblaze</a></td><td>Free up to 3x stored volume, then $0.01/GB</td><td>B2 Cloud Storage</td></tr>
+<tr><td><a href="/providers/wasabi/">Wasabi</a></td><td>No egress charge (but 1 TB minimum storage) · $7.99 monthly minimum</td><td>Pay as you go</td></tr>
+<tr><td><a href="/providers/storj/">Storj</a></td><td>$7/TB, no free allowance · $5 monthly minimum</td><td>Standard</td></tr>
+<tr><td><a href="/providers/cloudflare-r2/">Cloudflare R2</a></td><td>No egress charge</td><td>Standard storage</td></tr>
+<tr><td><a href="/providers/filebase/">Filebase</a></td><td>No egress charge</td><td>Pro plan, additional storage rate</td></tr>
+<tr><td><a href="/providers/bunny-storage/">Bunny Storage</a></td><td>$0.01/GB delivered</td><td>Standard HDD, single region</td></tr>
+<tr><td><a href="/providers/digitalocean-spaces/">DigitalOcean Spaces</a></td><td>1 TB/month included, then $0.01/GB</td><td>Standard, additional storage rate</td></tr>
+<tr><td><a href="/providers/sevalla/">Sevalla</a></td><td>No egress charge</td><td>Object storage</td></tr>
+<tr><td><a href="/providers/aws-s3/">AWS S3</a></td><td>Volume tiers: up to 10 TB $0.09/GB, up to 50 TB $0.085/GB, up to 150 TB $0.07/GB, above $0.05/GB</td><td>S3 Standard, first 50 TB</td></tr>
+</tbody>
+</table>
+
+<h2>What this calculator does not cover</h2>
+<ul class="clean"><li>Flat bundles that cannot be scaled linearly — DigitalOcean&#x27;s and UpCloud&#x27;s plans are priced per 250 GB block, so a per-TB rate would be an invented number.</li><li>Per-seat and per-user plans, which depend on team size rather than on data volume.</li><li>Request charges, retrieval fees on archive tiers, and early-deletion fees. These exist and can matter, but they depend on access patterns this calculator does not ask about.</li><li>Taxes, support plans and committed-use discounts.</li></ul>
+
+<div class="method">
+  <div>
+    <h2>How the numbers are built</h2>
+  </div>
+  <div>
+    <p>Storage cost is the provider's own published per-GB or per-TB rate, scaled to the volume you entered. Egress cost applies that provider's actual policy — flat free, free up to a multiple of stored volume, a bundled allowance, volume tiers, or a flat per-TB rate. <strong>No rate here is estimated; each one is the number on the provider's pricing page.</strong></p>
+    <p style="margin-top:12px">1 TB = 1,024 GB, matching the rest of this site. Where a provider bills per TB rather than per GB, its per-TB rate is used unchanged. Minimum commitments are applied: Wasabi's 1 TB storage floor and Storj's $5 monthly invoice both show up in the totals.</p>
+    <p style="margin-top:12px">Prices verified 2026-10-22. Storage prices refresh every 6 hours from the automated pipeline; egress policies are re-checked by hand. Taxes, support plans and request charges are excluded.</p>
+  </div>
+</div>
+
+<script type="application/json" id="tco-data">[{"slug":"cloudflare-r2","name":"Cloudflare R2","tier":"Standard storage","note":"","storagePerTb":15.36,"egress":{"kind":"free"},"egressNote":"$0","pageUrl":"/providers/cloudflare-r2/"},{"slug":"backblaze","name":"Backblaze","tier":"B2 Cloud Storage","note":"","storagePerTb":6.95,"egress":{"kind":"multiple","free_multiple":3,"rate_per_gb":0.01},"egressNote":"$0.01/GB","pageUrl":"/providers/backblaze/"},{"slug":"wasabi","name":"Wasabi","tier":"Pay as you go","note":"1 TB minimum storage commitment and a 90-day minimum storage duration.","storagePerTb":7.99,"egress":{"kind":"free","min_monthly":7.99,"min_storage_tb":1},"egressNote":"$0","pageUrl":"/providers/wasabi/"},{"slug":"storj","name":"Storj","tier":"Standard","note":"$5 minimum monthly invoice.","storagePerTb":7.0,"egress":{"kind":"per_tb","rate_per_tb":7,"min_monthly":5},"egressNote":"$7/TB","pageUrl":"/providers/storj/"},{"slug":"bunny-storage","name":"Bunny Storage","tier":"Standard HDD, single region","note":"Egress here is CDN delivery at the Europe / North America rate, not a storage exit fee.","storagePerTb":10.24,"egress":{"kind":"per_gb","rate_per_gb":0.01},"egressNote":"CDN bandwidth rates","pageUrl":"/providers/bunny-storage/"},{"slug":"idrive-e2","name":"IDrive e2","tier":"1 TB annual","note":"Annual price divided by 12. Billed per TB, so part-terabytes still pay for the whole TB.","storagePerTb":4.958333,"egress":{"kind":"multiple","free_multiple":3,"rate_per_gb":0.01},"egressNote":"$0.01/GB","pageUrl":"/providers/idrive-e2/"},{"slug":"aws-s3","name":"AWS S3","tier":"S3 Standard, first 50 TB","note":"Excludes Glacier and Standard-IA, which are archive tiers.","storagePerTb":23.552,"egress":{"kind":"tiered","tiers":[{"upto_tb":10,"rate_per_gb":0.09},{"upto_tb":50,"rate_per_gb":0.085},{"upto_tb":150,"rate_per_gb":0.07},{"upto_tb":null,"rate_per_gb":0.05}]},"egressNote":"$0.09/GB, then $0.085, $0.07, $0.05","pageUrl":"/providers/aws-s3/"},{"slug":"digitalocean-spaces","name":"DigitalOcean Spaces","tier":"Standard, additional storage rate","note":"The $5 plan includes 250 GiB, which works out to the same per-GB rate, so the linear model holds.","storagePerTb":20.48,"egress":{"kind":"allowance","allowance_tb":1,"rate_per_gb":0.01},"egressNote":"$0.01/GiB","pageUrl":"/providers/digitalocean-spaces/"},{"slug":"filebase","name":"Filebase","tier":"Pro plan, additional storage rate","note":"The $7.50 Pro plan includes 500 GB at the same per-GB rate, so the linear model holds.","storagePerTb":15.36,"egress":{"kind":"free"},"egressNote":"$0 (IPFS bandwidth $0.015/GB)","pageUrl":"/providers/filebase/"},{"slug":"sevalla","name":"Sevalla","tier":"Object storage","note":"","storagePerTb":20.48,"egress":{"kind":"free"},"egressNote":"$0","pageUrl":"/providers/sevalla/"}]</script>
+<script src="/tco.js" defer></script>
+
+</div></main>
+<footer class="site"><div class="wrap">
+  <div><strong>Cloud Storage Deals</strong> — Verified cloud storage pricing, refreshed every 6 hours from official pages.</div>
+  <div class="note" style="margin-top:7px">All prices on this site are collected by an automated pipeline that reads each provider's official public pricing page — nothing is estimated, and any price that cannot be verified is left out. Last refresh: Oct 22, 2026, 05:30 UTC.</div>
+  <div class="foot-links">
+    <a href="/providers/">All providers</a>
+    <a href="/egress/">Egress fees</a>
+    <a href="/calculator/">TCO calculator</a>
+    <a href="/price-index/">Price index</a>
+    <a href="/about/">Methodology</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</div></footer>
+</body>
+</html>

@@ -34,7 +34,8 @@ SNAPSHOT_FILE = os.path.join(DAILY_DIR, "last_snapshot.json")
 UA = "cloud-storage-deals-health/1.0 (self-check)"
 TIMEOUT = 20
 
-CORE_PAGES = ["/", "/providers/", "/compare/", "/egress/", "/about/", "/privacy/", "/contact/"]
+CORE_PAGES = ["/", "/providers/", "/compare/", "/egress/", "/calculator/", "/price-index/",
+              "/about/", "/privacy/", "/contact/"]
 CURRENCIES = {"USD", "EUR", "GBP", "JPY", "CNY", "CHF", "NOK", "SEK", "DKK", "CAD", "AUD"}
 BASES = {"month", "month/gb", "month/tb", "month/user", "user/month", "month/server",
          "year", "year/tb", "year/seat", "license/month", "license/tb"}

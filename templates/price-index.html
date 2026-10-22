@@ -1,0 +1,52 @@
+<div class="crumbs">$breadcrumb</div>
+<div class="hero" style="padding-top:8px">
+  <div>
+    <div class="eyebrow">Price index</div>
+    <h1>$headline</h1>
+    <p class="lede">$lede</p>
+  </div>
+  <div class="card">
+    <div class="provider">Index value</div>
+    <div class="price">$index_value<span class="cur">base 100</span></div>
+    <div class="meta">$index_meta</div>
+  </div>
+</div>
+
+<div class="grid">$stat_cards</div>
+
+<h2>Index over time</h2>
+$chart
+$chart_legend
+<p class="note" style="margin-top:12px">$chart_note</p>
+
+<h2>By billing basis</h2>
+<p class="note" style="margin-bottom:16px">$basis_note</p>
+<table>
+<thead><tr><th>Basis</th><th>Index</th><th>Change</th><th>Paired quotes</th></tr></thead>
+<tbody>
+$basis_rows
+</tbody>
+</table>
+
+<h2>By currency</h2>
+<p class="note" style="margin-bottom:16px">$currency_note</p>
+<table>
+<thead><tr><th>Currency</th><th>Index</th><th>Change</th><th>Paired quotes</th></tr></thead>
+<tbody>
+$currency_rows
+</tbody>
+</table>
+
+<h2>Largest moves, latest day</h2>
+$movers_html
+
+<div class="method">
+  <div>
+    <h2>How the index works</h2>
+  </div>
+  <div>
+    <p>Only <strong>paired quotes</strong> count: an offer must be present on both days with the same currency and the same billing basis. A provider appearing or disappearing is not a price change, and a quote the scraper failed to read is not a price change either — those rows are excluded, and the paired count is published next to every index value so you can see how much of the market a given number is actually based on.</p>
+    <p style="margin-top:12px">The index is chained rather than fixed-base: each day is compared with the previous one and the factors are multiplied. That way adding a provider does not silently redefine the basket. Averaging is the geometric mean of price relatives (a Jevons index), which is the standard choice for homogeneous goods and is not dragged around by one expensive plan.</p>
+    <p style="margin-top:12px">A relative change of 5x or more is excluded and reported separately: at that size it is far more likely to be a parser misread or an unnoticed unit change than a real price move. Base date is <strong>$base_date</strong>, where the index equals 100.</p>
+  </div>
+</div>

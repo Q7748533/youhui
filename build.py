@@ -20,6 +20,9 @@ from datetime import datetime, timezone
 from string import Template
 
 import siteilang
+import archive
+import price_index
+import tco
 
 SITE_DIR = "site"
 TEMPLATE_DIR = "templates"
@@ -28,10 +31,168 @@ DATA_FILE = os.path.join("data", "offers.json")
 # live in a curated file the scraper never touches. Rows carry their own
 # source_url and verified_at instead of inheriting the build timestamp.
 EGRESS_FILE = os.path.join("data", "egress.json")
+# Which published plan represents each provider in the TCO calculator. Hand
+# chosen: picking the cheapest row automatically would select AWS Glacier and
+# R2 Infrequent Access, which are archive tiers, and the comparison would be
+# nonsense.
+TCO_FILE = os.path.join("data", "tco.json")
 SYMBOLS = {"USD": "$", "EUR": "€", "GBP": "£", "JPY": "¥", "CNY": "¥", "CHF": "CHF "}
 # The privacy policy only changes when the data practices change, so its
 # sitemap lastmod is pinned here instead of following every rebuild.
 PRIVACY_UPDATED = "2026-10-21"
+
+# The TCO calculator's interactive layer. Written as a real file rather than an
+# inline script so the pricing formulas stay readable and so nothing here has to
+# survive string.Template's $ substitution. The server renders the default
+# scenario; this only keeps the table in sync while the visitor types.
+# Formulas must mirror egress_charge() / tco_monthly() below.
+TCO_JS = r"""/* Recomputes the TCO table as inputs change. The server already rendered the
+   default scenario, so this file only keeps the numbers in sync while typing.
+   The three formula functions below are exported when loaded under Node so
+   tests can compare them with tco.py scenario by scenario. */
+
+function egressCharge(calc, storageTb, egressTb) {
+  calc = calc || {};
+  var kind = calc.kind || 'free';
+  var GB_PER_TB = 1024;
+  if (kind === 'free' || kind === 'bundled') return 0;
+  if (kind === 'multiple') {
+    var freeTb = storageTb * (calc.free_multiple || 0);
+    return Math.max(0, egressTb - freeTb) * GB_PER_TB * (calc.rate_per_gb || 0);
+  }
+  if (kind === 'allowance') {
+    return Math.max(0, egressTb - (calc.allowance_tb || 0)) * GB_PER_TB * (calc.rate_per_gb || 0);
+  }
+  if (kind === 'per_tb') return egressTb * (calc.rate_per_tb || 0);
+  if (kind === 'per_gb') return egressTb * GB_PER_TB * (calc.rate_per_gb || 0);
+  if (kind === 'tiered') {
+    var tiers = calc.tiers || [], remaining = egressTb, prev = 0, total = 0;
+    for (var i = 0; i < tiers.length; i++) {
+      var cap = (tiers[i].upto_tb === null || tiers[i].upto_tb === undefined)
+        ? Infinity : tiers[i].upto_tb;
+      var span = Math.min(remaining, cap - prev);
+      if (span <= 0) break;
+      total += span * GB_PER_TB * (tiers[i].rate_per_gb || 0);
+      remaining -= span;
+      prev = cap;
+      if (remaining <= 0) break;
+    }
+    return total;
+  }
+  return 0;
+}
+
+function monthly(row, storageTb, egressTb) {
+  var calc = row.egress || {};
+  var billable = Math.max(storageTb, calc.min_storage_tb || 0);
+  var storage = billable * row.storagePerTb;
+  var egress = egressCharge(calc, billable, egressTb);
+  var total = storage + egress;
+  if (calc.min_monthly) total = Math.max(total, calc.min_monthly);
+  return { storage: storage, egress: egress, total: total };
+}
+
+/* Computed totals round like money: two decimals. Published unit rates keep
+   their extra precision elsewhere on the site. */
+function usd(v) {
+  if (!v) return '$0.00';
+  return '$' + v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { egressCharge: egressCharge, monthly: monthly, usd: usd };
+}
+
+if (typeof document !== 'undefined') {
+  (function () {
+    var dataEl = document.getElementById('tco-data');
+    var storageEl = document.getElementById('tco-storage');
+    var egressEl = document.getElementById('tco-egress');
+    var body = document.getElementById('tco-body');
+    var caption = document.getElementById('tco-caption');
+    if (!dataEl || !storageEl || !egressEl || !body) return;
+
+    var CATALOG;
+    try { CATALOG = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    if (!CATALOG || !CATALOG.length) return;
+
+    function readInputs() {
+      var s = parseFloat(storageEl.value);
+      var e = parseFloat(egressEl.value);
+      if (!isFinite(s) || s < 0) s = 0;
+      if (!isFinite(e) || e < 0) e = 0;
+      return { storage: s, egress: e };
+    }
+
+    function render() {
+      var input = readInputs();
+      var rows = CATALOG.map(function (row) {
+        return { row: row, m: monthly(row, input.storage, input.egress) };
+      });
+      rows.sort(function (a, b) {
+        return (a.m.total - b.m.total) || a.row.name.localeCompare(b.row.name);
+      });
+
+      var frag = document.createDocumentFragment();
+      rows.forEach(function (item) {
+        var tr = body.querySelector('tr[data-slug="' + item.row.slug + '"]');
+        if (!tr) return;
+        var cellStorage = tr.querySelector('.c-storage');
+        var cellEgress = tr.querySelector('.c-egress');
+        var cellTotal = tr.querySelector('.c-total');
+        var cellPer = tr.querySelector('.c-per');
+        if (cellStorage) cellStorage.textContent = usd(item.m.storage);
+        if (cellEgress) cellEgress.textContent = usd(item.m.egress);
+        if (cellTotal) {
+          var tag = cellTotal.querySelector('.cost') || cellTotal;
+          tag.textContent = usd(item.m.total);
+          tag.className = 'cost ' + (item.m.total === 0 ? 'zero' : 'total');
+        }
+        if (cellPer) {
+          cellPer.textContent = input.storage > 0 ? usd(item.m.total / input.storage) : '\u2014';
+        }
+        frag.appendChild(tr);
+      });
+      body.appendChild(frag);
+
+      if (caption) {
+        var cheapest = rows[0];
+        caption.textContent = 'Showing ' + rows.length + ' providers at ' +
+          input.storage + ' TB stored and ' + input.egress +
+          ' TB of egress per month, cheapest total first.' +
+          (cheapest ? ' Cheapest here is ' + cheapest.row.name + ' at ' +
+            usd(cheapest.m.total) + ' per month.' : '');
+      }
+
+      var buttons = document.querySelectorAll('.preset');
+      for (var i = 0; i < buttons.length; i++) {
+        var match = parseFloat(buttons[i].getAttribute('data-s')) === input.storage &&
+                    parseFloat(buttons[i].getAttribute('data-e')) === input.egress;
+        buttons[i].setAttribute('aria-pressed', match ? 'true' : 'false');
+      }
+    }
+
+    function onPreset(event) {
+      var btn = event.currentTarget;
+      storageEl.value = btn.getAttribute('data-s');
+      egressEl.value = btn.getAttribute('data-e');
+      render();
+    }
+
+    storageEl.addEventListener('input', render);
+    egressEl.addEventListener('input', render);
+    storageEl.addEventListener('change', render);
+    egressEl.addEventListener('change', render);
+
+    var presets = document.querySelectorAll('.preset');
+    for (var i = 0; i < presets.length; i++) {
+      presets[i].addEventListener('click', onPreset);
+    }
+
+    render();
+  })();
+}
+"""
 
 
 def esc(value) -> str:
@@ -45,6 +206,17 @@ def money(amount, currency: str) -> str:
     if abs(amount * 100 - round(amount * 100)) < 1e-9:
         return f"{symbol}{amount:,.2f}"
     return f"{symbol}{amount:,.4f}".rstrip("0").rstrip(".")
+
+
+def money_total(amount: float, currency: str = "USD") -> str:
+    """Money for computed totals: always two decimals.
+
+    money() keeps four decimals so a published $0.015/GB rate survives intact,
+    but a computed monthly bill of $115.712 reads like a precision nobody asked
+    for. Totals are money, not unit rates, so they round like money.
+    """
+    symbol = SYMBOLS.get(currency, currency + " ")
+    return f"{symbol}{amount:,.2f}"
 
 
 def display_time(value) -> str:
@@ -1080,6 +1252,291 @@ def main(argv: list[str]) -> int:
             ]},
         ))
         urls.append("/egress/")
+
+
+    # ------------------------------------------------------------ calculator
+    # The same egress rules that drive /egress/ drive this page, so the two can
+    # never disagree. Storage rates come from offers.json; nothing is typed in.
+    tco_cfg = {}
+    if os.path.exists(TCO_FILE):
+        with open(TCO_FILE, "r", encoding="utf-8") as fh:
+            tco_cfg = json.load(fh)
+    tco_meta = tco_cfg.get("meta", {})
+    egress_by_slug = {r["slug"]: r for r in egress_rows}
+    offer_by_id = {o["id"]: o for o in offers}
+
+    catalog = tco.build_catalog(
+        tco_cfg, offer_by_id, egress_by_slug, root=root,
+        warn=lambda msg: print(f"WARNING: {msg}", file=sys.stderr),
+    )
+    tco_monthly = tco.monthly
+
+    if catalog:
+        DEFAULT_STORAGE, DEFAULT_EGRESS = 1.0, 1.0
+
+        def tco_row_html(row: dict, storage_tb: float, egress_tb: float) -> str:
+            m = tco_monthly(row, storage_tb, egress_tb)
+            per = (m["total"] / storage_tb) if storage_tb > 0 else None
+            note = row.get("note", "")
+            return (
+                f'<tr data-slug="{esc(row["slug"])}">'
+                f'<td><a href="{esc(row["pageUrl"])}">{esc(row["name"])}</a>'
+                f'<small>{esc(row["tier"])}</small></td>'
+                f'<td class="c-storage">{esc(money_total(m["storage"]))}</td>'
+                f'<td class="c-egress">{esc(money_total(m["egress"]))}</td>'
+                f'<td class="c-total"><span class="cost {"zero" if m["total"] == 0 else "total"}">'
+                f'{esc(money_total(m["total"]))}</span></td>'
+                f'<td class="c-per">{esc(money_total(per) if per is not None else "—")}</td>'
+                f'</tr>'
+            )
+
+        # Server-rendered at the default scenario so the table is complete with
+        # JavaScript disabled; tco.js recomputes the same numbers on load.
+        tco_rows_sorted = sorted(
+            catalog,
+            key=lambda r: (tco_monthly(r, DEFAULT_STORAGE, DEFAULT_EGRESS)["total"], r["name"].lower()),
+        )
+        tco_rows = "\n".join(tco_row_html(r, DEFAULT_STORAGE, DEFAULT_EGRESS) for r in tco_rows_sorted)
+
+        rule_rows = [
+            f'<tr><td><a href="{esc(row["pageUrl"])}">{esc(row["name"])}</a></td>'
+            f'<td>{esc(tco.describe_rule(row["egress"]))}</td><td>{esc(row["tier"])}</td></tr>'
+            for row in tco_rows_sorted
+        ]
+
+        excluded = [
+            "Flat bundles that cannot be scaled linearly — DigitalOcean's and UpCloud's plans are priced per 250 GB block, so a per-TB rate would be an invented number.",
+            "Per-seat and per-user plans, which depend on team size rather than on data volume.",
+            "Request charges, retrieval fees on archive tiers, and early-deletion fees. These exist and can matter, but they depend on access patterns this calculator does not ask about.",
+            "Taxes, support plans and committed-use discounts.",
+        ]
+        excluded_items = "".join(
+            f'<li>{esc(item)}</li>' for item in excluded
+        )
+
+        verified_tco = tco_meta.get("verified_at", PRIVACY_UPDATED)
+        calc_body = read_template("calculator.html").safe_substitute(
+            breadcrumb=f'<a href="{root}">{esc(brand)}</a> / Calculator',
+            headline=esc("What it actually costs per month"),
+            lede=esc("A storage price is half a bill. This applies each provider's real egress policy to the volume you enter, so a provider that looks cheap per gigabyte stops looking cheap once you start reading the data back."),
+            hero_note=esc("Only providers with a per-GB or per-TB storage rate are included, so every row scales honestly. Flat bundles are listed as excluded rather than approximated."),
+            tco_rows=tco_rows,
+            tco_caption=esc(
+                f'Showing {len(catalog)} providers at 1 TB stored and 1 TB of egress per month, '
+                f'cheapest total first. Change the inputs above to recompute.'
+            ),
+            rule_rows="\n".join(rule_rows),
+            excluded_items=excluded_items,
+            verified_at=esc(verified_tco),
+            refresh_human=esc(conf.get("refresh_human", "6 hours")),
+            root=root,
+            tco_data=json.dumps(catalog, ensure_ascii=False, separators=(",", ":")),
+        )
+        write("calculator/index.html", page(
+            f"Cloud storage TCO calculator — {brand}",
+            f"Add storage and egress into one monthly bill across {len(catalog)} providers. "
+            "Real egress policies applied, no estimated rates.",
+            "/calculator/", calc_body,
+            {"@type": "WebApplication", "name": f"{brand} TCO calculator",
+             "applicationCategory": "BusinessApplication",
+             "operatingSystem": "Any", "browserRequirements": "Requires JavaScript for interactive use",
+             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}},
+        ))
+        urls.append("/calculator/")
+        write("tco.js", TCO_JS)
+
+    # ------------------------------------------------------------ price index
+    history = archive.load_history()
+    index_report = price_index.compute(
+        history,
+        labels={o["id"]: {"provider": o.get("provider", ""), "plan": o.get("plan", ""),
+                          "provider_slug": o.get("provider_slug", "")} for o in offers},
+        categories={r["slug"]: r.get("category", "") for r in egress_rows},
+    )
+
+    if index_report.get("status") != "empty":
+        def pct(value: float) -> str:
+            return f"{value:+.2f}%" if value else "0.00%"
+
+        def sparkline(points: list[dict]) -> str:
+            """Inline SVG so the chart costs no request and no JavaScript.
+
+            Deliberately text-free: the element stretches to the container with
+            preserveAspectRatio="none", which would squash any <text> inside it
+            on a narrow screen. Labels live in HTML below the chart instead.
+            """
+            w, h, pad_x, pad_y = 1000, 200, 8, 18
+            values = [p["value"] for p in points]
+            lo, hi = min(values), max(values)
+            # Never let a 0.1 move fill the frame: a flat-looking line is the
+            # honest rendering of a flat market.
+            if hi - lo < 1.0:
+                lo, hi = lo - 1.0, hi + 1.0
+            span = hi - lo
+            n = len(values)
+
+            def x_at(i: int) -> float:
+                if n == 1:
+                    return w / 2
+                return pad_x + (w - 2 * pad_x) * (i / (n - 1))
+
+            def y_at(v: float) -> float:
+                return h - pad_y - (h - 2 * pad_y) * ((v - lo) / span)
+
+            parts = [
+                f'<svg class="spark" viewBox="0 0 {w} {h}" role="img" '
+                f'aria-label="Price index, {esc(points[0]["date"])} to {esc(points[-1]["date"])}" '
+                f'preserveAspectRatio="none">'
+            ]
+            base_y = y_at(100.0)
+            if lo <= 100.0 <= hi:
+                parts.append(f'<line x1="0" y1="{base_y:.1f}" x2="{w}" y2="{base_y:.1f}" '
+                             f'stroke="#e4e7ec" stroke-width="1" stroke-dasharray="6 6" '
+                             f'vector-effect="non-scaling-stroke"/>')
+            if n > 1:
+                coords = " ".join(f'{x_at(i):.1f},{y_at(v):.1f}' for i, v in enumerate(values))
+                parts.append(f'<polyline points="{coords}" fill="none" stroke="#6752d6" '
+                             f'stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" '
+                             f'vector-effect="non-scaling-stroke"/>')
+            for i, v in enumerate(values):
+                parts.append(f'<circle cx="{x_at(i):.1f}" cy="{y_at(v):.1f}" r="5" '
+                             f'fill="#6752d6" stroke="#fff" stroke-width="2"/>')
+            parts.append("</svg>")
+            return "".join(parts)
+
+        def chart_legend(points: list[dict]) -> str:
+            """First and last point as HTML text, plus the vertical range, so the
+            numbers survive any viewport width."""
+            values = [p["value"] for p in points]
+            first, last = points[0], points[-1]
+            left = f'{esc(first["date"])} · {first["value"]:.2f}'
+            right = (f'{esc(last["date"])} · {last["value"]:.2f}'
+                     if len(points) > 1 else "no second point yet")
+            return (f'<div class="chart-legend"><span>{left}</span>'
+                    f'<span>{right}</span></div>'
+                    f'<div class="chart-scale">Values {min(values):.2f} – {max(values):.2f}. The vertical '
+                    f'axis is padded to at least a 2-point span so a small move is not stretched into a '
+                    f'cliff; the dashed line marks the 100 base.</div>')
+
+        series = index_report["series"]
+        base_only = index_report["status"] == "base_only"
+
+        if base_only:
+            chart_note = esc(
+                f"One data point so far ({index_report['base_date']}). The index is set to 100 here and "
+                "the line starts moving as daily snapshots accumulate — a flat line drawn from a single "
+                "day would be a drawing, not a measurement."
+            )
+        else:
+            chart_note = esc(
+                f"{index_report['days']} daily snapshots, {index_report['base_date']} to "
+                f"{index_report['latest_date']}. The index only moves on quotes observed on both days, "
+                "so the paired count below each point is what the number rests on."
+            )
+
+        stat_cards = (
+            f'<div class="card"><div class="stat"><strong>{index_report["value"]:.2f}</strong>'
+            f'<span>Index value, base 100 on {esc(index_report["base_date"])}</span></div></div>'
+            f'<div class="card"><div class="stat"><strong>{pct(index_report["span_pct"]) if not base_only else "—"}</strong>'
+            f'<span>Change since the base date</span></div></div>'
+            f'<div class="card"><div class="stat"><strong>{index_report["days"]}</strong>'
+            f'<span>Daily snapshot{"s" if index_report["days"] != 1 else ""} on record</span></div></div>'
+            + (f'<div class="card"><div class="stat"><strong>{index_report["universe_latest"]}</strong>'
+               f'<span>Priced quotes in the base snapshot</span></div></div>'
+               if base_only else
+               f'<div class="card"><div class="stat"><strong>{index_report["paired_latest"]}</strong>'
+               f'<span>Quotes compared on the latest day, of {index_report["universe_latest"]} priced</span></div></div>')
+        )
+
+        base_suffix = (" Only the base snapshot exists so far, so every group sits at 100 and there "
+                       "is nothing to compare against yet.") if base_only else ""
+
+        def group_rows(items: list[dict]) -> str:
+            if not items:
+                return '<tr><td colspan="4">No comparable quotes yet.</td></tr>'
+            out = []
+            for it in items:
+                # A dash, not "0.00%": with one snapshot there is nothing to
+                # compare against, and printing zero would claim a measurement
+                # that never happened.
+                if base_only or not it["paired"]:
+                    change, paired = "—", "—"
+                else:
+                    change, paired = pct(it["value"] - 100.0), str(it["paired"])
+                out.append(
+                    f'<tr><td>{esc(it["key"])}</td><td>{it["value"]:.2f}</td>'
+                    f'<td>{esc(change)}</td><td>{paired}</td></tr>'
+                )
+            return "\n".join(out)
+
+        movers = index_report["movers"]
+        if base_only or (not movers["up"] and not movers["down"]):
+            movers_html = (
+                '<p class="note">No day-over-day comparison exists yet. The first movers appear once a '
+                'second daily snapshot lands — every value here is measured, and there is nothing to '
+                'measure against on day one.</p>'
+            )
+        else:
+            def mover_rows(items: list[dict]) -> str:
+                if not items:
+                    return '<tr><td colspan="4">No moves in this direction.</td></tr>'
+                return "\n".join(
+                    f'<tr><td>{esc(m["provider"])}<small>{esc(m["plan"])}</small></td>'
+                    f'<td>{esc(money(m["from"], m["currency"]))}</td>'
+                    f'<td>{esc(money(m["to"], m["currency"]))}</td>'
+                    f'<td><span class="cost {"paid" if m["pct"] > 0 else "zero"}">{esc(pct(m["pct"]))}</span></td></tr>'
+                    for m in items
+                )
+
+            movers_html = (
+                '<table><thead><tr><th>Provider</th><th>Previous</th><th>Latest</th><th>Change</th></tr></thead>'
+                f'<tbody>{mover_rows(movers["up"])}</tbody></table>'
+                '<h3 style="margin:24px 0 10px">Price decreases</h3>'
+                '<table><thead><tr><th>Provider</th><th>Previous</th><th>Latest</th><th>Change</th></tr></thead>'
+                f'<tbody>{mover_rows(movers["down"])}</tbody></table>'
+            )
+
+        index_body = read_template("price-index.html").safe_substitute(
+            breadcrumb=f'<a href="{root}">{esc(brand)}</a> / Price index',
+            headline=esc("Is cloud storage getting cheaper?"),
+            lede=esc("A tracked index of the prices on this site, recomputed from a daily snapshot of every official pricing page. It answers a question no single comparison page can: whether the market moved, and by how much."),
+            index_value=f'{index_report["value"]:.2f}',
+            index_meta=esc(
+                f'{index_report["days"]} snapshot{"s" if index_report["days"] != 1 else ""}, '
+                f'{index_report["base_date"]} to {index_report["latest_date"]}'
+            ),
+            stat_cards=stat_cards,
+            chart=sparkline(series),
+            chart_legend=chart_legend(series),
+            chart_note=chart_note,
+            basis_rows=group_rows(index_report["by_basis"]),
+            currency_rows=group_rows(index_report["by_currency"]),
+            basis_note=esc(
+                "Same index, computed only on quotes that share a billing basis. A per-GB price and a "
+                "per-month price can move in opposite directions without either provider doing anything "
+                "wrong, so mixing them into one number hides the story." + base_suffix
+            ),
+            currency_note=esc(
+                "No exchange rates are applied anywhere on this site, so each currency gets its own index "
+                "rather than being blended into a meaningless average." + base_suffix
+            ),
+            movers_html=movers_html,
+            base_date=esc(index_report["base_date"]),
+        )
+        write("price-index/index.html", page(
+            f"Cloud storage price index — {brand}",
+            f"A tracked index of public cloud storage prices, recomputed daily from "
+            f"{index_report['universe_latest']} verified quotes. Base 100 on {index_report['base_date']}.",
+            "/price-index/", index_body,
+            {"@type": "Dataset", "name": f"{brand} cloud storage price index",
+             "description": "Daily index of verified public cloud storage prices.",
+             "temporalCoverage": f'{index_report["base_date"]}/{index_report["latest_date"]}',
+             "creator": {"@id": page_url("/") + "#organization"}},
+        ))
+        urls.append("/price-index/")
+    else:
+        print("WARNING: no snapshots in data/history/ — skipping /price-index/", file=sys.stderr)
+
 
 
     # ------------------------------------------------------------ index files

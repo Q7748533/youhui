@@ -36,16 +36,21 @@ def snapshot(payload: dict, base_dir: str = BASE_DIR) -> str:
     except ValueError:
         day = datetime.now(timezone.utc).date().isoformat()
 
-    # Compact rows: id -> [price, currency, pricing_unit]. The id already
+    # Compact rows: id -> [price, currency, pricing_unit, stale]. The id already
     # encodes provider and plan, so the snapshot stays small enough to commit
     # every day without bloating the repository.
+    #
+    # The stale flag matters: when a fetch fails the scraper keeps yesterday's
+    # price and marks it, so archiving it as today's price would make the index
+    # report "no change" on a day when the price was never actually observed.
     prices: dict[str, list] = {}
     offers = payload.get("offers", [])
     for o in offers:
         oid = o.get("id")
         if not oid or o.get("price") is None:
             continue
-        prices[oid] = [o.get("price"), o.get("currency"), o.get("pricing_unit")]
+        prices[oid] = [o.get("price"), o.get("currency"), o.get("pricing_unit"),
+                       bool(o.get("stale"))]
 
     providers = payload.get("providers", [])
     record = {
@@ -55,6 +60,7 @@ def snapshot(payload: dict, base_dir: str = BASE_DIR) -> str:
         "providers_priced": sum(1 for p in providers if p.get("offers")),
         "offers_total": len(offers),
         "offers_priced": len(prices),
+        "offers_stale": sum(1 for row in prices.values() if len(row) > 3 and row[3]),
         "prices": prices,
     }
     out_dir = os.path.join(base_dir, "data", "history")
@@ -80,6 +86,19 @@ def load_history(base_dir: str = BASE_DIR) -> list[dict]:
         except (ValueError, OSError):
             continue
     return out
+
+
+def price_row(row) -> tuple:
+    """Normalise one snapshot row to (price, currency, unit, stale).
+
+    Snapshots written before the stale flag existed carry three elements;
+    they are treated as observed prices, which is what they were.
+    """
+    if not isinstance(row, list) or len(row) < 3:
+        return None, "", "", False
+    price, currency, unit = row[0], row[1], row[2]
+    stale = bool(row[3]) if len(row) > 3 else False
+    return price, currency, unit, stale
 
 
 def main(argv: list[str]) -> int:

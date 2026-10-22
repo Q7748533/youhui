@@ -1,0 +1,63 @@
+<div class="crumbs">$breadcrumb</div>
+<div class="hero" style="padding-top:8px">
+  <div>
+    <div class="eyebrow">Total cost of ownership</div>
+    <h1>$headline</h1>
+    <p class="lede">$lede</p>
+  </div>
+  <div class="card">
+    <div class="provider">Storage price is not a cost</div>
+    <div class="meta" style="border-top:0;padding-top:10px;margin-top:0">$hero_note</div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="field">
+    <label for="tco-storage">Storage (TB)</label>
+    <input id="tco-storage" type="number" min="0" max="10000" step="0.5" value="1" inputmode="decimal">
+  </div>
+  <div class="field">
+    <label for="tco-egress">Egress per month (TB)</label>
+    <input id="tco-egress" type="number" min="0" max="10000" step="0.5" value="1" inputmode="decimal">
+  </div>
+  <div class="presets" role="group" aria-label="Preset scenarios">
+    <button class="preset" type="button" data-s="1" data-e="0">1 TB, no egress</button>
+    <button class="preset" type="button" data-s="1" data-e="1" aria-pressed="true">1 TB, 1 TB out</button>
+    <button class="preset" type="button" data-s="10" data-e="10">10 TB, 10 TB out</button>
+    <button class="preset" type="button" data-s="1" data-e="10">1 TB, 10 TB out</button>
+  </div>
+</div>
+
+<table>
+<thead><tr><th>Provider</th><th>Storage / month</th><th>Egress / month</th><th>Total / month</th><th>Per TB stored</th></tr></thead>
+<tbody id="tco-body">
+$tco_rows
+</tbody>
+</table>
+<p class="note" style="margin-top:14px" id="tco-caption">$tco_caption</p>
+
+<h2>How each provider charges egress</h2>
+<p class="note" style="margin-bottom:16px">The second column is where a storage-only comparison stops being useful: Storj charges $7 per TB to store and another $7 per TB to read back, so the same plan doubles the moment you actually use the data.</p>
+<table>
+<thead><tr><th>Provider</th><th>Egress rule applied</th><th>Plan used for storage</th></tr></thead>
+<tbody>
+$rule_rows
+</tbody>
+</table>
+
+<h2>What this calculator does not cover</h2>
+<ul class="clean">$excluded_items</ul>
+
+<div class="method">
+  <div>
+    <h2>How the numbers are built</h2>
+  </div>
+  <div>
+    <p>Storage cost is the provider's own published per-GB or per-TB rate, scaled to the volume you entered. Egress cost applies that provider's actual policy — flat free, free up to a multiple of stored volume, a bundled allowance, volume tiers, or a flat per-TB rate. <strong>No rate here is estimated; each one is the number on the provider's pricing page.</strong></p>
+    <p style="margin-top:12px">1 TB = 1,024 GB, matching the rest of this site. Where a provider bills per TB rather than per GB, its per-TB rate is used unchanged. Minimum commitments are applied: Wasabi's 1 TB storage floor and Storj's $5 monthly invoice both show up in the totals.</p>
+    <p style="margin-top:12px">Prices verified $verified_at. Storage prices refresh every $refresh_human from the automated pipeline; egress policies are re-checked by hand. Taxes, support plans and request charges are excluded.</p>
+  </div>
+</div>
+
+<script type="application/json" id="tco-data">$tco_data</script>
+<script src="${root}tco.js" defer></script>
