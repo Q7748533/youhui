@@ -1,8 +1,8 @@
 {
  "date": "2026-10-22",
- "generated_at": "2026-10-22T11:59:57+00:00",
+ "generated_at": "2026-10-22T17:16:03+00:00",
  "offers_priced": 92,
- "offers_stale": 0,
+ "offers_stale": 4,
  "offers_total": 92,
  "prices": {
   "apple-icloud-icloud-12tb-usd": [
@@ -63,25 +63,25 @@
    6.95,
    "USD",
    "month/tb",
-   false
+   true
   ],
   "backblaze-b2-overdrive-usd": [
    15.0,
    "USD",
    "month/tb",
-   false
+   true
   ],
   "backblaze-computer-backup-business-backup-usd": [
    99.0,
    "USD",
    "year",
-   false
+   true
   ],
   "backblaze-computer-backup-personal-backup-usd": [
    99.0,
    "USD",
    "year",
-   false
+   true
   ],
   "bunny-storage-edge-tier-ssd-single-region-usd": [
    0.02,
