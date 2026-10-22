@@ -146,7 +146,7 @@
       "overage": "$0.09/GB, then $0.085, $0.07, $0.05",
       "cost_1tb": 92.16,
       "cost_1tb_note": "1,024 GB x $0.09 first-tier rate",
-      "notes": "Internet egress from US East is $0.09/GB for the first 10 TB per month, $0.085 for the next 40 TB, $0.07 for the next 100 TB and $0.05 above 150 TB. Figures come from the official AWS Price List rather than the marketing page, whose prices are injected client-side. This is the benchmark every zero-egress provider is priced against.",
+      "notes": "Internet egress from US East is $0.09/GB for the first 10 TB per month, $0.085 for the next 40 TB, $0.07 for the next 100 TB and $0.05 above 150 TB. Storage is tiered as well: $0.023/GB for the first 50 TB per month, $0.022 for the next 450 TB and $0.021 above 500 TB, so a single flat per-TB storage rate overstates a large deployment. Figures come from the official AWS Price List rather than the marketing page, whose prices are injected client-side. This is the benchmark every zero-egress provider is priced against.",
       "source_url": "https://aws.amazon.com/s3/pricing/",
       "verified_at": "2026-10-22",
       "calc": {
@@ -167,6 +167,20 @@
           {
             "upto_tb": null,
             "rate_per_gb": 0.05
+          }
+        ],
+        "storage_tiers": [
+          {
+            "upto_tb": 50,
+            "rate_per_gb": 0.023
+          },
+          {
+            "upto_tb": 500,
+            "rate_per_gb": 0.022
+          },
+          {
+            "upto_tb": null,
+            "rate_per_gb": 0.021
           }
         ]
       }

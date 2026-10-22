@@ -27,6 +27,7 @@
     <button class="preset" type="button" data-s="1" data-e="10">1 TB, 10 TB out</button>
   </div>
 </div>
+<p class="note" style="margin-top:10px">The address bar carries your scenario — copy the URL to reproduce this exact table elsewhere.</p>
 
 <table>
 <thead><tr><th>Provider</th><th>Storage / month</th><th>Egress / month</th><th>Total / month</th><th>Per TB stored</th></tr></thead>
@@ -35,6 +36,12 @@ $tco_rows
 </tbody>
 </table>
 <p class="note" style="margin-top:14px" id="tco-caption">$tco_caption</p>
+
+<h2>Where the cheapest option changes</h2>
+<p class="note" style="margin-bottom:14px">A single price says who wins at one volume. This says the volume at which the answer changes — the number that decides whether a migration is worth doing. The scan runs the same formula across every egress level up to 1,000 TB a month and reports where the leader changes hands.</p>
+<p class="xo-headline" id="xo-headline">$xo_headline</p>
+<ul class="clean" id="xo-list">$xo_items</ul>
+<p class="note" style="margin-top:12px">Break-even points are rounded to the nearest TB. They move with the storage volume: a provider that charges less per TB keeps the lead longer before metered egress overtakes a flat rate.</p>
 
 <h2>How each provider charges egress</h2>
 <p class="note" style="margin-bottom:16px">The second column is where a storage-only comparison stops being useful: Storj charges $7 per TB to store and another $7 per TB to read back, so the same plan doubles the moment you actually use the data.</p>
@@ -53,7 +60,7 @@ $rule_rows
     <h2>How the numbers are built</h2>
   </div>
   <div>
-    <p>Storage cost is the provider's own published per-GB or per-TB rate, scaled to the volume you entered. Egress cost applies that provider's actual policy — flat free, free up to a multiple of stored volume, a bundled allowance, volume tiers, or a flat per-TB rate. <strong>No rate here is estimated; each one is the number on the provider's pricing page.</strong></p>
+    <p>Storage cost is the provider's own published per-GB or per-TB rate, scaled to the volume you entered. Where a provider publishes storage tiers, the tiers are applied cumulatively rather than as one flat rate — AWS S3 charges $0.023/GB for the first 50 TB and $0.021/GB above 500 TB, so billing a 1,000 TB deployment at the first-tier rate would overstate it by 6.7%. Egress cost applies that provider's actual policy — flat free, free up to a multiple of stored volume, a bundled allowance, volume tiers, or a flat per-TB rate. <strong>No rate here is estimated; each one is the number on the provider's pricing page or price list.</strong></p>
     <p style="margin-top:12px">1 TB = 1,024 GB, matching the rest of this site. Where a provider bills per TB rather than per GB, its per-TB rate is used unchanged. Minimum commitments are applied: Wasabi's 1 TB storage floor and Storj's $5 monthly invoice both show up in the totals.</p>
     <p style="margin-top:12px">Prices verified $verified_at. Storage prices refresh every $refresh_human from the automated pipeline; egress policies are re-checked by hand. Taxes, support plans and request charges are excluded.</p>
   </div>

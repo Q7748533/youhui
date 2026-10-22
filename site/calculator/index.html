@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cloud storage TCO calculator — Cloud Storage Deals</title>
-<meta name="description" content="Add storage and egress into one monthly bill across 10 providers. Real egress policies applied, no estimated rates.">
+<meta name="description" content="Storage plus egress in one monthly bill for 10 providers, and the egress volume where the cheapest option changes. Real rates, no estimates.">
 <link rel="canonical" href="/calculator/">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Cloud Storage Deals">
 <meta property="og:title" content="Cloud storage TCO calculator — Cloud Storage Deals">
-<meta property="og:description" content="Add storage and egress into one monthly bill across 10 providers. Real egress policies applied, no estimated rates.">
+<meta property="og:description" content="Storage plus egress in one monthly bill for 10 providers, and the egress volume where the cheapest option changes. Real rates, no estimates.">
 <meta property="og:url" content="https://cloud-storage-deals.frankfraaa.workers.dev/calculator/">
 <meta property="og:image" content="https://cloud-storage-deals.frankfraaa.workers.dev/og.png">
 <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cloud-storage-deals.frankfraaa.workers.dev/og.png">
 <meta name="twitter:title" content="Cloud storage TCO calculator — Cloud Storage Deals">
-<meta name="twitter:description" content="Add storage and egress into one monthly bill across 10 providers. Real egress policies applied, no estimated rates.">
+<meta name="twitter:description" content="Storage plus egress in one monthly bill for 10 providers, and the egress volume where the cheapest option changes. Real rates, no estimates.">
 <style>
 :root{--bg:#f7f7f4;--panel:#fff;--ink:#172033;--muted:#566174;--line:#e4e7ec;--purple:#6752d6;--purple-soft:#eeeafe;--green:#13795b;--green-soft:#e5f5ee;--amber:#a66008;--amber-soft:#fff3d6;--red:#b43d42;--red-soft:#fcebec;--max:1120px}
 *{box-sizing:border-box}
@@ -84,6 +84,7 @@ td small{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-
 .field input{appearance:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-height:44px;padding:0 12px;color:var(--ink);font:inherit;font-weight:750;width:130px}
 .field input:focus{border-color:#b9b0f5;outline:3px solid #cfc7ff;outline-offset:1px}
 .presets{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.xo-headline{font-size:17px;font-weight:650;color:var(--ink);margin:0 0 10px;letter-spacing:-.01em}
 .preset{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:650;color:var(--muted);cursor:pointer;font-family:inherit;transition:border-color .15s ease,color .15s ease}
 .preset:hover{border-color:#b9b0f5;color:var(--purple)}
 .preset[aria-pressed="true"]{background:var(--purple-soft);border-color:#b9b0f5;color:var(--purple)}
@@ -143,6 +144,7 @@ footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px
     <button class="preset" type="button" data-s="1" data-e="10">1 TB, 10 TB out</button>
   </div>
 </div>
+<p class="note" style="margin-top:10px">The address bar carries your scenario — copy the URL to reproduce this exact table elsewhere.</p>
 
 <table>
 <thead><tr><th>Provider</th><th>Storage / month</th><th>Egress / month</th><th>Total / month</th><th>Per TB stored</th></tr></thead>
@@ -159,7 +161,13 @@ footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px
 <tr data-slug="aws-s3"><td><a href="/providers/aws-s3/">AWS S3</a><small>S3 Standard, first 50 TB</small></td><td class="c-storage">$23.55</td><td class="c-egress">$92.16</td><td class="c-total"><span class="cost total">$115.71</span></td><td class="c-per">$115.71</td></tr>
 </tbody>
 </table>
-<p class="note" style="margin-top:14px" id="tco-caption">Showing 10 providers at 1 TB stored and 1 TB of egress per month, cheapest total first. Change the inputs above to recompute.</p>
+<p class="note" style="margin-top:14px" id="tco-caption">Showing 10 providers at 1 TB stored and 1 TB of egress per month, cheapest total first. Cheapest here is IDrive e2 at $4.96 per month.</p>
+
+<h2>Where the cheapest option changes</h2>
+<p class="note" style="margin-bottom:14px">A single price says who wins at one volume. This says the volume at which the answer changes — the number that decides whether a migration is worth doing. The scan runs the same formula across every egress level up to 1,000 TB a month and reports where the leader changes hands.</p>
+<p class="xo-headline" id="xo-headline">At 1 TB stored, IDrive e2 is the cheapest choice.</p>
+<ul class="clean" id="xo-list"><li>From 3 TB/month of egress onward, Wasabi is the cheapest option ($7.99/month).</li></ul>
+<p class="note" style="margin-top:12px">Break-even points are rounded to the nearest TB. They move with the storage volume: a provider that charges less per TB keeps the lead longer before metered egress overtakes a flat rate.</p>
 
 <h2>How each provider charges egress</h2>
 <p class="note" style="margin-bottom:16px">The second column is where a storage-only comparison stops being useful: Storj charges $7 per TB to store and another $7 per TB to read back, so the same plan doubles the moment you actually use the data.</p>
@@ -187,13 +195,13 @@ footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px
     <h2>How the numbers are built</h2>
   </div>
   <div>
-    <p>Storage cost is the provider's own published per-GB or per-TB rate, scaled to the volume you entered. Egress cost applies that provider's actual policy — flat free, free up to a multiple of stored volume, a bundled allowance, volume tiers, or a flat per-TB rate. <strong>No rate here is estimated; each one is the number on the provider's pricing page.</strong></p>
+    <p>Storage cost is the provider's own published per-GB or per-TB rate, scaled to the volume you entered. Where a provider publishes storage tiers, the tiers are applied cumulatively rather than as one flat rate — AWS S3 charges $0.023/GB for the first 50 TB and $0.021/GB above 500 TB, so billing a 1,000 TB deployment at the first-tier rate would overstate it by 6.7%. Egress cost applies that provider's actual policy — flat free, free up to a multiple of stored volume, a bundled allowance, volume tiers, or a flat per-TB rate. <strong>No rate here is estimated; each one is the number on the provider's pricing page or price list.</strong></p>
     <p style="margin-top:12px">1 TB = 1,024 GB, matching the rest of this site. Where a provider bills per TB rather than per GB, its per-TB rate is used unchanged. Minimum commitments are applied: Wasabi's 1 TB storage floor and Storj's $5 monthly invoice both show up in the totals.</p>
     <p style="margin-top:12px">Prices verified 2026-10-22. Storage prices refresh every 6 hours from the automated pipeline; egress policies are re-checked by hand. Taxes, support plans and request charges are excluded.</p>
   </div>
 </div>
 
-<script type="application/json" id="tco-data">[{"slug":"cloudflare-r2","name":"Cloudflare R2","tier":"Standard storage","note":"","storagePerTb":15.36,"egress":{"kind":"free"},"egressNote":"$0","pageUrl":"/providers/cloudflare-r2/"},{"slug":"backblaze","name":"Backblaze","tier":"B2 Cloud Storage","note":"","storagePerTb":6.95,"egress":{"kind":"multiple","free_multiple":3,"rate_per_gb":0.01},"egressNote":"$0.01/GB","pageUrl":"/providers/backblaze/"},{"slug":"wasabi","name":"Wasabi","tier":"Pay as you go","note":"1 TB minimum storage commitment and a 90-day minimum storage duration.","storagePerTb":7.99,"egress":{"kind":"free","min_monthly":7.99,"min_storage_tb":1},"egressNote":"$0","pageUrl":"/providers/wasabi/"},{"slug":"storj","name":"Storj","tier":"Standard","note":"$5 minimum monthly invoice.","storagePerTb":7.0,"egress":{"kind":"per_tb","rate_per_tb":7,"min_monthly":5},"egressNote":"$7/TB","pageUrl":"/providers/storj/"},{"slug":"bunny-storage","name":"Bunny Storage","tier":"Standard HDD, single region","note":"Egress here is CDN delivery at the Europe / North America rate, not a storage exit fee.","storagePerTb":10.24,"egress":{"kind":"per_gb","rate_per_gb":0.01},"egressNote":"CDN bandwidth rates","pageUrl":"/providers/bunny-storage/"},{"slug":"idrive-e2","name":"IDrive e2","tier":"1 TB annual","note":"Annual price divided by 12. Billed per TB, so part-terabytes still pay for the whole TB.","storagePerTb":4.958333,"egress":{"kind":"multiple","free_multiple":3,"rate_per_gb":0.01},"egressNote":"$0.01/GB","pageUrl":"/providers/idrive-e2/"},{"slug":"aws-s3","name":"AWS S3","tier":"S3 Standard, first 50 TB","note":"Excludes Glacier and Standard-IA, which are archive tiers.","storagePerTb":23.552,"egress":{"kind":"tiered","tiers":[{"upto_tb":10,"rate_per_gb":0.09},{"upto_tb":50,"rate_per_gb":0.085},{"upto_tb":150,"rate_per_gb":0.07},{"upto_tb":null,"rate_per_gb":0.05}]},"egressNote":"$0.09/GB, then $0.085, $0.07, $0.05","pageUrl":"/providers/aws-s3/"},{"slug":"digitalocean-spaces","name":"DigitalOcean Spaces","tier":"Standard, additional storage rate","note":"The $5 plan includes 250 GiB, which works out to the same per-GB rate, so the linear model holds.","storagePerTb":20.48,"egress":{"kind":"allowance","allowance_tb":1,"rate_per_gb":0.01},"egressNote":"$0.01/GiB","pageUrl":"/providers/digitalocean-spaces/"},{"slug":"filebase","name":"Filebase","tier":"Pro plan, additional storage rate","note":"The $7.50 Pro plan includes 500 GB at the same per-GB rate, so the linear model holds.","storagePerTb":15.36,"egress":{"kind":"free"},"egressNote":"$0 (IPFS bandwidth $0.015/GB)","pageUrl":"/providers/filebase/"},{"slug":"sevalla","name":"Sevalla","tier":"Object storage","note":"","storagePerTb":20.48,"egress":{"kind":"free"},"egressNote":"$0","pageUrl":"/providers/sevalla/"}]</script>
+<script type="application/json" id="tco-data">[{"slug":"cloudflare-r2","name":"Cloudflare R2","tier":"Standard storage","note":"","storagePerTb":15.36,"egress":{"kind":"free"},"egressNote":"$0","pageUrl":"/providers/cloudflare-r2/"},{"slug":"backblaze","name":"Backblaze","tier":"B2 Cloud Storage","note":"","storagePerTb":6.95,"egress":{"kind":"multiple","free_multiple":3,"rate_per_gb":0.01},"egressNote":"$0.01/GB","pageUrl":"/providers/backblaze/"},{"slug":"wasabi","name":"Wasabi","tier":"Pay as you go","note":"1 TB minimum storage commitment and a 90-day minimum storage duration.","storagePerTb":7.99,"egress":{"kind":"free","min_monthly":7.99,"min_storage_tb":1},"egressNote":"$0","pageUrl":"/providers/wasabi/"},{"slug":"storj","name":"Storj","tier":"Standard","note":"$5 minimum monthly invoice.","storagePerTb":7.0,"egress":{"kind":"per_tb","rate_per_tb":7,"min_monthly":5},"egressNote":"$7/TB","pageUrl":"/providers/storj/"},{"slug":"bunny-storage","name":"Bunny Storage","tier":"Standard HDD, single region","note":"Egress here is CDN delivery at the Europe / North America rate, not a storage exit fee.","storagePerTb":10.24,"egress":{"kind":"per_gb","rate_per_gb":0.01},"egressNote":"CDN bandwidth rates","pageUrl":"/providers/bunny-storage/"},{"slug":"idrive-e2","name":"IDrive e2","tier":"1 TB annual","note":"Annual price divided by 12. Billed per TB, so part-terabytes still pay for the whole TB.","storagePerTb":4.958333,"egress":{"kind":"multiple","free_multiple":3,"rate_per_gb":0.01},"egressNote":"$0.01/GB","pageUrl":"/providers/idrive-e2/"},{"slug":"aws-s3","name":"AWS S3","tier":"S3 Standard, first 50 TB","note":"Excludes Glacier and Standard-IA, which are archive tiers.","storagePerTb":23.552,"egress":{"kind":"tiered","tiers":[{"upto_tb":10,"rate_per_gb":0.09},{"upto_tb":50,"rate_per_gb":0.085},{"upto_tb":150,"rate_per_gb":0.07},{"upto_tb":null,"rate_per_gb":0.05}],"storage_tiers":[{"upto_tb":50,"rate_per_gb":0.023},{"upto_tb":500,"rate_per_gb":0.022},{"upto_tb":null,"rate_per_gb":0.021}]},"egressNote":"$0.09/GB, then $0.085, $0.07, $0.05","pageUrl":"/providers/aws-s3/"},{"slug":"digitalocean-spaces","name":"DigitalOcean Spaces","tier":"Standard, additional storage rate","note":"The $5 plan includes 250 GiB, which works out to the same per-GB rate, so the linear model holds.","storagePerTb":20.48,"egress":{"kind":"allowance","allowance_tb":1,"rate_per_gb":0.01},"egressNote":"$0.01/GiB","pageUrl":"/providers/digitalocean-spaces/"},{"slug":"filebase","name":"Filebase","tier":"Pro plan, additional storage rate","note":"The $7.50 Pro plan includes 500 GB at the same per-GB rate, so the linear model holds.","storagePerTb":15.36,"egress":{"kind":"free"},"egressNote":"$0 (IPFS bandwidth $0.015/GB)","pageUrl":"/providers/filebase/"},{"slug":"sevalla","name":"Sevalla","tier":"Object storage","note":"","storagePerTb":20.48,"egress":{"kind":"free"},"egressNote":"$0","pageUrl":"/providers/sevalla/"}]</script>
 <script src="/tco.js" defer></script>
 
 </div></main>
