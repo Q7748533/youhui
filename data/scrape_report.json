@@ -127,7 +127,7 @@
       "status": "ok",
       "note": "",
       "failure_streak": 0,
-      "priced_offers_before": 0,
+      "priced_offers_before": 2,
       "priced_offers_now": 2,
       "alert": false
     },
@@ -137,7 +137,7 @@
       "status": "ok",
       "note": "",
       "failure_streak": 0,
-      "priced_offers_before": 0,
+      "priced_offers_before": 2,
       "priced_offers_now": 2,
       "alert": false
     },
