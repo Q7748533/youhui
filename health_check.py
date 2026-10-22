@@ -178,9 +178,13 @@ def check_cycle(offers: list[dict], counts: dict) -> None:
             add("P1", "cycle", f"{len(gone)} offer(s) disappeared: {gone[:3]}")
         if jumps:
             add("P1", "cycle", f"{len(jumps)} price jump(s) over {int(PRICE_JUMP * 100)}%: {jumps[:3]}")
-        if prev.get("providers_priced") != counts.get("providers_priced"):
+        # counts live one level down; reading the top level always yielded None
+        # and reported a phantom change on every single run.
+        prev_counts = prev.get("counts") or {}
+        if ("providers_priced" in prev_counts
+                and prev_counts["providers_priced"] != counts.get("providers_priced")):
             add("P2", "cycle", "priced-provider count changed: "
-                               f"{prev.get('providers_priced')} -> {counts.get('providers_priced')}")
+                               f"{prev_counts['providers_priced']} -> {counts.get('providers_priced')}")
     json.dump({"date": datetime.now(timezone.utc).date().isoformat(),
                "counts": counts, "offers": current},
               open(SNAPSHOT_FILE, "w", encoding="utf-8"))
