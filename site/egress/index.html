@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloud storage egress fees compared — Cloud Storage Deals</title>
+<meta name="description" content="What 12 object storage providers charge to download 1 TB, from $0 at Cloudflare R2 to $92.16 at AWS S3.">
+<link rel="canonical" href="/egress/">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cloud Storage Deals">
+<meta property="og:title" content="Cloud storage egress fees compared — Cloud Storage Deals">
+<meta property="og:description" content="What 12 object storage providers charge to download 1 TB, from $0 at Cloudflare R2 to $92.16 at AWS S3.">
+<meta property="og:url" content="https://cloud-storage-deals.frankfraaa.workers.dev/egress/">
+<meta property="og:image" content="https://cloud-storage-deals.frankfraaa.workers.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cloud-storage-deals.frankfraaa.workers.dev/og.png">
+<meta name="twitter:title" content="Cloud storage egress fees compared — Cloud Storage Deals">
+<meta name="twitter:description" content="What 12 object storage providers charge to download 1 TB, from $0 at Cloudflare R2 to $92.16 at AWS S3.">
+<style>
+:root{--bg:#f7f7f4;--panel:#fff;--ink:#172033;--muted:#566174;--line:#e4e7ec;--purple:#6752d6;--purple-soft:#eeeafe;--green:#13795b;--green-soft:#e5f5ee;--amber:#a66008;--amber-soft:#fff3d6;--red:#b43d42;--red-soft:#fcebec;--max:1120px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+a{color:var(--purple);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid #cfc7ff;outline-offset:2px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+header.site{background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header.site .wrap{display:flex;align-items:center;gap:28px;min-height:72px;flex-wrap:wrap}
+.brand{font-weight:750;font-size:17px;color:var(--ink);letter-spacing:-.3px;line-height:1.2}
+.brand small{display:block;color:var(--muted);font-size:10px;font-weight:550;letter-spacing:.04em;margin-top:3px}
+nav{display:flex;gap:24px;margin-left:auto;font-size:14px}
+nav a{color:var(--muted);transition:color .2s ease}
+nav a:hover{color:var(--purple);text-decoration:none}
+main{padding:44px 0 68px}
+h1,h2{font-family:Georgia,"Times New Roman",serif;letter-spacing:-.045em}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:0 0 14px}
+h2{font-size:28px;line-height:1.15;margin:38px 0 14px}
+h3{font-size:16px;line-height:1.25;margin:0 0 6px}
+p.lede{color:var(--muted);font-size:17px;margin:0 0 24px;max-width:68ch}
+.eyebrow{color:var(--purple);font-size:12px;font-weight:750;letter-spacing:.1em;text-transform:uppercase}
+.hero{padding:20px 0 38px;display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:end}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn,.cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:8px;font-weight:700;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.btn-primary,.cta{background:var(--purple);color:#fff;border:1px solid var(--purple)}
+.btn-primary:hover,.cta:hover{background:#5540bf;text-decoration:none}
+.btn-secondary{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.btn-secondary:hover{border-color:#b9b0f5;color:var(--purple);text-decoration:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card,.summary,.toolbar{background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.card{padding:20px;transition:box-shadow .2s ease,border-color .2s ease}
+.card:hover{border-color:#b9b0f5;box-shadow:0 10px 22px rgba(25,31,52,.08)}
+.card .sub{color:var(--muted);font-size:13px;margin-top:7px}
+.summary{padding:22px}
+.summary h2{font-family:inherit;font-size:14px;letter-spacing:0;margin:0 0 16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat strong{display:block;font-size:25px;letter-spacing:-.05em}.stat span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.verified{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);color:var(--green);font-size:13px;font-weight:650}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px;margin-bottom:34px}.toolbar label{font-size:12px;color:var(--muted)}
+.filter{appearance:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-height:42px;padding:0 32px 0 12px;color:var(--ink);font:inherit}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:38px 0 14px}.section-head h2{margin:0}.section-head p{color:var(--muted);font-size:13px;margin:4px 0 0}
+.section-head h3{font-family:Georgia,"Times New Roman",serif;font-size:20px;line-height:1.2;margin:0;letter-spacing:-.03em}
+.offer-group{margin-top:30px}.offer-group .section-head{margin-top:0}
+section[id]{scroll-margin-top:88px}
+.unit{color:var(--muted);font-size:12px;font-weight:600;margin-top:3px}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.provider{font-weight:750}.plan{margin-top:17px;color:var(--muted);font-size:13px}.price{font-size:34px;font-weight:800;letter-spacing:-.06em;margin-top:2px}.price .cur{font-size:13px;color:var(--muted);font-weight:550;letter-spacing:0;margin-left:3px}
+.price.muted{font-size:22px;letter-spacing:-.03em}.meta{border-top:1px solid var(--line);margin-top:17px;padding-top:13px;color:var(--muted);font-size:12px}.card-actions{display:flex;gap:14px;margin-top:16px}.card-actions a{font-size:13px;font-weight:700}
+.tag{display:inline-block;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:750;white-space:nowrap;flex-shrink:0}.tag.ok{background:var(--green-soft);color:var(--green)}.tag.warn{background:var(--amber-soft);color:var(--amber)}.tag.bad{background:var(--red-soft);color:var(--red)}
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px}th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}th{background:#f1f2f5;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}tr:last-child td{border-bottom:none}tbody tr:hover{background:#fbfbfd}
+.note{color:var(--muted);font-size:13px}.crumbs{font-size:13px;color:var(--muted);margin-bottom:16px}.crumbs a{color:var(--muted)}
+ul.clean{list-style:none;padding:0;margin:0}ul.clean li{padding:11px 0;border-bottom:1px solid var(--line)}ul.clean li:last-child{border-bottom:none}
+.method{margin:42px 0 0;background:var(--ink);color:#fff;border-radius:16px;padding:24px;display:grid;grid-template-columns:1fr 2fr;gap:30px}.method h2{font-size:25px;margin:0}.method p{color:#c8ced9;margin:0}.method strong{color:#fff}
+.callout{background:var(--amber-soft);border:1px solid #f0d9a8;border-radius:14px;padding:20px 22px;margin:26px 0}.callout h3{font-family:Georgia,"Times New Roman",serif;font-size:20px;letter-spacing:-.03em;margin:0 0 8px}.callout p{margin:0;color:#5c4a1f;font-size:14px}.callout p+p{margin-top:9px}
+.tag.zero{background:var(--green-soft);color:var(--green)}.tag.meter{background:var(--red-soft);color:var(--red)}.tag.cond{background:var(--amber-soft);color:var(--amber)}.tag.neutral{background:#eef0f4;color:var(--muted)}
+.cost{font-weight:750;white-space:nowrap}.cost.zero{color:var(--green)}.cost.paid{color:var(--red)}
+td small{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-top:3px;white-space:normal}
+footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px;color:var(--muted);font-size:13px}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap;margin-top:13px}
+.foot-links a{color:var(--muted);font-weight:600}
+.foot-links a:hover{color:var(--purple);text-decoration:none}
+@media(max-width:800px){.hero{grid-template-columns:1fr;gap:24px}.method{grid-template-columns:1fr}}
+@media(max-width:600px){.wrap{padding:0 16px}header.site .wrap{min-height:64px;gap:14px}.brand{font-size:15px}nav{gap:13px;font-size:12px}nav a:nth-child(n+5){display:none}main{padding-top:30px}h1{font-size:40px}h2{font-size:25px}.hero p.lede{font-size:16px}.stats{gap:8px}.stat strong{font-size:21px}.toolbar{display:grid;grid-template-columns:1fr;align-items:stretch}.filter{width:100%}.section-head{display:block}.section-head .btn-secondary{margin-top:12px}table{display:block;overflow-x:auto;white-space:nowrap}.method{margin-top:34px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"/#organization","name":"Cloud Storage Deals","url":"/","logo":"/og.png","description":"Verified cloud storage pricing, refreshed every 6 hours from official pages."},{"@type":"WebSite","@id":"/#website","name":"Cloud Storage Deals","url":"/","publisher":{"@id":"/#organization"},"inLanguage":"en-US"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which cloud storage providers charge no egress fees?","acceptedAnswer":{"@type":"Answer","text":"Of the object storage providers tracked here, Cloudflare R2, Filebase, Impossible Cloud, Sevalla, UpCloud, Wasabi bill nothing for egress. Each has different trade-offs elsewhere — minimum storage durations, minimum monthly charges, or a fair-use clause."}},{"@type":"Question","name":"How much does it cost to download 1 TB from AWS S3?","acceptedAnswer":{"@type":"Answer","text":"About $92.16. S3 bills $0.09/GB for the first 10 TB of internet egress per month in US East, dropping to $0.085, $0.07 and $0.05/GB at higher volumes. At 1,024 GB that first tier alone is $92.16."}},{"@type":"Question","name":"What does free egress up to 3x storage actually mean?","acceptedAnswer":{"@type":"Answer","text":"It means your monthly download allowance equals three times the volume you are storing, not three times your download. Backblaze B2 and IDrive e2 both work this way, so a 1 TB download is free once you store roughly 341 GB, and anything beyond three times your stored volume is billed per GB."}},{"@type":"Question","name":"Do consumer cloud storage plans charge egress fees?","acceptedAnswer":{"@type":"Answer","text":"No. The subscription products tracked here sell storage and seats, and transfer is part of the price with no separate egress line item. The exceptions publish a limit instead of a fee: OpenDrive caps its free plan at 1 GB/day, while Filen and Jottacloud advertise unlimited bandwidth on paid plans."}},{"@type":"Question","name":"Is Cloudflare R2 really free to download from?","acceptedAnswer":{"@type":"Answer","text":"Yes, for egress. R2 charges nothing for egress bandwidth on any storage class. Its Infrequent Access class does add a $0.01/GB retrieval fee, but that is a charge for reading stored data, not for sending it over the internet — a distinction worth checking before assuming any zero-egress claim is unconditional."}},{"@type":"Question","name":"Why is egress so expensive at hyperscalers?","acceptedAnswer":{"@type":"Answer","text":"Internet egress carries real transit and peering costs, and for providers that price storage below cost it is a margin line. The practical consequence is lock-in: data is cheap to put in and expensive to take out, which is exactly what zero-egress providers market against."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Cloud Storage Deals","item":"/"},{"@type":"ListItem","position":2,"name":"Cloud storage egress fees compared — Cloud Storage Deals","item":"/egress/"}]}]}</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="/">Cloud Storage Deals<small>Verified pricing from official pages</small></a>
+  <nav aria-label="Primary navigation">
+    <a href="/">Deals</a>
+    <a href="/providers/">Providers</a>
+    <a href="/compare/">Compare</a>
+    <a href="/egress/">Egress</a>
+    <a href="/about/">Methodology</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</div></header>
+<main><div class="wrap">
+<div class="crumbs"><a href="/">Cloud Storage Deals</a> / Egress fees</div>
+<div class="hero" style="padding-top:8px">
+  <div>
+    <div class="eyebrow">Egress cost analysis</div>
+    <h1>What it costs to take your data back</h1>
+    <p class="lede">Storage prices are easy to compare and egress fees are not, which is why the cheapest-looking provider is often the most expensive one to leave. Every figure below was read from the provider&#x27;s own pricing page.</p>
+  </div>
+  <div class="card">
+    <div class="provider">The short version</div>
+    <div class="meta" style="border-top:0;padding-top:10px;margin-top:0">9 of 12 object storage providers tracked here charge nothing to download 1 TB. AWS S3 charges about $92.16 for the same terabyte.</div>
+  </div>
+</div>
+
+<div class="grid"><div class="card"><div class="stat"><strong>$0</strong><span>Download 1 TB at 9 of 12 object storage providers</span></div></div><div class="card"><div class="stat"><strong>$92.16</strong><span>The same 1 TB out of AWS S3</span></div></div><div class="card"><div class="stat"><strong>13x</strong><span>Gap between the cheapest metered rate and the dearest</span></div></div></div>
+
+<h2>What it costs to download 1 TB</h2>
+<p class="note" style="margin-bottom:16px">Cost to move 1 TB out in a single month, using 1 TB = 1,024 GB and each provider&#x27;s own published rate. Sorted cheapest first.</p>
+<table>
+<thead><tr><th>Provider</th><th>1 TB download</th><th>Egress model</th><th>Free allowance</th><th>Beyond the allowance</th></tr></thead>
+<tbody>
+<tr><td><a href="/providers/backblaze/">Backblaze B2</a></td><td><span class="cost zero">$0</span><small>Free while monthly egress stays under 3x stored volume</small></td><td><span class="tag cond">Free up to 3x</span></td><td>3x average monthly storage</td><td>$0.01/GB</td></tr>
+<tr><td><a href="/providers/cloudflare-r2/">Cloudflare R2</a></td><td><span class="cost zero">$0</span><small>No egress charge for any storage class</small></td><td><span class="tag zero">Free egress</span></td><td>Unlimited</td><td>$0</td></tr>
+<tr><td><a href="/providers/digitalocean-spaces/">DigitalOcean Spaces</a></td><td><span class="cost zero">$0</span><small>Covered by the bundled 1 TiB monthly transfer</small></td><td><span class="tag cond">Bundled allowance</span></td><td>1 TiB/month per plan</td><td>$0.01/GiB</td></tr>
+<tr><td><a href="/providers/filebase/">Filebase</a></td><td><span class="cost zero">$0</span><small>Object egress is free on every plan</small></td><td><span class="tag zero">Free egress</span></td><td>Unlimited object egress</td><td>$0 (IPFS bandwidth $0.015/GB)</td></tr>
+<tr><td><a href="/providers/idrive-e2/">IDrive e2</a></td><td><span class="cost zero">$0</span><small>Free while monthly downloads stay under 3x stored volume</small></td><td><span class="tag cond">Free up to 3x</span></td><td>3x active storage volume</td><td>$0.01/GB</td></tr>
+<tr><td><a href="/providers/impossible-cloud/">Impossible Cloud</a></td><td><span class="cost zero">$0</span><small>Zero egress fees</small></td><td><span class="tag zero">Free egress</span></td><td>Unlimited under fair use</td><td>$0</td></tr>
+<tr><td><a href="/providers/sevalla/">Sevalla</a></td><td><span class="cost zero">$0</span><small>No egress fees, no transfer charges</small></td><td><span class="tag zero">Free egress</span></td><td>Unlimited (100 GB free bandwidth noted)</td><td>$0</td></tr>
+<tr><td><a href="/providers/upcloud/">UpCloud</a></td><td><span class="cost zero">$0</span><small>Zero-cost egress on all plans</small></td><td><span class="tag zero">Free egress</span></td><td>Unlimited</td><td>$0</td></tr>
+<tr><td><a href="/providers/wasabi/">Wasabi</a></td><td><span class="cost zero">$0</span><small>No egress or API request fees</small></td><td><span class="tag zero">Free egress</span></td><td>Unlimited</td><td>$0</td></tr>
+<tr><td><a href="/providers/storj/">Storj</a></td><td><span class="cost paid">$7</span><small>$7/TB, billed per TB</small></td><td><span class="tag meter">Metered</span></td><td>None (30-day 25 GB trial)</td><td>$7/TB</td></tr>
+<tr><td><a href="/providers/bunny-storage/">Bunny Storage</a></td><td><span class="cost paid">$10.24</span><small>CDN delivery at $0.01/GB in Europe and North America</small></td><td><span class="tag cond">CDN billed</span></td><td>Storage to Bunny CDN, plus API egress</td><td>CDN bandwidth rates</td></tr>
+<tr><td><a href="/providers/aws-s3/">AWS S3</a></td><td><span class="cost paid">$92.16</span><small>1,024 GB x $0.09 first-tier rate</small></td><td><span class="tag meter">Metered</span></td><td>100 GB/month (global free tier)</td><td>$0.09/GB, then $0.085, $0.07, $0.05</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+  <h3>The $92 download</h3>
+  <p>Pulling 1 TB out of AWS S3 in a single month costs about <strong>$92</strong> in egress alone — more than three times what it costs to store that terabyte for the same month. That asymmetry is the reason "egress-free" became a selling point, and it is the number every other provider in this table is implicitly competing against.</p>
+  <p>The same 1 TB is $0 at Cloudflare R2, Wasabi, Impossible Cloud, Filebase, UpCloud and Sevalla, and $7 at Storj. Storage price differences between these providers are measured in cents; the egress difference is measured in tens of dollars.</p>
+</div>
+
+<h2>Providers that charge nothing to leave</h2>
+<p class="note" style="margin-bottom:16px">Six object storage providers bill no egress at all. Two more make egress free up to a multiple of what you store, which is a condition worth reading carefully rather than a free pass.</p>
+<div class="grid"><article class="card"><div class="card-top"><span class="provider">Cloudflare R2</span><span class="tag zero">$0</span></div><div class="plan">Unlimited</div><div class="meta">The pricing page states there are no charges for egress bandwidth for any storage class. Infrequent Access does add a $0.01/GB retrieval fee, but that is a read charge on stored data, not an internet egress charge.<div style="margin-top:9px"><a href="https://developers.cloudflare.com/r2/pricing/" rel="nofollow noopener" target="_blank">Official policy ↗</a></div></div></article><article class="card"><div class="card-top"><span class="provider">Filebase</span><span class="tag zero">$0</span></div><div class="plan">Unlimited object egress</div><div class="meta">Object egress is free across plans, including the free tier. IPFS is the exception: additional IPFS bandwidth beyond the plan allowance is $0.015/GB. Storage is pooled between Object Storage and IPFS, but the egress allowances are separate.<div style="margin-top:9px"><a href="https://filebase.com/pricing/" rel="nofollow noopener" target="_blank">Official policy ↗</a></div></div></article><article class="card"><div class="card-top"><span class="provider">Impossible Cloud</span><span class="tag zero">$0</span></div><div class="plan">Unlimited under fair use</div><div class="meta">Zero egress fees and zero API charges. The fair use policy is stated explicitly: egress in line with normal workloads is free, but egress that massively exceeds stored volume over a sustained period triggers a conversation rather than an automatic bill.<div style="margin-top:9px"><a href="https://www.impossiblecloud.com/pricing/" rel="nofollow noopener" target="_blank">Official policy ↗</a></div></div></article><article class="card"><div class="card-top"><span class="provider">Sevalla</span><span class="tag zero">$0</span></div><div class="plan">Unlimited (100 GB free bandwidth noted)</div><div class="meta">S3-compatible object storage advertised with zero ingress and egress fees, and the pricing page repeats no egress fees and no transfer charges. Storage is billed per GB, so the only variable cost is what you keep, not what you move.<div style="margin-top:9px"><a href="https://sevalla.com/object-storage/" rel="nofollow noopener" target="_blank">Official policy ↗</a></div></div></article><article class="card"><div class="card-top"><span class="provider">UpCloud</span><span class="tag zero">$0</span></div><div class="plan">Unlimited</div><div class="meta">The pricing page leads with zero-cost data transfer, and managed object storage includes zero-cost egress. Public and private outbound transfer are both listed at no charge across product plans.<div style="margin-top:9px"><a href="https://upcloud.com/products/object-storage/" rel="nofollow noopener" target="_blank">Official policy ↗</a></div></div></article><article class="card"><div class="card-top"><span class="provider">Wasabi</span><span class="tag zero">$0</span></div><div class="plan">Unlimited</div><div class="meta">No fees for egress or API requests. The trade-off sits elsewhere: pay-as-you-go is $7.99/TB-month with a 1 TB minimum monthly charge and a 90-day minimum storage duration, so short-lived data is expensive even though reading it back is free.<div style="margin-top:9px"><a href="https://wasabi.com/pricing/" rel="nofollow noopener" target="_blank">Official policy ↗</a></div></div></article></div>
+
+<h2>How the six models differ</h2>
+<table>
+<thead><tr><th>Model</th><th>What it means</th><th>Watch out for</th></tr></thead>
+<tbody>
+<tr><td><span class="tag zero">Free egress</span></td><td>No egress charge at all.</td><td>A zero egress fee does not mean a cheap bill: minimum storage durations, minimum monthly charges and retrieval fees can still apply.</td></tr>
+<tr><td><span class="tag cond">Free up to 3x</span></td><td>Egress is free up to a multiple of stored volume, then billed per GB.</td><td>The allowance scales with what you store, not with what you move. Small buckets get a small allowance.</td></tr>
+<tr><td><span class="tag cond">Bundled allowance</span></td><td>Each plan bundles a monthly transfer allowance.</td><td>The allowance is per plan, so the ceiling arrives suddenly once you outgrow it.</td></tr>
+<tr><td><span class="tag meter">Metered</span></td><td>Every GB out is billed, with volume tiers lowering the rate.</td><td>The first tier is the expensive one, and it is where most bills live.</td></tr>
+<tr><td><span class="tag cond">CDN billed</span></td><td>Storage to CDN is free; delivery from the CDN to users is billed.</td><td>The billed path is delivery, so read volume and CDN traffic are two different numbers.</td></tr>
+<tr><td><span class="tag neutral">Bundled</span></td><td>Transfer is part of the subscription, with no separate line item.</td><td>An absent egress clause is not a guarantee; fair-use terms can still apply.</td></tr>
+</tbody>
+</table>
+
+<h2>Consumer plans do not meter egress</h2>
+<p class="note" style="margin-bottom:16px">These are subscription products, not metered infrastructure: the plan price covers transfer and there is no egress line item to compare. The column below quotes what each pricing page actually says, including the three providers that publish a transfer limit instead of a fee.</p>
+<table>
+<thead><tr><th>Provider</th><th>What the plan says about transfer</th><th>1 TB download</th></tr></thead>
+<tbody>
+<tr><td><a href="/providers/apple-icloud/">Apple iCloud</a></td><td>No published egress fee<small>Storage tiers are the only billing dimension. There is no egress line item, though downloading very large libraries is practically bounded by bandwidth rather than price.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/backblaze-computer-backup/">Backblaze Computer Backup</a></td><td>Unlimited restore downloads<small>A flat per-computer subscription with unlimited backup and unlimited restore downloads. Zip restores are capped at 500 GB per request with multiple requests allowed, and mailed hard drive restores are free. Restore volume is not a billing dimension.</small></td><td><span class="cost zero">$0</span><small>Restores included; mailed drive restores free</small></td></tr>
+<tr><td><a href="/providers/crashplan/">CrashPlan</a></td><td>No published egress fee<small>Backup and restore are part of the subscription. No egress line item on the pricing page.</small></td><td><span class="cost zero">$0</span><small>Restores included in the plan</small></td></tr>
+<tr><td><a href="/providers/dropbox/">Dropbox</a></td><td>No published egress fee<small>No egress line item on the plans page. Seats and storage are the billing dimensions.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/filen/">Filen</a></td><td>Unlimited bandwidth<small>The pricing page lists unlimited bandwidth as a plan feature. No per-GB egress line item exists.</small></td><td><span class="cost zero">$0</span><small>Plan states unlimited bandwidth</small></td></tr>
+<tr><td><a href="/providers/icedrive/">Icedrive</a></td><td>No published egress fee<small>No egress or bandwidth line item on the pricing page. Storage size and term are the billing dimensions.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/idrive/">IDrive</a></td><td>No published egress fee<small>No egress line item on the pricing page. Note that IDrive e2, the same company&#x27;s object storage product, does meter egress past its 3x allowance, so the two products do not share a policy.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/internxt/">Internxt</a></td><td>No published egress fee<small>No egress or bandwidth line item on the pricing page. Plans are sold by storage size and term.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/jottacloud/">Jottacloud</a></td><td>No bandwidth limitation<small>The pricing page lists no bandwidth limitation as a plan feature, which matters because the plans are sold by stored volume rather than by transfer.</small></td><td><span class="cost zero">$0</span><small>Plan states no bandwidth limitation</small></td></tr>
+<tr><td><a href="/providers/koofr/">Koofr</a></td><td>No published egress fee<small>No egress or bandwidth line item on the pricing page. Plans are sold by storage size.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/livedrive/">LiveDrive</a></td><td>No published egress fee<small>No egress line item on the site. Plans are sold by storage size and product type.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/mediafire/">MediaFire</a></td><td>No published egress fee<small>No egress line item on the upgrade page. Storage size and file-size limits are the billing dimensions.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/opendrive/">OpenDrive</a></td><td>Free plan 1 GB/day; paid plans unlimited<small>The only consumer provider here that publishes a hard transfer cap on a tier: the free plan allows 1 GB/day of bandwidth at 200 KB/s. Paid plans list unlimited storage, bandwidth and file size, so the cap disappears on upgrade.</small></td><td><span class="cost zero">$0</span><small>Paid plans list unlimited bandwidth</small></td></tr>
+<tr><td><a href="/providers/pcloud/">pCloud</a></td><td>No published egress fee<small>The pricing page carries no egress or bandwidth line item. Transfer is part of the subscription, and the plan dimension is storage size and lifetime versus subscription term.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/proton-drive/">Proton Drive</a></td><td>No published egress fee<small>No egress or bandwidth line item on the pricing page. Plans are sold by storage size and bundle.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/sync-com/">Sync.com</a></td><td>No published egress fee<small>No egress line item. The download limits Sync.com advertises are a sharing control on links you send, not a cap on your own transfers, which is an easy phrase to misread on the pricing page.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/tresorit/">Tresorit</a></td><td>No published egress fee<small>No egress or bandwidth line item on the pricing page. Plans are sold by storage size and seat count.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+<tr><td><a href="/providers/zoolz/">Zoolz</a></td><td>No published egress fee<small>No egress line item on the pricing page. Plans are sold by storage size.</small></td><td><span class="cost zero">$0</span><small>Transfer included in the plan</small></td></tr>
+</tbody>
+</table>
+
+<div class="method">
+  <div>
+    <h2>How this page is built</h2>
+  </div>
+  <div>
+    <p>Egress policies are prose, not table cells, so they cannot be scraped the way prices are. Each row was read from the provider's own pricing page and carries the source link and a verification date. <strong>Last verified: 2026-10-22.</strong></p>
+    <p style="margin-top:12px">Cost-to-download figures use 1 TB = 1,024 GB. Where a provider bills per TB rather than per GB, its published per-TB rate is used unchanged. Free-allowance conditions are quoted as the provider states them, not paraphrased into a single number.</p>
+    <p style="margin-top:12px">This page covers 30 providers. Where a provider publishes no egress term at all, the page says so instead of assuming zero — an absent clause is not a promise.</p>
+  </div>
+</div>
+
+<h2>Frequently asked</h2>
+<ul class="clean"><li><strong>Which cloud storage providers charge no egress fees?</strong><div class="note" style="margin-top:5px">Of the object storage providers tracked here, Cloudflare R2, Filebase, Impossible Cloud, Sevalla, UpCloud, Wasabi bill nothing for egress. Each has different trade-offs elsewhere — minimum storage durations, minimum monthly charges, or a fair-use clause.</div></li><li><strong>How much does it cost to download 1 TB from AWS S3?</strong><div class="note" style="margin-top:5px">About $92.16. S3 bills $0.09/GB for the first 10 TB of internet egress per month in US East, dropping to $0.085, $0.07 and $0.05/GB at higher volumes. At 1,024 GB that first tier alone is $92.16.</div></li><li><strong>What does free egress up to 3x storage actually mean?</strong><div class="note" style="margin-top:5px">It means your monthly download allowance equals three times the volume you are storing, not three times your download. Backblaze B2 and IDrive e2 both work this way, so a 1 TB download is free once you store roughly 341 GB, and anything beyond three times your stored volume is billed per GB.</div></li><li><strong>Do consumer cloud storage plans charge egress fees?</strong><div class="note" style="margin-top:5px">No. The subscription products tracked here sell storage and seats, and transfer is part of the price with no separate egress line item. The exceptions publish a limit instead of a fee: OpenDrive caps its free plan at 1 GB/day, while Filen and Jottacloud advertise unlimited bandwidth on paid plans.</div></li><li><strong>Is Cloudflare R2 really free to download from?</strong><div class="note" style="margin-top:5px">Yes, for egress. R2 charges nothing for egress bandwidth on any storage class. Its Infrequent Access class does add a $0.01/GB retrieval fee, but that is a charge for reading stored data, not for sending it over the internet — a distinction worth checking before assuming any zero-egress claim is unconditional.</div></li><li><strong>Why is egress so expensive at hyperscalers?</strong><div class="note" style="margin-top:5px">Internet egress carries real transit and peering costs, and for providers that price storage below cost it is a margin line. The practical consequence is lock-in: data is cheap to put in and expensive to take out, which is exactly what zero-egress providers market against.</div></li></ul>
+
+</div></main>
+<footer class="site"><div class="wrap">
+  <div><strong>Cloud Storage Deals</strong> — Verified cloud storage pricing, refreshed every 6 hours from official pages.</div>
+  <div class="note" style="margin-top:7px">All prices on this site are collected by an automated pipeline that reads each provider's official public pricing page — nothing is estimated, and any price that cannot be verified is left out. Last refresh: Oct 22, 2026, 05:30 UTC.</div>
+  <div class="foot-links">
+    <a href="/providers/">All providers</a>
+    <a href="/egress/">Egress fees</a>
+    <a href="/about/">Methodology</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</div></footer>
+</body>
+</html>

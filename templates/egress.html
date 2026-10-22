@@ -1,0 +1,64 @@
+<div class="crumbs">$breadcrumb</div>
+<div class="hero" style="padding-top:8px">
+  <div>
+    <div class="eyebrow">Egress cost analysis</div>
+    <h1>$headline</h1>
+    <p class="lede">$lede</p>
+  </div>
+  <div class="card">
+    <div class="provider">The short version</div>
+    <div class="meta" style="border-top:0;padding-top:10px;margin-top:0">$short_version</div>
+  </div>
+</div>
+
+<div class="grid">$stat_cards</div>
+
+<h2>What it costs to download 1 TB</h2>
+<p class="note" style="margin-bottom:16px">$unit_note</p>
+<table>
+<thead><tr><th>Provider</th><th>1 TB download</th><th>Egress model</th><th>Free allowance</th><th>Beyond the allowance</th></tr></thead>
+<tbody>
+$object_rows
+</tbody>
+</table>
+
+<div class="callout">
+  <h3>The $92 download</h3>
+  <p>Pulling 1 TB out of AWS S3 in a single month costs about <strong>$92</strong> in egress alone — more than three times what it costs to store that terabyte for the same month. That asymmetry is the reason "egress-free" became a selling point, and it is the number every other provider in this table is implicitly competing against.</p>
+  <p>The same 1 TB is $0 at Cloudflare R2, Wasabi, Impossible Cloud, Filebase, UpCloud and Sevalla, and $7 at Storj. Storage price differences between these providers are measured in cents; the egress difference is measured in tens of dollars.</p>
+</div>
+
+<h2>Providers that charge nothing to leave</h2>
+<p class="note" style="margin-bottom:16px">Six object storage providers bill no egress at all. Two more make egress free up to a multiple of what you store, which is a condition worth reading carefully rather than a free pass.</p>
+<div class="grid">$zero_cards</div>
+
+<h2>How the six models differ</h2>
+<table>
+<thead><tr><th>Model</th><th>What it means</th><th>Watch out for</th></tr></thead>
+<tbody>
+$model_rows
+</tbody>
+</table>
+
+<h2>Consumer plans do not meter egress</h2>
+<p class="note" style="margin-bottom:16px">$consumer_note</p>
+<table>
+<thead><tr><th>Provider</th><th>What the plan says about transfer</th><th>1 TB download</th></tr></thead>
+<tbody>
+$consumer_rows
+</tbody>
+</table>
+
+<div class="method">
+  <div>
+    <h2>How this page is built</h2>
+  </div>
+  <div>
+    <p>Egress policies are prose, not table cells, so they cannot be scraped the way prices are. Each row was read from the provider's own pricing page and carries the source link and a verification date. <strong>Last verified: $verified_at.</strong></p>
+    <p style="margin-top:12px">Cost-to-download figures use 1 TB = 1,024 GB. Where a provider bills per TB rather than per GB, its published per-TB rate is used unchanged. Free-allowance conditions are quoted as the provider states them, not paraphrased into a single number.</p>
+    <p style="margin-top:12px">This page covers $source_count providers. Where a provider publishes no egress term at all, the page says so instead of assuming zero — an absent clause is not a promise.</p>
+  </div>
+</div>
+
+<h2>Frequently asked</h2>
+<ul class="clean">$faq_items</ul>

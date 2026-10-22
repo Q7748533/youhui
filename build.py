@@ -24,6 +24,10 @@ import siteilang
 SITE_DIR = "site"
 TEMPLATE_DIR = "templates"
 DATA_FILE = os.path.join("data", "offers.json")
+# Egress policies are hand-verified prose from official pricing pages, so they
+# live in a curated file the scraper never touches. Rows carry their own
+# source_url and verified_at instead of inheriting the build timestamp.
+EGRESS_FILE = os.path.join("data", "egress.json")
 SYMBOLS = {"USD": "$", "EUR": "€", "GBP": "£", "JPY": "¥", "CNY": "¥", "CHF": "CHF "}
 # The privacy policy only changes when the data practices change, so its
 # sitemap lastmod is pinned here instead of following every rebuild.
@@ -917,6 +921,167 @@ def main(argv: list[str]) -> int:
     ))
     urls.append("/privacy/")
 
+    # ------------------------------------------------------------ egress
+    # The one cost that is invisible on most pricing pages: what a provider
+    # charges to hand your own data back. Curated, not scraped — see EGRESS_FILE.
+    egress_meta, egress_rows = {}, []
+    if os.path.exists(EGRESS_FILE):
+        with open(EGRESS_FILE, "r", encoding="utf-8") as fh:
+            egress_doc = json.load(fh)
+        egress_meta = egress_doc.get("meta", {})
+        egress_rows = egress_doc.get("providers", [])
+    if not egress_rows:
+        print("WARNING: data/egress.json missing or empty — skipping /egress/", file=sys.stderr)
+
+    if egress_rows:
+        MODEL_TAGS = {
+            "zero-egress": ("zero", "Free egress"),
+            "free-multiple": ("cond", "Free up to 3x"),
+            "included-allowance": ("cond", "Bundled allowance"),
+            "metered-tiered": ("meter", "Metered"),
+            "cdn-billed": ("cond", "CDN billed"),
+            "bundled": ("neutral", "Bundled"),
+        }
+
+        def egress_cost(value) -> str:
+            """Whole dollars stay whole; anything else keeps its cents. Egress
+            prices are quoted to the cent, so rounding $0.015-class rates here
+            would misstate them."""
+            if not value:
+                return "$0"
+            if abs(value - round(value)) < 0.005:
+                return f"${int(round(value))}"
+            return f"${value:.2f}"
+
+        def cost_cell(row: dict) -> str:
+            cls = "zero" if not row.get("cost_1tb") else "paid"
+            note = row.get("cost_1tb_note") or ""
+            return (f'<span class="cost {cls}">{esc(egress_cost(row.get("cost_1tb")))}</span>'
+                    + (f"<small>{esc(note)}</small>" if note else ""))
+
+        def model_tag(model: str) -> str:
+            cls, label = MODEL_TAGS.get(model, ("neutral", model))
+            return f'<span class="tag {cls}">{esc(label)}</span>'
+
+        # Infrastructure rows lead the page because that is where egress is a
+        # real invoice line. Subscription products — including backup services
+        # with unlimited restores — cannot be ranked on a fee they do not
+        # charge, so they stay in their own table instead of padding this one.
+        infra = sorted([r for r in egress_rows if r.get("category") == "object"],
+                       key=lambda r: (r.get("cost_1tb") or 0, r["name"].lower()))
+        consumer = sorted([r for r in egress_rows if r.get("category") in ("consumer", "backup")],
+                          key=lambda r: r["name"].lower())
+
+        object_rows = "\n".join(
+            f'<tr><td><a href="{root}providers/{esc(r["slug"])}/">{esc(r["name"])}</a></td>'
+            f'<td>{cost_cell(r)}</td>'
+            f'<td>{model_tag(r.get("model", ""))}</td>'
+            f'<td>{esc(r.get("free_allowance", ""))}</td>'
+            f'<td>{esc(r.get("overage", ""))}</td></tr>'
+            for r in infra
+        )
+        consumer_rows = "\n".join(
+            f'<tr><td><a href="{root}providers/{esc(r["slug"])}/">{esc(r["name"])}</a></td>'
+            f'<td>{esc(r.get("free_allowance", ""))}<small>{esc(r.get("notes", ""))}</small></td>'
+            f'<td>{cost_cell(r)}</td></tr>'
+            for r in consumer
+        )
+
+        free_models = [r for r in infra if r.get("model") == "zero-egress"]
+        zero_cards = "".join(
+            f'<article class="card"><div class="card-top"><span class="provider">{esc(r["name"])}</span>'
+            f'<span class="tag zero">$0</span></div>'
+            f'<div class="plan">{esc(r.get("free_allowance", ""))}</div>'
+            f'<div class="meta">{esc(r.get("notes", ""))}'
+            f'<div style="margin-top:9px"><a href="{esc(r.get("source_url", ""))}" rel="nofollow noopener" target="_blank">Official policy ↗</a></div>'
+            f'</div></article>'
+            for r in free_models
+        )
+
+        MODEL_NOTES = {
+            "zero-egress": ("No egress charge at all.", "A zero egress fee does not mean a cheap bill: minimum storage durations, minimum monthly charges and retrieval fees can still apply."),
+            "free-multiple": ("Egress is free up to a multiple of stored volume, then billed per GB.", "The allowance scales with what you store, not with what you move. Small buckets get a small allowance."),
+            "included-allowance": ("Each plan bundles a monthly transfer allowance.", "The allowance is per plan, so the ceiling arrives suddenly once you outgrow it."),
+            "metered-tiered": ("Every GB out is billed, with volume tiers lowering the rate.", "The first tier is the expensive one, and it is where most bills live."),
+            "cdn-billed": ("Storage to CDN is free; delivery from the CDN to users is billed.", "The billed path is delivery, so read volume and CDN traffic are two different numbers."),
+            "bundled": ("Transfer is part of the subscription, with no separate line item.", "An absent egress clause is not a guarantee; fair-use terms can still apply."),
+        }
+        model_rows = "\n".join(
+            f'<tr><td>{model_tag(m)}</td><td>{esc(MODEL_NOTES[m][0])}</td><td>{esc(MODEL_NOTES[m][1])}</td></tr>'
+            for m in ("zero-egress", "free-multiple", "included-allowance", "metered-tiered", "cdn-billed", "bundled")
+            if m in MODEL_NOTES
+        )
+
+        free_infra = [r for r in infra if not r.get("cost_1tb")]
+        dearest = max(infra, key=lambda r: r.get("cost_1tb") or 0)
+        cheapest_paid = min([r for r in infra if r.get("cost_1tb")], key=lambda r: r["cost_1tb"], default=None)
+        spread = ""
+        if cheapest_paid and cheapest_paid.get("cost_1tb"):
+            spread = f'{dearest["cost_1tb"] / cheapest_paid["cost_1tb"]:.0f}x'
+        stat_cards = (
+            f'<div class="card"><div class="stat"><strong>$0</strong>'
+            f'<span>Download 1 TB at {len(free_infra)} of {len(infra)} object storage providers</span></div></div>'
+            f'<div class="card"><div class="stat"><strong>{esc(egress_cost(dearest.get("cost_1tb")))}</strong>'
+            f'<span>The same 1 TB out of {esc(dearest["name"])}</span></div></div>'
+            f'<div class="card"><div class="stat"><strong>{esc(spread or "—")}</strong>'
+            f'<span>Gap between the cheapest metered rate and the dearest</span></div></div>'
+        )
+
+        faq = [
+            ("Which cloud storage providers charge no egress fees?",
+             "Of the object storage providers tracked here, "
+             + ", ".join(r["name"] for r in free_models)
+             + " bill nothing for egress. Each has different trade-offs elsewhere — minimum storage durations, minimum monthly charges, or a fair-use clause."),
+            ("How much does it cost to download 1 TB from AWS S3?",
+             f'About {egress_cost(dearest.get("cost_1tb"))}. S3 bills $0.09/GB for the first 10 TB of internet egress per month in US East, dropping to $0.085, $0.07 and $0.05/GB at higher volumes. At 1,024 GB that first tier alone is $92.16.'),
+            ("What does free egress up to 3x storage actually mean?",
+             "It means your monthly download allowance equals three times the volume you are storing, not three times your download. Backblaze B2 and IDrive e2 both work this way, so a 1 TB download is free once you store roughly 341 GB, and anything beyond three times your stored volume is billed per GB."),
+            ("Do consumer cloud storage plans charge egress fees?",
+             "No. The subscription products tracked here sell storage and seats, and transfer is part of the price with no separate egress line item. The exceptions publish a limit instead of a fee: OpenDrive caps its free plan at 1 GB/day, while Filen and Jottacloud advertise unlimited bandwidth on paid plans."),
+            ("Is Cloudflare R2 really free to download from?",
+             "Yes, for egress. R2 charges nothing for egress bandwidth on any storage class. Its Infrequent Access class does add a $0.01/GB retrieval fee, but that is a charge for reading stored data, not for sending it over the internet — a distinction worth checking before assuming any zero-egress claim is unconditional."),
+            ("Why is egress so expensive at hyperscalers?",
+             "Internet egress carries real transit and peering costs, and for providers that price storage below cost it is a margin line. The practical consequence is lock-in: data is cheap to put in and expensive to take out, which is exactly what zero-egress providers market against."),
+        ]
+        faq_items = "".join(
+            f'<li><strong>{esc(q)}</strong><div class="note" style="margin-top:5px">{esc(a)}</div></li>'
+            for q, a in faq
+        )
+
+        verified = egress_meta.get("verified_at", PRIVACY_UPDATED)
+        free_n = len(free_infra)
+        eg_body = read_template("egress.html").safe_substitute(
+            breadcrumb=f'<a href="{root}">{esc(brand)}</a> / Egress fees',
+            headline=esc("What it costs to take your data back"),
+            lede=esc("Storage prices are easy to compare and egress fees are not, which is why the cheapest-looking provider is often the most expensive one to leave. Every figure below was read from the provider's own pricing page."),
+            short_version=esc(
+                f"{free_n} of {len(infra)} object storage providers tracked here charge nothing to download 1 TB. "
+                f"{dearest['name']} charges about {egress_cost(dearest.get('cost_1tb'))} for the same terabyte."
+            ),
+            stat_cards=stat_cards,
+            unit_note=esc("Cost to move 1 TB out in a single month, using 1 TB = 1,024 GB and each provider's own published rate. Sorted cheapest first."),
+            object_rows=object_rows,
+            zero_cards=zero_cards,
+            model_rows=model_rows,
+            consumer_note=esc("These are subscription products, not metered infrastructure: the plan price covers transfer and there is no egress line item to compare. The column below quotes what each pricing page actually says, including the three providers that publish a transfer limit instead of a fee."),
+            consumer_rows=consumer_rows,
+            verified_at=esc(verified),
+            source_count=len(egress_rows),
+            faq_items=faq_items,
+        )
+        write("egress/index.html", page(
+            f"Cloud storage egress fees compared — {brand}",
+            f"What {len(infra)} object storage providers charge to download 1 TB, from $0 at "
+            f"{free_models[0]['name'] if free_models else 'several providers'} to {egress_cost(dearest.get('cost_1tb'))} at {dearest['name']}.",
+            "/egress/", eg_body,
+            {"@type": "FAQPage", "mainEntity": [
+                {"@type": "Question", "name": q,
+                 "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq
+            ]},
+        ))
+        urls.append("/egress/")
+
+
     # ------------------------------------------------------------ index files
     def sitemap_lastmod(path: str) -> str:
         """Per-page freshness so every rebuild does not claim 78 simultaneous
@@ -937,6 +1102,10 @@ def main(argv: list[str]) -> int:
             # Static policy pages: claiming a fresh lastmod on every 6-hour
             # rebuild would be inaccurate.
             return PRIVACY_UPDATED
+        if path == "/egress/":
+            # Curated prose, not scraped prices: freshness follows the manual
+            # verification date rather than the pipeline run.
+            return egress_meta.get("verified_at", PRIVACY_UPDATED)
         return updated_at
 
     locs = "\n".join(

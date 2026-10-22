@@ -74,12 +74,16 @@ table{width:100%;border-collapse:separate;border-spacing:0;background:var(--pane
 .note{color:var(--muted);font-size:13px}.crumbs{font-size:13px;color:var(--muted);margin-bottom:16px}.crumbs a{color:var(--muted)}
 ul.clean{list-style:none;padding:0;margin:0}ul.clean li{padding:11px 0;border-bottom:1px solid var(--line)}ul.clean li:last-child{border-bottom:none}
 .method{margin:42px 0 0;background:var(--ink);color:#fff;border-radius:16px;padding:24px;display:grid;grid-template-columns:1fr 2fr;gap:30px}.method h2{font-size:25px;margin:0}.method p{color:#c8ced9;margin:0}.method strong{color:#fff}
+.callout{background:var(--amber-soft);border:1px solid #f0d9a8;border-radius:14px;padding:20px 22px;margin:26px 0}.callout h3{font-family:Georgia,"Times New Roman",serif;font-size:20px;letter-spacing:-.03em;margin:0 0 8px}.callout p{margin:0;color:#5c4a1f;font-size:14px}.callout p+p{margin-top:9px}
+.tag.zero{background:var(--green-soft);color:var(--green)}.tag.meter{background:var(--red-soft);color:var(--red)}.tag.cond{background:var(--amber-soft);color:var(--amber)}.tag.neutral{background:#eef0f4;color:var(--muted)}
+.cost{font-weight:750;white-space:nowrap}.cost.zero{color:var(--green)}.cost.paid{color:var(--red)}
+td small{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-top:3px;white-space:normal}
 footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px;color:var(--muted);font-size:13px}
 .foot-links{display:flex;gap:18px;flex-wrap:wrap;margin-top:13px}
 .foot-links a{color:var(--muted);font-weight:600}
 .foot-links a:hover{color:var(--purple);text-decoration:none}
 @media(max-width:800px){.hero{grid-template-columns:1fr;gap:24px}.method{grid-template-columns:1fr}}
-@media(max-width:600px){.wrap{padding:0 16px}header.site .wrap{min-height:64px;gap:14px}.brand{font-size:15px}nav{gap:13px;font-size:12px}nav a:last-child{display:none}main{padding-top:30px}h1{font-size:40px}h2{font-size:25px}.hero p.lede{font-size:16px}.stats{gap:8px}.stat strong{font-size:21px}.toolbar{display:grid;grid-template-columns:1fr;align-items:stretch}.filter{width:100%}.section-head{display:block}.section-head .btn-secondary{margin-top:12px}table{display:block;overflow-x:auto;white-space:nowrap}.method{margin-top:34px}}
+@media(max-width:600px){.wrap{padding:0 16px}header.site .wrap{min-height:64px;gap:14px}.brand{font-size:15px}nav{gap:13px;font-size:12px}nav a:nth-child(n+5){display:none}main{padding-top:30px}h1{font-size:40px}h2{font-size:25px}.hero p.lede{font-size:16px}.stats{gap:8px}.stat strong{font-size:21px}.toolbar{display:grid;grid-template-columns:1fr;align-items:stretch}.filter{width:100%}.section-head{display:block}.section-head .btn-secondary{margin-top:12px}table{display:block;overflow-x:auto;white-space:nowrap}.method{margin-top:34px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"/#organization","name":"Cloud Storage Deals","url":"/","logo":"/og.png","description":"Verified cloud storage pricing, refreshed every 6 hours from official pages."},{"@type":"WebSite","@id":"/#website","name":"Cloud Storage Deals","url":"/","publisher":{"@id":"/#organization"},"inLanguage":"en-US"},{"@type":"Product","name":"Koofr cloud storage plans","brand":{"@type":"Brand","name":"Koofr"},"url":"https://koofr.eu"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Cloud Storage Deals","item":"/"},{"@type":"ListItem","position":2,"name":"Koofr cloud storage plans — October 2026","item":"/providers/koofr/"}]}]}</script>
@@ -91,6 +95,7 @@ footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px
     <a href="/">Deals</a>
     <a href="/providers/">Providers</a>
     <a href="/compare/">Compare</a>
+    <a href="/egress/">Egress</a>
     <a href="/about/">Methodology</a>
     <a href="/contact/">Contact</a>
   </nav>
@@ -130,6 +135,7 @@ footer.site{border-top:1px solid var(--line);background:#fff;padding:28px 0 42px
   <div class="note" style="margin-top:7px">All prices on this site are collected by an automated pipeline that reads each provider's official public pricing page — nothing is estimated, and any price that cannot be verified is left out. Last refresh: Oct 22, 2026, 05:30 UTC.</div>
   <div class="foot-links">
     <a href="/providers/">All providers</a>
+    <a href="/egress/">Egress fees</a>
     <a href="/about/">Methodology</a>
     <a href="/privacy/">Privacy</a>
     <a href="/contact/">Contact</a>
