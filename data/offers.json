@@ -1,14 +1,14 @@
 {
   "meta": {
-    "generated_at": "2026-10-23T17:13:52+00:00",
+    "generated_at": "2026-10-23T21:28:46+00:00",
     "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
     "brand": "Cloud Storage Deals",
     "niche": "cloud-storage",
     "providers_total": 30,
-    "providers_with_price": 24,
-    "providers_with_stale_price": 0,
+    "providers_with_price": 22,
+    "providers_with_stale_price": 2,
     "offers_total": 92,
     "rule": "prices come from official public pages only; unreadable prices are left out, never estimated"
   },
@@ -817,7 +817,8 @@
           "source_url": "https://www.backblaze.com/cloud-storage/pricing",
           "fetched_at": "2026-10-23T14:32:49+00:00",
           "pricing_unit": "month/tb",
-          "extraction": "dedicated"
+          "extraction": "dedicated",
+          "stale": true
         },
         {
           "id": "backblaze-b2-overdrive-usd",
@@ -832,12 +833,13 @@
           "source_url": "https://www.backblaze.com/cloud-storage/pricing",
           "fetched_at": "2026-10-23T14:32:49+00:00",
           "pricing_unit": "month/tb",
-          "extraction": "dedicated"
+          "extraction": "dedicated",
+          "stale": true
         }
       ],
-      "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1
+      "status": "stale",
+      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
+      "failure_streak": 2
     },
     {
       "name": "Backblaze Computer Backup",
@@ -860,7 +862,8 @@
           "source_url": "https://www.backblaze.com/backup-pricing.html",
           "fetched_at": "2026-10-23T14:32:57+00:00",
           "pricing_unit": "year",
-          "extraction": "dedicated"
+          "extraction": "dedicated",
+          "stale": true
         },
         {
           "id": "backblaze-computer-backup-business-backup-usd",
@@ -875,12 +878,13 @@
           "source_url": "https://www.backblaze.com/backup-pricing.html",
           "fetched_at": "2026-10-23T14:32:57+00:00",
           "pricing_unit": "year",
-          "extraction": "dedicated"
+          "extraction": "dedicated",
+          "stale": true
         }
       ],
-      "status": "ok",
-      "note": "robots.txt disallows this path — skipped, not fetched.; first consecutive failure — records stay live until the next run confirms.",
-      "failure_streak": 1
+      "status": "stale",
+      "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
+      "failure_streak": 2
     },
     {
       "name": "Wasabi",
@@ -1545,32 +1549,32 @@
       "outbound": "https://upcloud.com/products/object-storage/",
       "offers": [
         {
-          "id": "upcloud-250-gb-usd",
+          "id": "upcloud-250-gb-eur",
           "provider": "UpCloud",
           "provider_slug": "upcloud",
           "plan": "250 GB",
           "title": "UpCloud 250 GB",
           "price": 5.0,
-          "currency": "USD",
+          "currency": "EUR",
           "offer_url": "https://upcloud.com/products/object-storage/",
           "valid_until": null,
           "source_url": "https://upcloud.com/products/object-storage/",
-          "fetched_at": "2026-10-23T17:13:49+00:00",
+          "fetched_at": "2026-10-23T21:28:44+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
         {
-          "id": "upcloud-each-additional-250-gb-usd",
+          "id": "upcloud-each-additional-250-gb-eur",
           "provider": "UpCloud",
           "provider_slug": "upcloud",
           "plan": "Each additional 250 GB",
           "title": "UpCloud Each additional 250 GB",
           "price": 5.0,
-          "currency": "USD",
+          "currency": "EUR",
           "offer_url": "https://upcloud.com/products/object-storage/",
           "valid_until": null,
           "source_url": "https://upcloud.com/products/object-storage/",
-          "fetched_at": "2026-10-23T17:13:49+00:00",
+          "fetched_at": "2026-10-23T21:28:44+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         }
@@ -1899,7 +1903,8 @@
       "source_url": "https://www.backblaze.com/cloud-storage/pricing",
       "fetched_at": "2026-10-23T14:32:49+00:00",
       "pricing_unit": "month/tb",
-      "extraction": "dedicated"
+      "extraction": "dedicated",
+      "stale": true
     },
     {
       "id": "backblaze-b2-overdrive-usd",
@@ -1914,7 +1919,8 @@
       "source_url": "https://www.backblaze.com/cloud-storage/pricing",
       "fetched_at": "2026-10-23T14:32:49+00:00",
       "pricing_unit": "month/tb",
-      "extraction": "dedicated"
+      "extraction": "dedicated",
+      "stale": true
     },
     {
       "id": "backblaze-computer-backup-personal-backup-usd",
@@ -1929,7 +1935,8 @@
       "source_url": "https://www.backblaze.com/backup-pricing.html",
       "fetched_at": "2026-10-23T14:32:57+00:00",
       "pricing_unit": "year",
-      "extraction": "dedicated"
+      "extraction": "dedicated",
+      "stale": true
     },
     {
       "id": "backblaze-computer-backup-business-backup-usd",
@@ -1944,7 +1951,8 @@
       "source_url": "https://www.backblaze.com/backup-pricing.html",
       "fetched_at": "2026-10-23T14:32:57+00:00",
       "pricing_unit": "year",
-      "extraction": "dedicated"
+      "extraction": "dedicated",
+      "stale": true
     },
     {
       "id": "bunny-storage-standard-tier-hdd-single-region-usd",
@@ -3012,32 +3020,32 @@
       "extraction": "heuristic"
     },
     {
-      "id": "upcloud-250-gb-usd",
+      "id": "upcloud-250-gb-eur",
       "provider": "UpCloud",
       "provider_slug": "upcloud",
       "plan": "250 GB",
       "title": "UpCloud 250 GB",
       "price": 5.0,
-      "currency": "USD",
+      "currency": "EUR",
       "offer_url": "https://upcloud.com/products/object-storage/",
       "valid_until": null,
       "source_url": "https://upcloud.com/products/object-storage/",
-      "fetched_at": "2026-10-23T17:13:49+00:00",
+      "fetched_at": "2026-10-23T21:28:44+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
     {
-      "id": "upcloud-each-additional-250-gb-usd",
+      "id": "upcloud-each-additional-250-gb-eur",
       "provider": "UpCloud",
       "provider_slug": "upcloud",
       "plan": "Each additional 250 GB",
       "title": "UpCloud Each additional 250 GB",
       "price": 5.0,
-      "currency": "USD",
+      "currency": "EUR",
       "offer_url": "https://upcloud.com/products/object-storage/",
       "valid_until": null,
       "source_url": "https://upcloud.com/products/object-storage/",
-      "fetched_at": "2026-10-23T17:13:49+00:00",
+      "fetched_at": "2026-10-23T21:28:44+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
