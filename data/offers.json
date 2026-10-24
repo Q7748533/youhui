@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-24T04:43:26+00:00",
+    "generated_at": "2026-10-24T11:09:19+00:00",
     "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
@@ -839,7 +839,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 3
+      "failure_streak": 4
     },
     {
       "name": "Backblaze Computer Backup",
@@ -884,7 +884,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 3
+      "failure_streak": 4
     },
     {
       "name": "Wasabi",
