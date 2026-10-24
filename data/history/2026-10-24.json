@@ -1,6 +1,6 @@
 {
  "date": "2026-10-24",
- "generated_at": "2026-10-24T11:09:19+00:00",
+ "generated_at": "2026-10-24T16:01:59+00:00",
  "offers_priced": 92,
  "offers_stale": 4,
  "offers_total": 92,
@@ -509,15 +509,15 @@
    "user/month",
    false
   ],
-  "upcloud-250-gb-usd": [
+  "upcloud-250-gb-eur": [
    5.0,
-   "USD",
+   "EUR",
    "month",
    false
   ],
-  "upcloud-each-additional-250-gb-usd": [
+  "upcloud-each-additional-250-gb-eur": [
    5.0,
-   "USD",
+   "EUR",
    "month",
    false
   ],
