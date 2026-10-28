@@ -1,6 +1,6 @@
 {
  "date": "2026-10-28",
- "generated_at": "2026-10-28T13:02:40+00:00",
+ "generated_at": "2026-10-28T22:39:45+00:00",
  "offers_priced": 92,
  "offers_stale": 4,
  "offers_total": 92,
@@ -126,13 +126,13 @@
    false
   ],
   "crashplan-small-business-google-workspace-usd": [
-   3.67,
+   2.5,
    "USD",
    "month/user",
    false
   ],
   "crashplan-small-business-microsoft-365-usd": [
-   3.67,
+   2.5,
    "USD",
    "month/user",
    false

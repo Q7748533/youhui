@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-28T13:02:40+00:00",
+    "generated_at": "2026-10-28T22:39:45+00:00",
     "data_month": "2026-10",
     "locale": "en-US",
     "currency": "USD",
@@ -839,7 +839,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 18
+      "failure_streak": 19
     },
     {
       "name": "Backblaze Computer Backup",
@@ -884,7 +884,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 18
+      "failure_streak": 19
     },
     {
       "name": "Wasabi",
@@ -1257,12 +1257,12 @@
           "provider_slug": "crashplan",
           "plan": "Small business Microsoft 365",
           "title": "CrashPlan Small business Microsoft 365",
-          "price": 3.67,
+          "price": 2.5,
           "currency": "USD",
           "offer_url": "https://www.crashplan.com/pricing/",
           "valid_until": null,
           "source_url": "https://www.crashplan.com/pricing/",
-          "fetched_at": "2026-10-19T22:25:11+00:00",
+          "fetched_at": "2026-10-28T22:39:31+00:00",
           "pricing_unit": "month/user",
           "extraction": "dedicated"
         },
@@ -1272,12 +1272,12 @@
           "provider_slug": "crashplan",
           "plan": "Small business Google Workspace",
           "title": "CrashPlan Small business Google Workspace",
-          "price": 3.67,
+          "price": 2.5,
           "currency": "USD",
           "offer_url": "https://www.crashplan.com/pricing/",
           "valid_until": null,
           "source_url": "https://www.crashplan.com/pricing/",
-          "fetched_at": "2026-10-19T22:25:11+00:00",
+          "fetched_at": "2026-10-28T22:39:31+00:00",
           "pricing_unit": "month/user",
           "extraction": "dedicated"
         }
@@ -2050,12 +2050,12 @@
       "provider_slug": "crashplan",
       "plan": "Small business Microsoft 365",
       "title": "CrashPlan Small business Microsoft 365",
-      "price": 3.67,
+      "price": 2.5,
       "currency": "USD",
       "offer_url": "https://www.crashplan.com/pricing/",
       "valid_until": null,
       "source_url": "https://www.crashplan.com/pricing/",
-      "fetched_at": "2026-10-19T22:25:11+00:00",
+      "fetched_at": "2026-10-28T22:39:31+00:00",
       "pricing_unit": "month/user",
       "extraction": "dedicated"
     },
@@ -2065,12 +2065,12 @@
       "provider_slug": "crashplan",
       "plan": "Small business Google Workspace",
       "title": "CrashPlan Small business Google Workspace",
-      "price": 3.67,
+      "price": 2.5,
       "currency": "USD",
       "offer_url": "https://www.crashplan.com/pricing/",
       "valid_until": null,
       "source_url": "https://www.crashplan.com/pricing/",
-      "fetched_at": "2026-10-19T22:25:11+00:00",
+      "fetched_at": "2026-10-28T22:39:31+00:00",
       "pricing_unit": "month/user",
       "extraction": "dedicated"
     },
