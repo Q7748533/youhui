@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-30T13:02:37+00:00",
+  "generated_at": "2026-10-30T22:26:18+00:00",
   "providers": [
     {
       "slug": "pcloud",
@@ -126,7 +126,7 @@
       "name": "Backblaze",
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 24,
+      "failure_streak": 25,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": true
@@ -136,7 +136,7 @@
       "name": "Backblaze Computer Backup",
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 24,
+      "failure_streak": 25,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": true
