@@ -1,0 +1,563 @@
+{
+ "date": "2026-10-31",
+ "generated_at": "2026-10-31T05:51:38+00:00",
+ "offers_priced": 92,
+ "offers_stale": 4,
+ "offers_total": 92,
+ "prices": {
+  "apple-icloud-icloud-12tb-usd": [
+   59.99,
+   "USD",
+   "month",
+   false
+  ],
+  "apple-icloud-icloud-200gb-usd": [
+   2.99,
+   "USD",
+   "month",
+   false
+  ],
+  "apple-icloud-icloud-2tb-usd": [
+   9.99,
+   "USD",
+   "month",
+   false
+  ],
+  "apple-icloud-icloud-50gb-usd": [
+   0.99,
+   "USD",
+   "month",
+   false
+  ],
+  "apple-icloud-icloud-6tb-usd": [
+   29.99,
+   "USD",
+   "month",
+   false
+  ],
+  "aws-s3-s3-glacier-flexible-retrieval-usd": [
+   0.0036,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "aws-s3-s3-glacier-instant-retrieval-usd": [
+   0.004,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "aws-s3-s3-standard-first-50-tb-usd": [
+   0.023,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "aws-s3-s3-standard-ia-usd": [
+   0.0125,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "backblaze-b2-cloud-storage-usd": [
+   6.95,
+   "USD",
+   "month/tb",
+   true
+  ],
+  "backblaze-b2-overdrive-usd": [
+   15.0,
+   "USD",
+   "month/tb",
+   true
+  ],
+  "backblaze-computer-backup-business-backup-usd": [
+   99.0,
+   "USD",
+   "year",
+   true
+  ],
+  "backblaze-computer-backup-personal-backup-usd": [
+   99.0,
+   "USD",
+   "year",
+   true
+  ],
+  "bunny-storage-edge-tier-ssd-single-region-usd": [
+   0.02,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "bunny-storage-standard-tier-hdd-single-region-usd": [
+   0.01,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "bunny-storage-standard-tier-hdd-three-regions-usd": [
+   0.025,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "bunny-storage-standard-tier-hdd-two-regions-usd": [
+   0.02,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "cloudflare-r2-infrequent-access-storage-usd": [
+   0.01,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "cloudflare-r2-standard-storage-usd": [
+   0.015,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "crashplan-small-business-endpoint-backup-usd": [
+   7.33,
+   "USD",
+   "month/user",
+   false
+  ],
+  "crashplan-small-business-google-workspace-usd": [
+   2.5,
+   "USD",
+   "month/user",
+   false
+  ],
+  "crashplan-small-business-microsoft-365-usd": [
+   2.5,
+   "USD",
+   "month/user",
+   false
+  ],
+  "crashplan-small-business-server-backup-usd": [
+   15.75,
+   "USD",
+   "month/server",
+   false
+  ],
+  "digitalocean-spaces-250gib-included-1tib-transfer-usd": [
+   5.0,
+   "USD",
+   "month",
+   false
+  ],
+  "digitalocean-spaces-additional-storage-usd": [
+   0.02,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "digitalocean-spaces-cold-storage-usd": [
+   0.007,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "dropbox-advanced-usd": [
+   24.0,
+   "USD",
+   "month/user",
+   false
+  ],
+  "dropbox-plus-usd": [
+   9.99,
+   "USD",
+   "month",
+   false
+  ],
+  "dropbox-standard-usd": [
+   15.0,
+   "USD",
+   "month/user",
+   false
+  ],
+  "filebase-additional-storage-usd": [
+   0.015,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "filebase-pro-usd": [
+   7.5,
+   "USD",
+   "month",
+   false
+  ],
+  "idrive-e2-1-tb-usd": [
+   59.5,
+   "USD",
+   "year/tb",
+   false
+  ],
+  "idrive-e2-1-tb-veeam-msp-resellers-usd": [
+   49.5,
+   "USD",
+   "year/tb",
+   false
+  ],
+  "idrive-google-workspace-backup-usd": [
+   20.0,
+   "USD",
+   "year/seat",
+   false
+  ],
+  "idrive-idrive-business-usd": [
+   59.99,
+   "USD",
+   "month",
+   false
+  ],
+  "idrive-idrive-team-usd": [
+   11.99,
+   "USD",
+   "month",
+   false
+  ],
+  "idrive-idrive-usd": [
+   11.99,
+   "USD",
+   "month",
+   false
+  ],
+  "idrive-microsoft-office-365-backup-usd": [
+   20.0,
+   "USD",
+   "year/seat",
+   false
+  ],
+  "idrive-server-backup-usd": [
+   5.0,
+   "USD",
+   "month/server",
+   false
+  ],
+  "impossible-cloud-pay-as-you-go-eur": [
+   7.99,
+   "EUR",
+   "month/tb",
+   false
+  ],
+  "jottacloud-business-large-nok": [
+   459.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-business-large-nok-year": [
+   5508.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "jottacloud-business-medium-nok": [
+   179.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-business-medium-nok-year": [
+   2148.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "jottacloud-business-small-nok": [
+   129.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-business-small-nok-year": [
+   1548.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "jottacloud-home-1-tb-nok": [
+   79.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-home-1-tb-nok-year": [
+   790.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "jottacloud-home-5-tb-nok": [
+   159.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-home-5-tb-nok-year": [
+   1590.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "jottacloud-pro-10-tb-nok": [
+   299.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-pro-10-tb-nok-year": [
+   2990.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "jottacloud-pro-20-tb-nok": [
+   599.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-pro-20-tb-nok-year": [
+   5990.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "jottacloud-pro-30-tb-nok": [
+   899.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-pro-30-tb-nok-year": [
+   8990.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "jottacloud-pro-50-tb-nok": [
+   1499.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-pro-50-tb-nok-year": [
+   14990.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "jottacloud-unlimited-nok": [
+   129.0,
+   "NOK",
+   "month",
+   false
+  ],
+  "jottacloud-unlimited-nok-year": [
+   1290.0,
+   "NOK",
+   "year",
+   false
+  ],
+  "livedrive-backup-unlimited-storage-gbp": [
+   7.69,
+   "GBP",
+   "month",
+   false
+  ],
+  "livedrive-backup-unlimited-storage-gbp-year": [
+   76.9,
+   "GBP",
+   "year",
+   false
+  ],
+  "livedrive-briefcase-2-tb-gbp": [
+   11.99,
+   "GBP",
+   "month",
+   false
+  ],
+  "livedrive-briefcase-2-tb-gbp-year": [
+   119.9,
+   "GBP",
+   "year",
+   false
+  ],
+  "livedrive-pro-suite-5-tb-gbp": [
+   17.59,
+   "GBP",
+   "month",
+   false
+  ],
+  "livedrive-pro-suite-5-tb-gbp-year": [
+   175.9,
+   "GBP",
+   "year",
+   false
+  ],
+  "mediafire-pro-billed-annually-usd": [
+   5.83,
+   "USD",
+   "month",
+   false
+  ],
+  "mediafire-pro-month-to-month-usd": [
+   6.99,
+   "USD",
+   "month",
+   false
+  ],
+  "mediafire-ultra-usd": [
+   10.0,
+   "USD",
+   "month",
+   false
+  ],
+  "opendrive-personal-unlimited-usd": [
+   12.95,
+   "USD",
+   "month",
+   false
+  ],
+  "opendrive-personal-unlimited-usd-year": [
+   129.0,
+   "USD",
+   "year",
+   false
+  ],
+  "proton-drive-1-tb-per-user-usd": [
+   9.99,
+   "USD",
+   "month",
+   false
+  ],
+  "proton-drive-2-tb-vpn-usd": [
+   19.99,
+   "USD",
+   "month",
+   false
+  ],
+  "proton-drive-200-gb-usd": [
+   4.99,
+   "USD",
+   "month",
+   false
+  ],
+  "proton-drive-3-tb-usd": [
+   29.99,
+   "USD",
+   "month",
+   false
+  ],
+  "proton-drive-500-gb-vpn-usd": [
+   12.99,
+   "USD",
+   "month",
+   false
+  ],
+  "sevalla-object-storage-usd": [
+   0.02,
+   "USD",
+   "month/gb",
+   false
+  ],
+  "storj-advanced-usd": [
+   10.0,
+   "USD",
+   "license/tb",
+   false
+  ],
+  "storj-bring-your-own-cloud-usd": [
+   39.0,
+   "USD",
+   "license/month",
+   false
+  ],
+  "storj-standard-usd": [
+   7.0,
+   "USD",
+   "month/tb",
+   false
+  ],
+  "storj-teams-usd": [
+   29.0,
+   "USD",
+   "license/month",
+   false
+  ],
+  "sync-com-teams-10tb-usd": [
+   13.5,
+   "USD",
+   "user/month",
+   false
+  ],
+  "sync-com-teams-1tb-usd": [
+   6.0,
+   "USD",
+   "user/month",
+   false
+  ],
+  "sync-com-teams-2tb-usd": [
+   9.0,
+   "USD",
+   "user/month",
+   false
+  ],
+  "upcloud-250-gb-eur": [
+   5.0,
+   "EUR",
+   "month",
+   false
+  ],
+  "upcloud-each-additional-250-gb-eur": [
+   5.0,
+   "EUR",
+   "month",
+   false
+  ],
+  "wasabi-pay-as-you-go-usd": [
+   7.99,
+   "USD",
+   "month/tb",
+   false
+  ],
+  "zoolz-zoolz-cloud-backup-12-tb-usd": [
+   39.99,
+   "USD",
+   "month",
+   false
+  ],
+  "zoolz-zoolz-cloud-backup-2-5-tb-usd": [
+   7.99,
+   "USD",
+   "month",
+   false
+  ],
+  "zoolz-zoolz-cloud-backup-24-tb-usd": [
+   75.99,
+   "USD",
+   "month",
+   false
+  ],
+  "zoolz-zoolz-cloud-backup-60-tb-usd": [
+   159.99,
+   "USD",
+   "month",
+   false
+  ],
+  "zoolz-zoolz-cloud-backup-7-tb-usd": [
+   23.99,
+   "USD",
+   "month",
+   false
+  ]
+ },
+ "providers": 30,
+ "providers_priced": 24
+}
