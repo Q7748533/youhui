@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T06:33:20+00:00",
+    "generated_at": "2026-11-04T19:50:40+00:00",
     "data_month": "2026-11",
     "locale": "en-US",
     "currency": "USD",
@@ -9,7 +9,7 @@
     "providers_total": 30,
     "providers_with_price": 22,
     "providers_with_stale_price": 2,
-    "offers_total": 92,
+    "offers_total": 91,
     "rule": "prices come from official public pages only; unreadable prices are left out, never estimated"
   },
   "providers": [
@@ -839,7 +839,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 37
+      "failure_streak": 38
     },
     {
       "name": "Backblaze Computer Backup",
@@ -884,7 +884,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 37
+      "failure_streak": 38
     },
     {
       "name": "Wasabi",
@@ -1423,21 +1423,6 @@
       "outbound": "https://www.digitalocean.com/products/spaces/",
       "offers": [
         {
-          "id": "digitalocean-spaces-250gib-included-1tib-transfer-usd",
-          "provider": "DigitalOcean Spaces",
-          "provider_slug": "digitalocean-spaces",
-          "plan": "250GiB included (1TiB transfer)",
-          "title": "DigitalOcean Spaces 250GiB included (1TiB transfer)",
-          "price": 5.0,
-          "currency": "USD",
-          "offer_url": "https://www.digitalocean.com/products/spaces/",
-          "valid_until": null,
-          "source_url": "https://www.digitalocean.com/products/spaces/",
-          "fetched_at": "2026-10-20T15:01:15+00:00",
-          "pricing_unit": "month",
-          "extraction": "dedicated"
-        },
-        {
           "id": "digitalocean-spaces-additional-storage-usd",
           "provider": "DigitalOcean Spaces",
           "provider_slug": "digitalocean-spaces",
@@ -1549,32 +1534,32 @@
       "outbound": "https://upcloud.com/products/object-storage/",
       "offers": [
         {
-          "id": "upcloud-250-gb-usd",
+          "id": "upcloud-250-gb-eur",
           "provider": "UpCloud",
           "provider_slug": "upcloud",
           "plan": "250 GB",
           "title": "UpCloud 250 GB",
           "price": 5.0,
-          "currency": "USD",
+          "currency": "EUR",
           "offer_url": "https://upcloud.com/products/object-storage/",
           "valid_until": null,
           "source_url": "https://upcloud.com/products/object-storage/",
-          "fetched_at": "2026-11-02T06:16:26+00:00",
+          "fetched_at": "2026-11-04T19:50:37+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
         {
-          "id": "upcloud-each-additional-250-gb-usd",
+          "id": "upcloud-each-additional-250-gb-eur",
           "provider": "UpCloud",
           "provider_slug": "upcloud",
           "plan": "Each additional 250 GB",
           "title": "UpCloud Each additional 250 GB",
           "price": 5.0,
-          "currency": "USD",
+          "currency": "EUR",
           "offer_url": "https://upcloud.com/products/object-storage/",
           "valid_until": null,
           "source_url": "https://upcloud.com/products/object-storage/",
-          "fetched_at": "2026-11-02T06:16:26+00:00",
+          "fetched_at": "2026-11-04T19:50:37+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         }
@@ -2132,21 +2117,6 @@
       "source_url": "https://www.digitalocean.com/products/spaces/",
       "fetched_at": "2026-10-20T15:01:15+00:00",
       "pricing_unit": "month/gb",
-      "extraction": "dedicated"
-    },
-    {
-      "id": "digitalocean-spaces-250gib-included-1tib-transfer-usd",
-      "provider": "DigitalOcean Spaces",
-      "provider_slug": "digitalocean-spaces",
-      "plan": "250GiB included (1TiB transfer)",
-      "title": "DigitalOcean Spaces 250GiB included (1TiB transfer)",
-      "price": 5.0,
-      "currency": "USD",
-      "offer_url": "https://www.digitalocean.com/products/spaces/",
-      "valid_until": null,
-      "source_url": "https://www.digitalocean.com/products/spaces/",
-      "fetched_at": "2026-10-20T15:01:15+00:00",
-      "pricing_unit": "month",
       "extraction": "dedicated"
     },
     {
@@ -3020,32 +2990,32 @@
       "extraction": "heuristic"
     },
     {
-      "id": "upcloud-250-gb-usd",
+      "id": "upcloud-250-gb-eur",
       "provider": "UpCloud",
       "provider_slug": "upcloud",
       "plan": "250 GB",
       "title": "UpCloud 250 GB",
       "price": 5.0,
-      "currency": "USD",
+      "currency": "EUR",
       "offer_url": "https://upcloud.com/products/object-storage/",
       "valid_until": null,
       "source_url": "https://upcloud.com/products/object-storage/",
-      "fetched_at": "2026-11-02T06:16:26+00:00",
+      "fetched_at": "2026-11-04T19:50:37+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
     {
-      "id": "upcloud-each-additional-250-gb-usd",
+      "id": "upcloud-each-additional-250-gb-eur",
       "provider": "UpCloud",
       "provider_slug": "upcloud",
       "plan": "Each additional 250 GB",
       "title": "UpCloud Each additional 250 GB",
       "price": 5.0,
-      "currency": "USD",
+      "currency": "EUR",
       "offer_url": "https://upcloud.com/products/object-storage/",
       "valid_until": null,
       "source_url": "https://upcloud.com/products/object-storage/",
-      "fetched_at": "2026-11-02T06:16:26+00:00",
+      "fetched_at": "2026-11-04T19:50:37+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },

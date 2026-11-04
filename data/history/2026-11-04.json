@@ -1,9 +1,9 @@
 {
  "date": "2026-11-04",
- "generated_at": "2026-11-04T06:33:20+00:00",
- "offers_priced": 92,
+ "generated_at": "2026-11-04T19:50:40+00:00",
+ "offers_priced": 91,
  "offers_stale": 4,
- "offers_total": 92,
+ "offers_total": 91,
  "prices": {
   "apple-icloud-icloud-12tb-usd": [
    59.99,
@@ -141,12 +141,6 @@
    15.75,
    "USD",
    "month/server",
-   false
-  ],
-  "digitalocean-spaces-250gib-included-1tib-transfer-usd": [
-   5.0,
-   "USD",
-   "month",
    false
   ],
   "digitalocean-spaces-additional-storage-usd": [
@@ -509,15 +503,15 @@
    "user/month",
    false
   ],
-  "upcloud-250-gb-usd": [
+  "upcloud-250-gb-eur": [
    5.0,
-   "USD",
+   "EUR",
    "month",
    false
   ],
-  "upcloud-each-additional-250-gb-usd": [
+  "upcloud-each-additional-250-gb-eur": [
    5.0,
-   "USD",
+   "EUR",
    "month",
    false
   ],
