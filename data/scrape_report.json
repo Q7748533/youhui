@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T07:32:59+00:00",
+  "generated_at": "2026-11-19T20:43:32+00:00",
   "providers": [
     {
       "slug": "pcloud",
@@ -64,12 +64,12 @@
     {
       "slug": "tresorit",
       "name": "Tresorit",
-      "status": "unreachable",
-      "note": "fetch failed: RuntimeError",
+      "status": "no_price",
+      "note": "No price could be verified on the official page (client-rendered or no public price block). Left empty on purpose.",
       "failure_streak": 0,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
-      "alert": true
+      "alert": false
     },
     {
       "slug": "idrive",
@@ -126,7 +126,7 @@
       "name": "Backblaze",
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 70,
+      "failure_streak": 71,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": true
@@ -136,7 +136,7 @@
       "name": "Backblaze Computer Backup",
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 70,
+      "failure_streak": 71,
       "priced_offers_before": 0,
       "priced_offers_now": 0,
       "alert": true
