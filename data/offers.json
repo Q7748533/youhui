@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-22T19:45:56+00:00",
+    "generated_at": "2026-11-23T07:47:18+00:00",
     "data_month": "2026-11",
     "locale": "en-US",
     "currency": "USD",
@@ -82,12 +82,12 @@
           "provider_slug": "sync-com",
           "plan": "Teams 1TB",
           "title": "Sync.com Teams 1TB",
-          "price": 6.0,
+          "price": 8.0,
           "currency": "USD",
           "offer_url": "https://www.sync.com/pricing",
           "valid_until": null,
           "source_url": "https://www.sync.com/pricing",
-          "fetched_at": "2026-10-19T22:24:47+00:00",
+          "fetched_at": "2026-11-23T07:46:53+00:00",
           "pricing_unit": "user/month",
           "extraction": "heuristic"
         },
@@ -97,12 +97,12 @@
           "provider_slug": "sync-com",
           "plan": "Teams 2TB",
           "title": "Sync.com Teams 2TB",
-          "price": 9.0,
+          "price": 12.0,
           "currency": "USD",
           "offer_url": "https://www.sync.com/pricing",
           "valid_until": null,
           "source_url": "https://www.sync.com/pricing",
-          "fetched_at": "2026-10-19T22:24:47+00:00",
+          "fetched_at": "2026-11-23T07:46:53+00:00",
           "pricing_unit": "user/month",
           "extraction": "heuristic"
         },
@@ -112,12 +112,12 @@
           "provider_slug": "sync-com",
           "plan": "Teams 10TB",
           "title": "Sync.com Teams 10TB",
-          "price": 13.5,
+          "price": 18.0,
           "currency": "USD",
           "offer_url": "https://www.sync.com/pricing",
           "valid_until": null,
           "source_url": "https://www.sync.com/pricing",
-          "fetched_at": "2026-10-19T22:24:47+00:00",
+          "fetched_at": "2026-11-23T07:46:53+00:00",
           "pricing_unit": "user/month",
           "extraction": "heuristic"
         }
@@ -839,7 +839,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 77
+      "failure_streak": 78
     },
     {
       "name": "Backblaze Computer Backup",
@@ -884,7 +884,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 77
+      "failure_streak": 78
     },
     {
       "name": "Wasabi",
@@ -2950,12 +2950,12 @@
       "provider_slug": "sync-com",
       "plan": "Teams 1TB",
       "title": "Sync.com Teams 1TB",
-      "price": 6.0,
+      "price": 8.0,
       "currency": "USD",
       "offer_url": "https://www.sync.com/pricing",
       "valid_until": null,
       "source_url": "https://www.sync.com/pricing",
-      "fetched_at": "2026-10-19T22:24:47+00:00",
+      "fetched_at": "2026-11-23T07:46:53+00:00",
       "pricing_unit": "user/month",
       "extraction": "heuristic"
     },
@@ -2965,12 +2965,12 @@
       "provider_slug": "sync-com",
       "plan": "Teams 2TB",
       "title": "Sync.com Teams 2TB",
-      "price": 9.0,
+      "price": 12.0,
       "currency": "USD",
       "offer_url": "https://www.sync.com/pricing",
       "valid_until": null,
       "source_url": "https://www.sync.com/pricing",
-      "fetched_at": "2026-10-19T22:24:47+00:00",
+      "fetched_at": "2026-11-23T07:46:53+00:00",
       "pricing_unit": "user/month",
       "extraction": "heuristic"
     },
@@ -2980,12 +2980,12 @@
       "provider_slug": "sync-com",
       "plan": "Teams 10TB",
       "title": "Sync.com Teams 10TB",
-      "price": 13.5,
+      "price": 18.0,
       "currency": "USD",
       "offer_url": "https://www.sync.com/pricing",
       "valid_until": null,
       "source_url": "https://www.sync.com/pricing",
-      "fetched_at": "2026-10-19T22:24:47+00:00",
+      "fetched_at": "2026-11-23T07:46:53+00:00",
       "pricing_unit": "user/month",
       "extraction": "heuristic"
     },
