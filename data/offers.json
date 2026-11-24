@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-24T10:00:12+00:00",
+    "generated_at": "2026-11-24T22:31:42+00:00",
     "data_month": "2026-11",
     "locale": "en-US",
     "currency": "USD",
@@ -839,7 +839,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 80
+      "failure_streak": 81
     },
     {
       "name": "Backblaze Computer Backup",
@@ -884,7 +884,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 80
+      "failure_streak": 81
     },
     {
       "name": "Wasabi",
@@ -1036,49 +1036,49 @@
       "outbound": "https://www.dropbox.com/plans",
       "offers": [
         {
-          "id": "dropbox-plus-usd",
+          "id": "dropbox-for-teams-and-professionals-usd",
           "provider": "Dropbox",
           "provider_slug": "dropbox",
-          "plan": "Plus",
-          "title": "Dropbox Plus",
+          "plan": "For teams and professionals",
+          "title": "Dropbox For teams and professionals",
           "price": 9.99,
           "currency": "USD",
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-10-19T22:25:10+00:00",
+          "fetched_at": "2026-11-24T22:31:25+00:00",
           "pricing_unit": "month",
-          "extraction": "dedicated"
+          "extraction": "heuristic"
         },
         {
-          "id": "dropbox-standard-usd",
+          "id": "dropbox-for-teams-and-professionals-usd-month-user",
           "provider": "Dropbox",
           "provider_slug": "dropbox",
-          "plan": "Standard",
-          "title": "Dropbox Standard",
+          "plan": "For teams and professionals",
+          "title": "Dropbox For teams and professionals",
           "price": 15.0,
           "currency": "USD",
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-10-19T22:25:10+00:00",
+          "fetched_at": "2026-11-24T22:31:25+00:00",
           "pricing_unit": "month/user",
-          "extraction": "dedicated"
+          "extraction": "heuristic"
         },
         {
-          "id": "dropbox-advanced-usd",
+          "id": "dropbox-compare-plans-usd",
           "provider": "Dropbox",
           "provider_slug": "dropbox",
-          "plan": "Advanced",
-          "title": "Dropbox Advanced",
-          "price": 24.0,
+          "plan": "Compare plans",
+          "title": "Dropbox Compare plans",
+          "price": 9.99,
           "currency": "USD",
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-10-19T22:25:10+00:00",
-          "pricing_unit": "month/user",
-          "extraction": "dedicated"
+          "fetched_at": "2026-11-24T22:31:25+00:00",
+          "pricing_unit": "month",
+          "extraction": "heuristic"
         }
       ],
       "status": "ok",
@@ -1534,32 +1534,32 @@
       "outbound": "https://upcloud.com/products/object-storage/",
       "offers": [
         {
-          "id": "upcloud-250-gb-eur",
+          "id": "upcloud-250-gb-usd",
           "provider": "UpCloud",
           "provider_slug": "upcloud",
           "plan": "250 GB",
           "title": "UpCloud 250 GB",
           "price": 5.0,
-          "currency": "EUR",
+          "currency": "USD",
           "offer_url": "https://upcloud.com/products/object-storage/",
           "valid_until": null,
           "source_url": "https://upcloud.com/products/object-storage/",
-          "fetched_at": "2026-11-23T23:58:28+00:00",
+          "fetched_at": "2026-11-24T22:31:39+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         },
         {
-          "id": "upcloud-each-additional-250-gb-eur",
+          "id": "upcloud-each-additional-250-gb-usd",
           "provider": "UpCloud",
           "provider_slug": "upcloud",
           "plan": "Each additional 250 GB",
           "title": "UpCloud Each additional 250 GB",
           "price": 5.0,
-          "currency": "EUR",
+          "currency": "USD",
           "offer_url": "https://upcloud.com/products/object-storage/",
           "valid_until": null,
           "source_url": "https://upcloud.com/products/object-storage/",
-          "fetched_at": "2026-11-23T23:58:28+00:00",
+          "fetched_at": "2026-11-24T22:31:39+00:00",
           "pricing_unit": "month",
           "extraction": "dedicated"
         }
@@ -2120,49 +2120,49 @@
       "extraction": "dedicated"
     },
     {
-      "id": "dropbox-plus-usd",
+      "id": "dropbox-for-teams-and-professionals-usd",
       "provider": "Dropbox",
       "provider_slug": "dropbox",
-      "plan": "Plus",
-      "title": "Dropbox Plus",
+      "plan": "For teams and professionals",
+      "title": "Dropbox For teams and professionals",
       "price": 9.99,
       "currency": "USD",
       "offer_url": "https://www.dropbox.com/plans",
       "valid_until": null,
       "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-10-19T22:25:10+00:00",
+      "fetched_at": "2026-11-24T22:31:25+00:00",
       "pricing_unit": "month",
-      "extraction": "dedicated"
+      "extraction": "heuristic"
     },
     {
-      "id": "dropbox-standard-usd",
+      "id": "dropbox-compare-plans-usd",
       "provider": "Dropbox",
       "provider_slug": "dropbox",
-      "plan": "Standard",
-      "title": "Dropbox Standard",
+      "plan": "Compare plans",
+      "title": "Dropbox Compare plans",
+      "price": 9.99,
+      "currency": "USD",
+      "offer_url": "https://www.dropbox.com/plans",
+      "valid_until": null,
+      "source_url": "https://www.dropbox.com/plans",
+      "fetched_at": "2026-11-24T22:31:25+00:00",
+      "pricing_unit": "month",
+      "extraction": "heuristic"
+    },
+    {
+      "id": "dropbox-for-teams-and-professionals-usd-month-user",
+      "provider": "Dropbox",
+      "provider_slug": "dropbox",
+      "plan": "For teams and professionals",
+      "title": "Dropbox For teams and professionals",
       "price": 15.0,
       "currency": "USD",
       "offer_url": "https://www.dropbox.com/plans",
       "valid_until": null,
       "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-10-19T22:25:10+00:00",
+      "fetched_at": "2026-11-24T22:31:25+00:00",
       "pricing_unit": "month/user",
-      "extraction": "dedicated"
-    },
-    {
-      "id": "dropbox-advanced-usd",
-      "provider": "Dropbox",
-      "provider_slug": "dropbox",
-      "plan": "Advanced",
-      "title": "Dropbox Advanced",
-      "price": 24.0,
-      "currency": "USD",
-      "offer_url": "https://www.dropbox.com/plans",
-      "valid_until": null,
-      "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-10-19T22:25:10+00:00",
-      "pricing_unit": "month/user",
-      "extraction": "dedicated"
+      "extraction": "heuristic"
     },
     {
       "id": "filebase-additional-storage-usd",
@@ -2990,32 +2990,32 @@
       "extraction": "heuristic"
     },
     {
-      "id": "upcloud-250-gb-eur",
+      "id": "upcloud-250-gb-usd",
       "provider": "UpCloud",
       "provider_slug": "upcloud",
       "plan": "250 GB",
       "title": "UpCloud 250 GB",
       "price": 5.0,
-      "currency": "EUR",
+      "currency": "USD",
       "offer_url": "https://upcloud.com/products/object-storage/",
       "valid_until": null,
       "source_url": "https://upcloud.com/products/object-storage/",
-      "fetched_at": "2026-11-23T23:58:28+00:00",
+      "fetched_at": "2026-11-24T22:31:39+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
     {
-      "id": "upcloud-each-additional-250-gb-eur",
+      "id": "upcloud-each-additional-250-gb-usd",
       "provider": "UpCloud",
       "provider_slug": "upcloud",
       "plan": "Each additional 250 GB",
       "title": "UpCloud Each additional 250 GB",
       "price": 5.0,
-      "currency": "EUR",
+      "currency": "USD",
       "offer_url": "https://upcloud.com/products/object-storage/",
       "valid_until": null,
       "source_url": "https://upcloud.com/products/object-storage/",
-      "fetched_at": "2026-11-23T23:58:28+00:00",
+      "fetched_at": "2026-11-24T22:31:39+00:00",
       "pricing_unit": "month",
       "extraction": "dedicated"
     },
