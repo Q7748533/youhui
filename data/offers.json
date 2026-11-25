@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-24T22:31:42+00:00",
+    "generated_at": "2026-11-25T08:43:35+00:00",
     "data_month": "2026-11",
     "locale": "en-US",
     "currency": "USD",
@@ -9,7 +9,7 @@
     "providers_total": 30,
     "providers_with_price": 22,
     "providers_with_stale_price": 2,
-    "offers_total": 91,
+    "offers_total": 89,
     "rule": "prices come from official public pages only; unreadable prices are left out, never estimated"
   },
   "providers": [
@@ -718,21 +718,6 @@
       "outbound": "https://proton.me/drive/pricing",
       "offers": [
         {
-          "id": "proton-drive-200-gb-usd",
-          "provider": "Proton Drive",
-          "provider_slug": "proton-drive",
-          "plan": "200 GB",
-          "title": "Proton Drive 200 GB",
-          "price": 4.99,
-          "currency": "USD",
-          "offer_url": "https://proton.me/drive/pricing",
-          "valid_until": null,
-          "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-19T22:25:07+00:00",
-          "pricing_unit": "month",
-          "extraction": "heuristic"
-        },
-        {
           "id": "proton-drive-500-gb-vpn-usd",
           "provider": "Proton Drive",
           "provider_slug": "proton-drive",
@@ -748,42 +733,27 @@
           "extraction": "heuristic"
         },
         {
+          "id": "proton-drive-200-gb-usd",
+          "provider": "Proton Drive",
+          "provider_slug": "proton-drive",
+          "plan": "200 GB",
+          "title": "Proton Drive 200 GB",
+          "price": 4.99,
+          "currency": "USD",
+          "offer_url": "https://proton.me/drive/pricing",
+          "valid_until": null,
+          "source_url": "https://proton.me/drive/pricing",
+          "fetched_at": "2026-10-19T22:25:07+00:00",
+          "pricing_unit": "month",
+          "extraction": "heuristic"
+        },
+        {
           "id": "proton-drive-2-tb-vpn-usd",
           "provider": "Proton Drive",
           "provider_slug": "proton-drive",
           "plan": "2 TB + VPN",
           "title": "Proton Drive 2 TB + VPN",
           "price": 19.99,
-          "currency": "USD",
-          "offer_url": "https://proton.me/drive/pricing",
-          "valid_until": null,
-          "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-19T22:25:07+00:00",
-          "pricing_unit": "month",
-          "extraction": "heuristic"
-        },
-        {
-          "id": "proton-drive-3-tb-usd",
-          "provider": "Proton Drive",
-          "provider_slug": "proton-drive",
-          "plan": "3 TB",
-          "title": "Proton Drive 3 TB",
-          "price": 29.99,
-          "currency": "USD",
-          "offer_url": "https://proton.me/drive/pricing",
-          "valid_until": null,
-          "source_url": "https://proton.me/drive/pricing",
-          "fetched_at": "2026-10-19T22:25:07+00:00",
-          "pricing_unit": "month",
-          "extraction": "heuristic"
-        },
-        {
-          "id": "proton-drive-1-tb-per-user-usd",
-          "provider": "Proton Drive",
-          "provider_slug": "proton-drive",
-          "plan": "1 TB per user",
-          "title": "Proton Drive 1 TB per user",
-          "price": 9.99,
           "currency": "USD",
           "offer_url": "https://proton.me/drive/pricing",
           "valid_until": null,
@@ -839,7 +809,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 81
+      "failure_streak": 82
     },
     {
       "name": "Backblaze Computer Backup",
@@ -884,7 +854,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 81
+      "failure_streak": 82
     },
     {
       "name": "Wasabi",
@@ -1036,32 +1006,32 @@
       "outbound": "https://www.dropbox.com/plans",
       "offers": [
         {
-          "id": "dropbox-for-teams-and-professionals-usd",
+          "id": "dropbox-standard-usd",
           "provider": "Dropbox",
           "provider_slug": "dropbox",
-          "plan": "For teams and professionals",
-          "title": "Dropbox For teams and professionals",
+          "plan": "Standard",
+          "title": "Dropbox Standard",
           "price": 9.99,
           "currency": "USD",
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-11-24T22:31:25+00:00",
+          "fetched_at": "2026-11-25T08:43:22+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         },
         {
-          "id": "dropbox-for-teams-and-professionals-usd-month-user",
+          "id": "dropbox-standard-usd-month-user",
           "provider": "Dropbox",
           "provider_slug": "dropbox",
-          "plan": "For teams and professionals",
-          "title": "Dropbox For teams and professionals",
+          "plan": "Standard",
+          "title": "Dropbox Standard",
           "price": 15.0,
           "currency": "USD",
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-11-24T22:31:25+00:00",
+          "fetched_at": "2026-11-25T08:43:22+00:00",
           "pricing_unit": "month/user",
           "extraction": "heuristic"
         },
@@ -2120,17 +2090,17 @@
       "extraction": "dedicated"
     },
     {
-      "id": "dropbox-for-teams-and-professionals-usd",
+      "id": "dropbox-standard-usd",
       "provider": "Dropbox",
       "provider_slug": "dropbox",
-      "plan": "For teams and professionals",
-      "title": "Dropbox For teams and professionals",
+      "plan": "Standard",
+      "title": "Dropbox Standard",
       "price": 9.99,
       "currency": "USD",
       "offer_url": "https://www.dropbox.com/plans",
       "valid_until": null,
       "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-11-24T22:31:25+00:00",
+      "fetched_at": "2026-11-25T08:43:22+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -2150,17 +2120,17 @@
       "extraction": "heuristic"
     },
     {
-      "id": "dropbox-for-teams-and-professionals-usd-month-user",
+      "id": "dropbox-standard-usd-month-user",
       "provider": "Dropbox",
       "provider_slug": "dropbox",
-      "plan": "For teams and professionals",
-      "title": "Dropbox For teams and professionals",
+      "plan": "Standard",
+      "title": "Dropbox Standard",
       "price": 15.0,
       "currency": "USD",
       "offer_url": "https://www.dropbox.com/plans",
       "valid_until": null,
       "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-11-24T22:31:25+00:00",
+      "fetched_at": "2026-11-25T08:43:22+00:00",
       "pricing_unit": "month/user",
       "extraction": "heuristic"
     },
@@ -2810,21 +2780,6 @@
       "extraction": "heuristic"
     },
     {
-      "id": "proton-drive-1-tb-per-user-usd",
-      "provider": "Proton Drive",
-      "provider_slug": "proton-drive",
-      "plan": "1 TB per user",
-      "title": "Proton Drive 1 TB per user",
-      "price": 9.99,
-      "currency": "USD",
-      "offer_url": "https://proton.me/drive/pricing",
-      "valid_until": null,
-      "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-19T22:25:07+00:00",
-      "pricing_unit": "month",
-      "extraction": "heuristic"
-    },
-    {
       "id": "proton-drive-500-gb-vpn-usd",
       "provider": "Proton Drive",
       "provider_slug": "proton-drive",
@@ -2846,21 +2801,6 @@
       "plan": "2 TB + VPN",
       "title": "Proton Drive 2 TB + VPN",
       "price": 19.99,
-      "currency": "USD",
-      "offer_url": "https://proton.me/drive/pricing",
-      "valid_until": null,
-      "source_url": "https://proton.me/drive/pricing",
-      "fetched_at": "2026-10-19T22:25:07+00:00",
-      "pricing_unit": "month",
-      "extraction": "heuristic"
-    },
-    {
-      "id": "proton-drive-3-tb-usd",
-      "provider": "Proton Drive",
-      "provider_slug": "proton-drive",
-      "plan": "3 TB",
-      "title": "Proton Drive 3 TB",
-      "price": 29.99,
       "currency": "USD",
       "offer_url": "https://proton.me/drive/pricing",
       "valid_until": null,
