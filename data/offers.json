@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-25T08:43:35+00:00",
+    "generated_at": "2026-11-25T21:46:17+00:00",
     "data_month": "2026-11",
     "locale": "en-US",
     "currency": "USD",
@@ -809,7 +809,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 82
+      "failure_streak": 83
     },
     {
       "name": "Backblaze Computer Backup",
@@ -854,7 +854,7 @@
       ],
       "status": "stale",
       "note": "robots.txt disallows this path — skipped, not fetched.; retained 2 previously verified record(s) until the source is reachable again.",
-      "failure_streak": 82
+      "failure_streak": 83
     },
     {
       "name": "Wasabi",
@@ -1006,32 +1006,32 @@
       "outbound": "https://www.dropbox.com/plans",
       "offers": [
         {
-          "id": "dropbox-standard-usd",
+          "id": "dropbox-for-teams-and-professionals-usd",
           "provider": "Dropbox",
           "provider_slug": "dropbox",
-          "plan": "Standard",
-          "title": "Dropbox Standard",
+          "plan": "For teams and professionals",
+          "title": "Dropbox For teams and professionals",
           "price": 9.99,
           "currency": "USD",
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-11-25T08:43:22+00:00",
+          "fetched_at": "2026-11-25T21:46:00+00:00",
           "pricing_unit": "month",
           "extraction": "heuristic"
         },
         {
-          "id": "dropbox-standard-usd-month-user",
+          "id": "dropbox-for-teams-and-professionals-usd-month-user",
           "provider": "Dropbox",
           "provider_slug": "dropbox",
-          "plan": "Standard",
-          "title": "Dropbox Standard",
+          "plan": "For teams and professionals",
+          "title": "Dropbox For teams and professionals",
           "price": 15.0,
           "currency": "USD",
           "offer_url": "https://www.dropbox.com/plans",
           "valid_until": null,
           "source_url": "https://www.dropbox.com/plans",
-          "fetched_at": "2026-11-25T08:43:22+00:00",
+          "fetched_at": "2026-11-25T21:46:00+00:00",
           "pricing_unit": "month/user",
           "extraction": "heuristic"
         },
@@ -2090,17 +2090,17 @@
       "extraction": "dedicated"
     },
     {
-      "id": "dropbox-standard-usd",
+      "id": "dropbox-for-teams-and-professionals-usd",
       "provider": "Dropbox",
       "provider_slug": "dropbox",
-      "plan": "Standard",
-      "title": "Dropbox Standard",
+      "plan": "For teams and professionals",
+      "title": "Dropbox For teams and professionals",
       "price": 9.99,
       "currency": "USD",
       "offer_url": "https://www.dropbox.com/plans",
       "valid_until": null,
       "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-11-25T08:43:22+00:00",
+      "fetched_at": "2026-11-25T21:46:00+00:00",
       "pricing_unit": "month",
       "extraction": "heuristic"
     },
@@ -2120,17 +2120,17 @@
       "extraction": "heuristic"
     },
     {
-      "id": "dropbox-standard-usd-month-user",
+      "id": "dropbox-for-teams-and-professionals-usd-month-user",
       "provider": "Dropbox",
       "provider_slug": "dropbox",
-      "plan": "Standard",
-      "title": "Dropbox Standard",
+      "plan": "For teams and professionals",
+      "title": "Dropbox For teams and professionals",
       "price": 15.0,
       "currency": "USD",
       "offer_url": "https://www.dropbox.com/plans",
       "valid_until": null,
       "source_url": "https://www.dropbox.com/plans",
-      "fetched_at": "2026-11-25T08:43:22+00:00",
+      "fetched_at": "2026-11-25T21:46:00+00:00",
       "pricing_unit": "month/user",
       "extraction": "heuristic"
     },

@@ -1,6 +1,6 @@
 {
  "date": "2026-11-25",
- "generated_at": "2026-11-25T08:43:35+00:00",
+ "generated_at": "2026-11-25T21:46:17+00:00",
  "offers_priced": 89,
  "offers_stale": 4,
  "offers_total": 89,
@@ -161,13 +161,13 @@
    "month",
    false
   ],
-  "dropbox-standard-usd": [
+  "dropbox-for-teams-and-professionals-usd": [
    9.99,
    "USD",
    "month",
    false
   ],
-  "dropbox-standard-usd-month-user": [
+  "dropbox-for-teams-and-professionals-usd-month-user": [
    15.0,
    "USD",
    "month/user",
